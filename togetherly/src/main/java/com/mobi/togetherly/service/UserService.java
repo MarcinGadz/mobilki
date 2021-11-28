@@ -5,8 +5,6 @@ import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.Role;
 import com.mobi.togetherly.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +17,7 @@ public class UserService {
     private final UserDao userDao;
     private final RoleDao roleDao;
     private final Role customerRole;
+    private PasswordEncoder encoder;
 
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao) {
@@ -32,20 +31,13 @@ public class UserService {
         this.customerRole = customerRoleTemp;
     }
 
-    private PasswordEncoder encoder;
-
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
+    @Autowired
+    public void setEncoder(PasswordEncoder encoder) {
+        this.encoder = encoder;
     }
 
     public PasswordEncoder getEncoder() {
         return encoder;
-    }
-
-    @Autowired
-    public void setEncoder(PasswordEncoder encoder) {
-        this.encoder = encoder;
     }
 
     public User addUser(User u) {
@@ -57,9 +49,11 @@ public class UserService {
         userRoles.add(customerRole);
         return userDao.save(u);
     }
+
     public User getUser(Long id) {
         return userDao.getById(id);
     }
+
     public List<User> getAll() {
         return userDao.findAll();
     }

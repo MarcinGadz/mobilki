@@ -30,6 +30,9 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User() {
+    }
+
     public Collection<Role> getAuthorities() {
         return authorities;
     }
@@ -38,11 +41,12 @@ public class User implements UserDetails {
         this.authorities = authorities;
     }
 
-    public User() {
-    }
-
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -65,10 +69,6 @@ public class User implements UserDetails {
         return false;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -77,11 +77,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

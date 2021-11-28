@@ -69,7 +69,7 @@ public class UserController {
 
     @PostMapping
     public User save(@RequestBody User u) {
-        if(u.getUsername() == null || u.getPassword() == null) {
+        if (u.getUsername() == null || u.getPassword() == null) {
             throw new IllegalArgumentException();
         }
         return service.addUser(u);

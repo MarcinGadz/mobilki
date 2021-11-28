@@ -1,9 +1,8 @@
 package com.mobi.togetherly.model;
 
-import org.springframework.security.core.GrantedAuthority;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.Entity;
 import javax.persistence.*;
 import java.util.Collection;
 
