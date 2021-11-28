@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/user")
@@ -90,7 +91,7 @@ public class UserController {
 
     // Mapping to get events in which user has enrolled
     @GetMapping("/{id}/events")
-    public String eventList(@PathVariable String id) {
-        return "GITARA";
+    public List<Event> eventList(@PathVariable String id) {
+        return service.getUser(Long.valueOf(id)).getEvents();
     }
 }
