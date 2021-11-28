@@ -20,4 +20,8 @@ public class Event {
 
     @ManyToMany(mappedBy = "events")
     private List<User> enrolledUsers;
+
+    public void addUser(User u) {
+        enrolledUsers.add(u);
+    }
 }

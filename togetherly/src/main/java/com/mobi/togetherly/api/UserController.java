@@ -94,4 +94,8 @@ public class UserController {
     public List<Event> eventList(@PathVariable String id) {
         return service.getUser(Long.valueOf(id)).getEvents();
     }
+    @PostMapping("/{id}/events")
+    public Event enroll(@RequestBody Event e, @PathVariable Long id) {
+        return service.enroll(e, id);
+    }
 }
