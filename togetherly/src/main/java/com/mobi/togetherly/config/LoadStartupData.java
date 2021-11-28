@@ -13,7 +13,6 @@ public class LoadStartupData implements ApplicationRunner {
     private UserService service;
 
     private void addUsersToRepo() {
-        System.out.println("ADDING");
         User u = new User("marcin", "test");
         service.addUser(u);
     }

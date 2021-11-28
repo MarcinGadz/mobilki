@@ -1,7 +1,9 @@
 package com.mobi.togetherly.api;
 
 import com.mobi.togetherly.config.TokenProvider;
+import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
+import com.mobi.togetherly.service.UserDetailsService;
 import com.mobi.togetherly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,7 +12,6 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,19 +19,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private UserDetailsService userDetailsService;
     private TokenProvider tokenProvider;
     private AuthenticationManager manager;
     private UserService service;
+    private UserDetailsService detService;
+
+    /*
+     * CONFIGS
+     */
 
     @Autowired
     public void setService(UserService service) {
         this.service = service;
     }
 
+    public UserDetailsService getDetService() {
+        return detService;
+    }
+
     @Autowired
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public void setDetService(UserDetailsService detService) {
+        this.detService = detService;
     }
 
     @Autowired
@@ -42,6 +51,10 @@ public class UserController {
     public void setTokenProvider(TokenProvider provider) {
         this.tokenProvider = provider;
     }
+
+    /*
+     * MAPPINGS
+     */
 
     @PostMapping("/authenticate")
     public String login(@RequestBody User user) {
@@ -57,7 +70,7 @@ public class UserController {
             System.out.println("BB");
             throw new RuntimeException("USER_DISABLED", e);
         }
-        UserDetails det = userDetailsService.loadUserByUsername(username);
+        UserDetails det = detService.loadUserByUsername(username);
         final String token = tokenProvider.createToken(auth);
         return token;
     }
@@ -73,5 +86,11 @@ public class UserController {
             throw new IllegalArgumentException();
         }
         return service.addUser(u);
+    }
+
+    // Mapping to get events in which user has enrolled
+    @GetMapping("/{id}/events")
+    public String eventList(@PathVariable String id) {
+        return "GITARA";
     }
 }
