@@ -1,6 +1,8 @@
 package com.mobi.togetherly.config;
 
 import com.mobi.togetherly.service.UserDetailsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.annotation.PostConstruct;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -24,6 +28,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtAuthenticationEntryPoint jwtAuthEntryPoint;
     private UserDetailsService jwtUserDetailsService;
     private TokenProvider tokenProvider;
+
+    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
 
     public JwtAuthenticationEntryPoint getJwtAuthEntryPoint() {
         return jwtAuthEntryPoint;
@@ -75,6 +81,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
                 .antMatchers("/user/{id}/**").access("@userCheck.checkId(authentication, #id)")
+                .antMatchers("/error").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
