@@ -15,8 +15,16 @@ public class Event {
     @ManyToMany(mappedBy = "events")
     private List<User> enrolledUsers;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Point> route;
+
+    public Event(List<User> enrolledUsers, List<Point> route) {
+        this.enrolledUsers = enrolledUsers;
+        this.route = route;
+    }
+
+    public Event() {
+    }
 
     public List<User> getEnrolledUsers() {
         return enrolledUsers;
@@ -40,6 +48,14 @@ public class Event {
 
     public Long getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return new org.apache.commons.lang3.builder.ToStringBuilder(this)
+                .append("id", id)
+                .append("route", route)
+                .toString();
     }
 
     public void addUser(User u) {
