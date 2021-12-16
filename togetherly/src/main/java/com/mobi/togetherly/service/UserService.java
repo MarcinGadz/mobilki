@@ -2,6 +2,7 @@ package com.mobi.togetherly.service;
 
 import com.mobi.togetherly.dao.RoleDao;
 import com.mobi.togetherly.dao.UserDao;
+import com.mobi.togetherly.model.Achievement;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.Role;
 import com.mobi.togetherly.model.User;
@@ -79,8 +80,26 @@ public class UserService {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
         User u = getUser(id);
+        if (u == null) {
+            throw new IllegalArgumentException("User with specified id does not exists");
+        }
         u.addEvent(e);
         e.addUser(u);
+        if(e.getDistance() > 1000) {
+            if(!u.getAchievements().contains(Achievement.BEGINNER)) {
+                u.addAchievement(Achievement.BEGINNER);
+            }
+        }
+        if(e.getDistance() > 10000) {
+            if(!u.getAchievements().contains(Achievement.INTERMEDIATE)) {
+                u.addAchievement(Achievement.INTERMEDIATE);
+            }
+        }
+        if(e.getDistance() > 25000) {
+            if(!u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
+                u.addAchievement(Achievement.INSANE_SPORTSMAN);
+            }
+        }
         return e;
     }
 }

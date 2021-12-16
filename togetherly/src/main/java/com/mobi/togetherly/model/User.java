@@ -3,6 +3,7 @@ package com.mobi.togetherly.model;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<Achievement> achievements;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -35,16 +39,39 @@ public class User implements UserDetails {
                     name = "event_id", referencedColumnName = "id"))
     private List<Event> events;
 
-    public void addEvent(Event e) {
-        events.add(e);
-    }
-
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
     public User() {
+    }
+
+    public void addEvent(Event e) {
+        events.add(e);
+    }
+
+    public float getTotalDistanceEvents() {
+        float sum = 0;
+        for (Event e : events) {
+            sum += e.getDistance();
+        }
+        return sum;
+    }
+
+    public List<Achievement> getAchievements() {
+        return achievements;
+    }
+
+    public void setAchievements(List<Achievement> achievements) {
+        this.achievements = achievements;
+    }
+
+    public void addAchievement(Achievement a) {
+        if(this.achievements == null) {
+            this.achievements = new ArrayList<>();
+        }
+        this.achievements.add(a);
     }
 
     public Collection<Role> getAuthorities() {
