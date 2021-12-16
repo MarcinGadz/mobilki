@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/user")
@@ -24,7 +25,7 @@ public class UserController {
     private AuthenticationManager manager;
     private UserService service;
     private UserDetailsService detService;
-
+    private Logger logger = Logger.getLogger(getClass().getName());
     /*
      * CONFIGS
      */
@@ -59,16 +60,18 @@ public class UserController {
 
     @PostMapping("/authenticate")
     public String login(@RequestBody User user) {
-        System.out.println("HERE");
+        logger.info("User: " + user.getUsername() + " is trying to log in");
         String username = user.getUsername();
         String password = user.getPassword();
         Authentication auth;
         try {
             auth = manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            logger.info("User logged in");
         } catch (BadCredentialsException e) {
+            logger.info("Passed invalid credentials");
             throw new RuntimeException("INVALID_CREDENTIALS", e);
         } catch (DisabledException e) {
-            System.out.println("BB");
+            logger.info("User is disabled");
             throw new RuntimeException("USER_DISABLED", e);
         }
         UserDetails det = detService.loadUserByUsername(username);
@@ -83,10 +86,13 @@ public class UserController {
 
     @PostMapping
     public User save(@RequestBody User u) {
-        if (u.getUsername() == null || u.getPassword() == null) {
-            throw new IllegalArgumentException();
+        try {
+            logger.info("Trying to save user " + u.getUsername());
+            return service.addUser(u);
+        } catch (IllegalArgumentException ex) {
+            logger.info("User not saved");
+            throw ex;
         }
-        return service.addUser(u);
     }
 
     // Mapping to get events in which user has enrolled
