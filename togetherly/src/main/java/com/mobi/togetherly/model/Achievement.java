@@ -1,4 +1,5 @@
 package com.mobi.togetherly.model;
 
-public class Achievement {
+public enum Achievement {
+    BEGINNER, INTERMEDIATE, INSANE_SPORTSMAN
 }
