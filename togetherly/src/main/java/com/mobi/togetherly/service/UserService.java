@@ -35,13 +35,13 @@ public class UserService {
         this.customerRole = customerRoleTemp;
     }
 
+    public PasswordEncoder getEncoder() {
+        return encoder;
+    }
+
     @Autowired
     public void setEncoder(PasswordEncoder encoder) {
         this.encoder = encoder;
-    }
-
-    public PasswordEncoder getEncoder() {
-        return encoder;
     }
 
     private boolean checkString(String s) {
@@ -85,18 +85,18 @@ public class UserService {
         }
         u.addEvent(e);
         e.addUser(u);
-        if(e.getDistance() > 1000) {
-            if(!u.getAchievements().contains(Achievement.BEGINNER)) {
+        if (u.getTotalDistanceEvents() > 1000) {
+            if (!u.getAchievements().contains(Achievement.BEGINNER)) {
                 u.addAchievement(Achievement.BEGINNER);
             }
         }
-        if(e.getDistance() > 10000) {
-            if(!u.getAchievements().contains(Achievement.INTERMEDIATE)) {
+        if (u.getTotalDistanceEvents() > 10000) {
+            if (!u.getAchievements().contains(Achievement.INTERMEDIATE)) {
                 u.addAchievement(Achievement.INTERMEDIATE);
             }
         }
-        if(e.getDistance() > 25000) {
-            if(!u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
+        if (u.getTotalDistanceEvents() > 25000) {
+            if (!u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
                 u.addAchievement(Achievement.INSANE_SPORTSMAN);
             }
         }
