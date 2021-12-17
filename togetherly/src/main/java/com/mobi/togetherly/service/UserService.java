@@ -43,14 +43,22 @@ public class UserService {
         return encoder;
     }
 
+    private boolean checkString(String s) {
+        return s == null || s.equals("") || s.trim().equals("");
+    }
+
     public User addUser(User u) {
-        u.setPassword(encoder.encode(u.getPassword()));
-        Collection<Role> userRoles = u.getAuthorities();
-        if (userRoles == null) {
-            userRoles = new ArrayList<>();
+        if (checkString(u.getUsername()) && checkString(u.getPassword())) {
+            u.setPassword(encoder.encode(u.getPassword()));
+            Collection<Role> userRoles = u.getAuthorities();
+            if (userRoles == null) {
+                userRoles = new ArrayList<>();
+            }
+            userRoles.add(customerRole);
+            return userDao.save(u);
+        } else {
+            throw new IllegalArgumentException("Passed wrong entity");
         }
-        userRoles.add(customerRole);
-        return userDao.save(u);
     }
 
     public User getUser(Long id) {
