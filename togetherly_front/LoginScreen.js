@@ -2,8 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, Text, View, useState, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 
-//function LoginScreen() 
-function LoginScreen({navigation}) {
+const LoginScreen = ({navigation}) => {
     const [username, onChangeUsername] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
     return (

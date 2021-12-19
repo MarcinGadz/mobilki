@@ -3,8 +3,8 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from './Login';
-import ProfileScreen from './profile';
+import LoginScreen from './LoginScreen';
+import ProfileScreen from './ProfileScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +13,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Welcome' }} />
-        <Stack.Screen name="Profile" component={ProfileScreen} options={{ title: 'Profile' }} />
+        <Stack.Screen name="Profile" component={ProfileScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
