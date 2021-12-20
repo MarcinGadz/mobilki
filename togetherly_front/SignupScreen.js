@@ -2,9 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, Text, View, useState, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 
-const LoginScreen = ({navigation}) => {
+const SignupScreen = ({navigation}) => {
     const [email, onChangeEmail] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
+    const [name, onChangeName] = React.useState(null);
+    const [surname, onChangeSurname] = React.useState(null);
     return (
         <View style={styles.container}>
             <SafeAreaView>
@@ -31,6 +33,28 @@ const LoginScreen = ({navigation}) => {
                         value={password}
                         autoComplete='password'
                         onChangeText={onChangePassword}
+                    />
+                </View>
+
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.TextInput}
+                        placeholder="Name"
+                        placeholderTextColor="#003f5c"
+                        value={name}
+                        autoComplete='name'
+                        onChangeText={onChangeName}
+                    />
+                </View>
+
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.TextInput}
+                        placeholder="Surname"
+                        placeholderTextColor="#003f5c"
+                        value={surname}
+                        autoComplete='surname'
+                        onChangeText={onChangeSurname}
                     />
                 </View>
 
@@ -76,4 +100,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LoginScreen;
+export default SignupScreen;

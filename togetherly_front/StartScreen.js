@@ -2,41 +2,21 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, Text, View, useState, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 
-const LoginScreen = ({navigation}) => {
-    const [email, onChangeEmail] = React.useState(null);
-    const [password, onChangePassword] = React.useState(null);
+const StartScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <SafeAreaView>
                 <Text>This is login screen</Text>
                 <StatusBar style="auto" />
 
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="Email"
-                        placeholderTextColor="#003f5c"
-                        value={email}
-                        autoComplete="email"
-                        onChangeText={onChangeEmail}
-                    />
-                </View>
-
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="Password"
-                        placeholderTextColor="#003f5c"
-                        secureTextEntry={true}
-                        value={password}
-                        autoComplete='password'
-                        onChangeText={onChangePassword}
-                    />
-                </View>
-
                 <TouchableOpacity style={styles.loginBtn}
                     onPress={() => navigation.navigate('Profile')}>
                     <Text style={styles.loginText}>LOGIN</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.loginBtn}
+                    onPress={() => navigation.navigate('Signup')}>
+                    <Text style={styles.loginText}>SIGN UP</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         </View>
@@ -76,4 +56,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LoginScreen;
+export default StartScreen;

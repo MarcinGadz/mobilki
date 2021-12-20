@@ -7,9 +7,9 @@ const ProfileScreen = ({navigation}) => {
         <View style={styles.container}>
             <Text>This is profile</Text>
             <Button
-                title="Go back to login"
+                title="Go back to start"
                 style="auto"
-                onPress={() => navigation.navigate('Login')}
+                onPress={() => navigation.navigate('Start')}
             />
             <StatusBar style="auto" />
         </View>
