@@ -2,11 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, Text, View, useState, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 
-const SignupScreen = ({navigation}) => {
+const SignupScreen = ({ navigation }) => {
     const [email, onChangeEmail] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
     const [name, onChangeName] = React.useState(null);
     const [surname, onChangeSurname] = React.useState(null);
+
+    const { signUp } = React.useContext(AuthContext);
     return (
         <View style={styles.container}>
             <SafeAreaView>
@@ -58,8 +60,8 @@ const SignupScreen = ({navigation}) => {
                     />
                 </View>
 
-                <TouchableOpacity style={styles.loginBtn}
-                    onPress={() => navigation.navigate('Profile')}>
+                <TouchableOpacity style={styles.signupBtn}
+                    onPress={() => signUp({ email, password, name, surname })}>
                     <Text style={styles.loginText}>LOGIN</Text>
                 </TouchableOpacity>
             </SafeAreaView>
@@ -89,7 +91,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginLeft: 20,
     },
-    loginBtn: {
+    signupBtn: {
         width: 300,
         borderRadius: 25,
         height: 50,

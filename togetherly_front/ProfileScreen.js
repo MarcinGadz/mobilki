@@ -3,13 +3,14 @@ import * as React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 const ProfileScreen = ({navigation}) => {
+    const { signOut } = React.useContext(AuthContext);
     return (
         <View style={styles.container}>
             <Text>This is profile</Text>
             <Button
-                title="Go back to start"
+                title="Log out"
                 style="auto"
-                onPress={() => navigation.navigate('Start')}
+                onPress={() => signOut()}
             />
             <StatusBar style="auto" />
         </View>

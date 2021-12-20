@@ -10,7 +10,7 @@ const StartScreen = ({navigation}) => {
                 <StatusBar style="auto" />
 
                 <TouchableOpacity style={styles.loginBtn}
-                    onPress={() => navigation.navigate('Profile')}>
+                    onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.loginText}>LOGIN</Text>
                 </TouchableOpacity>
 
