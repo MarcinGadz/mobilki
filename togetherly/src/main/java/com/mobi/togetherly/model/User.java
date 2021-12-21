@@ -1,5 +1,7 @@
 package com.mobi.togetherly.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -37,6 +39,9 @@ public class User implements UserDetails {
                     name = "event_id", referencedColumnName = "id"))
     private List<Event> events;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Event> ownedEvents;
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
@@ -45,19 +50,28 @@ public class User implements UserDetails {
     public User() {
     }
 
+    public List<Event> getOwnedEvents() {
+        return ownedEvents;
+    }
+
+    public void setOwnedEvents(List<Event> ownedEvents) {
+        this.ownedEvents = ownedEvents;
+    }
+
+    public Event registerNewEvent(Event e) {
+        e.setOwner(this);
+        if (ownedEvents == null) {
+            ownedEvents = new LinkedList<>();
+        }
+        this.ownedEvents.add(e);
+        return e;
+    }
+
     public void addEvent(Event e) {
-        if(events == null) {
+        if (events == null) {
             events = new ArrayList<>();
         }
         events.add(e);
-    }
-
-    public float getTotalDistanceEvents() {
-        float sum = 0;
-        for (Event e : events) {
-            sum += e.getDistance();
-        }
-        return sum;
     }
 
     public Set<Achievement> getAchievements() {
@@ -69,7 +83,7 @@ public class User implements UserDetails {
     }
 
     public void addAchievement(Achievement a) {
-        if(this.achievements == null) {
+        if (this.achievements == null) {
             this.achievements = new HashSet<>();
         }
         this.achievements.add(a);
@@ -129,5 +143,13 @@ public class User implements UserDetails {
 
     public List<Event> getEvents() {
         return this.events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public void unRegisterEvent(Event e) {
+        ownedEvents.remove(e);
     }
 }

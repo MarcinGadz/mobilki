@@ -24,10 +24,11 @@ public class LoadStartupData implements ApplicationRunner {
         service.addUser(u);
         ArrayList<User> users = new ArrayList<>();
         users.add(u);
-        ArrayList<Point> points = new ArrayList<>();
-        points.add(new Point(1.234, 2.345));
-        points.add(new Point(14.234543, 12.45124));
-        Event e = new Event(users, points);
+        Point p = new Point(1.234, 2.345);
+        Event e = new Event();
+        e.setStartPoint(p);
+        e.setDescription("Test event");
+        u.registerNewEvent(e);
         eventService.addEvent(e);
     }
 

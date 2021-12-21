@@ -36,7 +36,7 @@ public class TokenProvider {
         String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
 
         ZonedDateTime now = ZonedDateTime.now();
-        ZonedDateTime expirationDateTime = now.plus(600000, ChronoUnit.MILLIS);
+        ZonedDateTime expirationDateTime = now.plus(6000000, ChronoUnit.MILLIS);
 
         Date issueDate = Date.from(now.toInstant());
         Date expirationDate = Date.from(expirationDateTime.toInstant());

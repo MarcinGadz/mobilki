@@ -80,7 +80,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/authenticate").permitAll()
                 .antMatchers(HttpMethod.POST, "/user").permitAll()
-                .antMatchers("/user/{id}/**").access("@userCheck.checkId(authentication, #id)")
+                .antMatchers("/user/register-event").authenticated()
                 .antMatchers("/error").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling().authenticationEntryPoint(jwtAuthEntryPoint)

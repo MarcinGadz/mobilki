@@ -31,15 +31,6 @@ class EventTest {
         assertEquals(e.getEnrolledUsers(), users);
     }
 
-    @Test
-    void getSetRoute() {
-        Event e = new Event();
-        List<Point> points = new ArrayList<>();
-        points.add(new Point(1, 2));
-        points.add(new Point(3, 4));
-        e.setRoute(List.copyOf(points));
-        assertEquals(e.getRoute(), points);
-    }
 
     @Test
     void getSetId() {

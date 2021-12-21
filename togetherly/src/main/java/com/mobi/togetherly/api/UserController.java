@@ -1,5 +1,6 @@
 package com.mobi.togetherly.api;
 
+import com.mobi.togetherly.UserDTO;
 import com.mobi.togetherly.config.TokenProvider;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
@@ -15,7 +16,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 @RestController
@@ -58,6 +58,11 @@ public class UserController {
      * MAPPINGS
      */
 
+    @PostMapping("/register-event")
+    public Event registerEvent(@RequestBody Event e) {
+        return service.registerEvent(e);
+    }
+
     @PostMapping("/authenticate")
     public String login(@RequestBody User user) {
         logger.info("User: " + user.getUsername() + " is trying to log in");
@@ -85,7 +90,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable Long id) {
+    public UserDTO getById(@PathVariable Long id) {
         return service.getUser(id);
     }
 
@@ -101,12 +106,13 @@ public class UserController {
     }
 
     // Mapping to get events in which user has enrolled
-    @GetMapping("/{id}/events")
-    public List<Event> eventList(@PathVariable String id) {
-        return service.getUser(Long.valueOf(id)).getEvents();
+    @GetMapping("/events")
+    public List<Event> eventList() {
+        return service.getLoggedUser().getEvents();
     }
-    @PostMapping("/{id}/events")
-    public Event enroll(@RequestBody Event e, @PathVariable Long id) {
-        return service.enroll(e, id);
+
+    @PostMapping("/enroll")
+    public Event enroll(@RequestParam(name = "event") Long id) {
+        return service.enroll(id);
     }
 }

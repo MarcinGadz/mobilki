@@ -1,9 +1,11 @@
 package com.mobi.togetherly.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,35 +16,53 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(mappedBy = "events", fetch = FetchType.EAGER)
+    @JsonIgnore
     private List<User> enrolledUsers;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Point> route;
+    @Column
+    private Point startPoint;
 
-    @Transient
-    private Float distance;
+    @Column
+    private String description;
 
-    public Event(List<User> enrolledUsers, List<Point> route) {
-        this.enrolledUsers = enrolledUsers;
-        this.route = route;
-        this.distance = calcTotalLength();
-    }
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private User owner;
+
+//    public Event(List<User> enrolledUsers, Point startPoint) {
+//        this.enrolledUsers = enrolledUsers;
+//        this.startPoint = startPoint;
+//    }
 
     public Event() {
-        this.distance = calcTotalLength();
+
     }
 
-    private float calcTotalLength() {
-        // Return total length of route in meters
-        float dist = 0;
-        if (route == null || route.size() <= 1) {
-            return 0;
-        }
-        for (int i = 1; i < route.size(); i++) {
-            dist += distFrom(route.get(i - 1), route.get(i));
-        }
-        return dist;
+
+
+    public Point getStartPoint() {
+        return startPoint;
+    }
+
+    public void setStartPoint(Point startPoint) {
+        this.startPoint = startPoint;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 
     public List<User> getEnrolledUsers() {
@@ -51,14 +71,6 @@ public class Event {
 
     public void setEnrolledUsers(List<User> enrolledUsers) {
         this.enrolledUsers = enrolledUsers;
-    }
-
-    public List<Point> getRoute() {
-        return route;
-    }
-
-    public void setRoute(List<Point> route) {
-        this.route = route;
     }
 
     public Long getId() {
@@ -73,7 +85,9 @@ public class Event {
     public String toString() {
         return new org.apache.commons.lang3.builder.ToStringBuilder(this)
                 .append("id", id)
-                .append("route", route)
+                .append("startPoint", startPoint)
+                .append("description", description)
+                .append("owner", owner)
                 .toString();
     }
 
@@ -82,25 +96,5 @@ public class Event {
             this.enrolledUsers = new LinkedList<>();
         }
         enrolledUsers.add(u);
-    }
-
-    public Float getDistance() {
-        return this.distance;
-    }
-
-    public void setDistance(Float f) {
-        this.distance = f;
-    }
-
-    private float distFrom(Point p1, Point p2) {
-        double earthRadius = 6371000; //meters
-        double dLat = Math.toRadians(p2.getY() - p1.getY());
-        double dLng = Math.toRadians(p2.getX() - p1.getX());
-        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(Math.toRadians(p1.getY())) * Math.cos(Math.toRadians(p2.getY())) *
-                        Math.sin(dLng / 2) * Math.sin(dLng / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        float dist = (float) (earthRadius * c);
-        return dist;
     }
 }

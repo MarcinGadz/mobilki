@@ -1,5 +1,6 @@
 package com.mobi.togetherly.service;
 
+import com.mobi.togetherly.UserDTO;
 import com.mobi.togetherly.dao.RoleDao;
 import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.Achievement;
@@ -7,6 +8,9 @@ import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.Role;
 import com.mobi.togetherly.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,8 +67,8 @@ public class UserService {
         }
     }
 
-    public User getUser(Long id) {
-        return userDao.getById(id);
+    public UserDTO getUser(Long id) {
+        return new UserDTO(userDao.getById(id));
     }
 
     public List<User> getAll() {
@@ -75,33 +79,56 @@ public class UserService {
         return userDao.findByUsername(userName);
     }
 
-    public Event enroll(Event e, Long id) {
-        Event event = eventService.getById(e.getId());
+    public Event enroll(Long id) {
+        Event event = eventService.getById(id).fromDto();
         if (event == null) {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
-        User u = getUser(id);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null) {
+            throw new IllegalStateException("User is not logged in");
+        }
+        Object principal = auth.getPrincipal();
+        String userName = ((UserDetails)principal).getUsername();
+        User u = loadUserByUsername(userName);
         if (u == null) {
             throw new IllegalArgumentException("User with specified id does not exists");
         }
-        u.addEvent(e);
-        e.addUser(u);
-        float userTotalDistance = u.getTotalDistanceEvents();
-        if (userTotalDistance > 1000) {
-            if (!u.getAchievements().contains(Achievement.BEGINNER)) {
-                u.addAchievement(Achievement.BEGINNER);
-            }
+        u.addEvent(event);
+        event.addUser(u);
+        eventService.addEvent(event);
+        return event;
+    }
+
+    public Event registerEvent(Event e) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null) {
+            throw new IllegalStateException("User is not logged in");
         }
-        if (userTotalDistance > 10000) {
-            if (!u.getAchievements().contains(Achievement.INTERMEDIATE)) {
-                u.addAchievement(Achievement.INTERMEDIATE);
-            }
+        Object principal = auth.getPrincipal();
+        String userName = ((UserDetails)principal).getUsername();
+        User p = loadUserByUsername(userName);
+        if (p == null) {
+            throw new IllegalArgumentException("User does not exists");
         }
-        if (userTotalDistance > 25000) {
-            if (!u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
-                u.addAchievement(Achievement.INSANE_SPORTSMAN);
-            }
+        try {
+            Event res = p.registerNewEvent(e);
+            eventService.addEvent(e);
+            return res;
+        } catch (IllegalArgumentException ex) {
+            p.unRegisterEvent(e);
+            throw ex;
         }
-        return e;
+    }
+
+    public UserDTO getLoggedUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth == null) {
+            throw new IllegalStateException("User is not logged in");
+        }
+        Object principal = auth.getPrincipal();
+        String userName = ((UserDetails)principal).getUsername();
+        User p = loadUserByUsername(userName);
+        return new UserDTO(p);
     }
 }

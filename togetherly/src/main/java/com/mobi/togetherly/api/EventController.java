@@ -1,5 +1,6 @@
 package com.mobi.togetherly.api;
 
+import com.mobi.togetherly.EventDTO;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,14 @@ public class EventController {
     }
 
     @GetMapping
-    public List<Event> getEvents() {
+    public List<EventDTO> getEvents() {
         return service.getAll();
     }
 
     @GetMapping("/{id}")
-    public Event getById(@PathVariable Long id) {
+    public EventDTO getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
-    @PostMapping
-    public Event createEvent(@RequestBody Event event) {
-        return service.addEvent(event);
-    }
+    //TODO implement getByRegion or something similiar, getByOwner
 }
