@@ -3,6 +3,8 @@ package com.mobi.togetherly.model;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -18,7 +20,7 @@ public class Event {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Point> route;
 
-    @Column
+    @Transient
     private Float distance;
 
     public Event(List<User> enrolledUsers, List<Point> route) {
@@ -28,12 +30,13 @@ public class Event {
     }
 
     public Event() {
+        this.distance = calcTotalLength();
     }
 
     private float calcTotalLength() {
         // Return total length of route in meters
         float dist = 0;
-        if (route.size() <= 1) {
+        if (route == null || route.size() <= 1) {
             return 0;
         }
         for (int i = 1; i < route.size(); i++) {
@@ -75,6 +78,9 @@ public class Event {
     }
 
     public void addUser(User u) {
+        if(enrolledUsers == null) {
+            this.enrolledUsers = new LinkedList<>();
+        }
         enrolledUsers.add(u);
     }
 
