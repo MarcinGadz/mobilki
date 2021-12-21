@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class UserService {
@@ -85,17 +86,18 @@ public class UserService {
         }
         u.addEvent(e);
         e.addUser(u);
-        if (u.getTotalDistanceEvents() > 1000) {
+        float userTotalDistance = u.getTotalDistanceEvents();
+        if (userTotalDistance > 1000) {
             if (!u.getAchievements().contains(Achievement.BEGINNER)) {
                 u.addAchievement(Achievement.BEGINNER);
             }
         }
-        if (u.getTotalDistanceEvents() > 10000) {
+        if (userTotalDistance > 10000) {
             if (!u.getAchievements().contains(Achievement.INTERMEDIATE)) {
                 u.addAchievement(Achievement.INTERMEDIATE);
             }
         }
-        if (u.getTotalDistanceEvents() > 25000) {
+        if (userTotalDistance > 25000) {
             if (!u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
                 u.addAchievement(Achievement.INSANE_SPORTSMAN);
             }

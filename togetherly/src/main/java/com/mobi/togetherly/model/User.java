@@ -3,9 +3,7 @@ package com.mobi.togetherly.model;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class User implements UserDetails {
@@ -19,7 +17,7 @@ public class User implements UserDetails {
     private Long id;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    private List<Achievement> achievements;
+    private Set<Achievement> achievements;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -48,6 +46,9 @@ public class User implements UserDetails {
     }
 
     public void addEvent(Event e) {
+        if(events == null) {
+            events = new ArrayList<>();
+        }
         events.add(e);
     }
 
@@ -59,17 +60,17 @@ public class User implements UserDetails {
         return sum;
     }
 
-    public List<Achievement> getAchievements() {
+    public Set<Achievement> getAchievements() {
         return achievements;
     }
 
-    public void setAchievements(List<Achievement> achievements) {
+    public void setAchievements(Set<Achievement> achievements) {
         this.achievements = achievements;
     }
 
     public void addAchievement(Achievement a) {
         if(this.achievements == null) {
-            this.achievements = new ArrayList<>();
+            this.achievements = new HashSet<>();
         }
         this.achievements.add(a);
     }
