@@ -24,8 +24,7 @@ public class EventService {
 
     public Event addEvent(Event e) {
         if(e.getRoute() == null || e.getRoute().isEmpty()) {
-            //TODO exception
-            return null;
+            throw new IllegalArgumentException("Passed wrong entity");
         }
         return dao.save(e);
     }
