@@ -1,87 +1,66 @@
 import * as React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { useMemo } from 'react';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './LoginScreen';
 import ProfileScreen from './ProfileScreen';
 import SignupScreen from './SignupScreen';
 import StartScreen from './StartScreen';
-import * as SecureStore from 'expo-secure-store';
+import useToken from './useToken';
+
 
 const Stack = createNativeStackNavigator();
 AuthContext = React.createContext();
+const MAIN_URL = "http://192.168.1.106:8080";
+
+
 
 const App = () => {
-  const [state, dispatch] = React.useReducer(
-    (prevState, action) => {
-      switch (action.type) {
-        case 'RESTORE_TOKEN':
-          return {
-            ...prevState,
-            userToken: action.token,
-            isLoading: false,
-          };
-        case 'SIGN_IN':
-          return {
-            ...prevState,
-            isSignout: false,
-            userToken: action.token,
-          };
-        case 'SIGN_OUT':
-          return {
-            ...prevState,
-            isSignout: true,
-            userToken: null,
-          };
-      }
-    },
-    {
-      isLoading: true,
-      isSignout: false,
-      userToken: null,
-    }
-  );
 
-  React.useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
-    const bootstrapAsync = async () => {
-      let userToken;
+  const { token, setToken } = useToken();
 
-      try {
-        userToken = await SecureStore.getItemAsync('userToken');
-      } catch (e) {
-        // Restoring token failed
-      }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-    };
-
-    bootstrapAsync();
-  }, []);
-
-
-  const authContext = React.useMemo(
+  const authContext = useMemo(
     () => ({
       signIn: async data => {
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
+        // maybe verify data before input
+        let tempToken = null;
 
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+        const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            {
+              username: data.email,
+              password: data.password
+            })
+        };
+        fetch(MAIN_URL + '/user/authenticate', requestOptions)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Bad response');
+          } return response.text();
+        })
+        .then(text => {
+          tempToken = text;
+          if (tempToken !== null) {
+            setToken(tempToken);  
+          } 
+        })
+        .catch(function (error) {
+            // logowanie niepoprawne popup
+          });
+                  
       },
-      signOut: () => dispatch({ type: 'SIGN_OUT' }),
+      signOut: async () => {
+        await setToken(null); 
+      },
       signUp: async data => {
         // In a production app, we need to send user data to server and get a token
         // We will also need to handle errors if sign up failed
         // After getting token, we need to persist the token using `SecureStore`
         // In the example, we'll use a dummy token
 
-        dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
       },
     }),
     []
@@ -91,7 +70,7 @@ const App = () => {
     <AuthContext.Provider value={authContext}>
       <NavigationContainer>
         <Stack.Navigator>
-          {state.userToken == null ? (
+          {token ? (
             <>
               <Stack.Screen name="Start" component={StartScreen} />
               <Stack.Screen name="Login" component={LoginScreen} />

@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import useToken from './useToken';
+
 
 const ProfileScreen = ({navigation}) => {
+    const { token, setToken } = useToken();
     const { signOut } = React.useContext(AuthContext);
     return (
         <View style={styles.container}>
-            <Text>This is profile</Text>
+            <Text>This is profile</Text>            
             <Button
                 title="Log out"
                 style="auto"
