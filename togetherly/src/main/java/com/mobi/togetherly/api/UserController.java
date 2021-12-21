@@ -84,6 +84,11 @@ public class UserController {
         return service.getAll();
     }
 
+    @GetMapping("/{id}")
+    public User getById(@PathVariable Long id) {
+        return service.getUser(id);
+    }
+
     @PostMapping
     public User save(@RequestBody User u) {
         try {

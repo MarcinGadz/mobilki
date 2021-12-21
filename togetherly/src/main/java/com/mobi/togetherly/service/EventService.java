@@ -5,6 +5,7 @@ import com.mobi.togetherly.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,6 +23,10 @@ public class EventService {
     }
 
     public Event addEvent(Event e) {
+        if(e.getRoute() == null || e.getRoute().isEmpty()) {
+            //TODO exception
+            return null;
+        }
         return dao.save(e);
     }
 

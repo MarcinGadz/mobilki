@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 @SpringBootApplication
 public class TogetherlyApplication {
 
-
 	public static void main(String[] args) {
 		SpringApplication.run(TogetherlyApplication.class, args);
 	}

@@ -19,7 +19,7 @@ public class Event {
     private List<Point> route;
 
     @Column
-    private float distance;
+    private Float distance;
 
     public Event(List<User> enrolledUsers, List<Point> route) {
         this.enrolledUsers = enrolledUsers;
@@ -78,11 +78,11 @@ public class Event {
         enrolledUsers.add(u);
     }
 
-    public float getDistance() {
+    public Float getDistance() {
         return this.distance;
     }
 
-    public void setDistance(float f) {
+    public void setDistance(Float f) {
         this.distance = f;
     }
 
