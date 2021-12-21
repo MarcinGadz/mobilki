@@ -60,6 +60,7 @@ public class UserController {
 
     @PostMapping("/register-event")
     public Event registerEvent(@RequestBody Event e) {
+        logger.info("Trying to register event with id: " + e.getId());
         return service.registerEvent(e);
     }
 
@@ -86,11 +87,13 @@ public class UserController {
 
     @GetMapping
     public List<User> getAll() {
+        logger.info("Getting all users");
         return service.getAll();
     }
 
     @GetMapping("/{id}")
     public UserDTO getById(@PathVariable Long id) {
+        logger.info("Getting user by id: " + id);
         return service.getUser(id);
     }
 
@@ -108,11 +111,13 @@ public class UserController {
     // Mapping to get events in which user has enrolled
     @GetMapping("/events")
     public List<Event> eventList() {
+        logger.info("Trying to get all events of user");
         return service.getLoggedUser().getEvents();
     }
 
     @PostMapping("/enroll")
     public Event enroll(@RequestParam(name = "event") Long id) {
+        logger.info("Trying to enroll user to event with id: " + id);
         return service.enroll(id);
     }
 }
