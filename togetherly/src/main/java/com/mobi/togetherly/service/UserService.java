@@ -46,7 +46,7 @@ public class UserService {
     }
 
     private boolean checkString(String s) {
-        return s == null || s.equals("") || s.trim().equals("");
+        return !(s == null || s.equals("") || s.trim().equals(""));
     }
 
     public User addUser(User u) {
