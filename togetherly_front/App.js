@@ -1,76 +1,14 @@
 import * as React from "react";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { Alert, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LoginScreen from "./Screens/LoginScreen";
-import ProfileScreen from "./Screens/ProfileScreen";
-import SignupScreen from "./Screens/SignupScreen";
-import StartScreen from "./Screens/StartScreen";
 import LoadingScreen from "./Screens/LoadingScreen";
 import useToken from "./useToken";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import FeedScreen from "./Screens/FeedScreen";
+import Auth from "./AuthNavigator";
+import NoAuth from "./NoAuthNavigator.js";
 
-const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 AuthContext = React.createContext();
 const MAIN_URL = "http://192.168.1.106:8080";
-
-// Main NoAuth Navigator, here are all screens which user can access while not logged in
-const NoAuth = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Start" component={StartScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen name="Signup" component={SignupScreen} />
-    </Stack.Navigator>
-  );
-};
-
-// Main auth Navigator, here are all screens which user can access while logged in
-const Auth = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName="Profile"
-      screenOptions={{
-        tabBarActiveTintColor: "#e91e63",
-      }}
-    >
-      <Tab.Screen
-        name="Feed"
-        component={FeedScreen}
-        options={{
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={FeedScreen}
-        options={{
-          tabBarLabel: "Updates",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: "Profile",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-};
 
 const App = () => {
   const [isLoading, setLoading] = useState(false);
@@ -135,20 +73,20 @@ const App = () => {
                 })
                 .catch(function (error) {
                   // logowanie niepoprawne popup
+                  Alert.alert("Couldn't log in");
                   setLoading(false);
                 }),
               new Promise((_, reject) =>
                 setTimeout(() => reject(new Error("timeout")), 5000)
               ),
             ]);
-          };
+          }
           setLocalToken(await fetch_authenticate());
           setLoading(false);
         } catch (error) {
           Alert.alert("Couldn't log in");
           setLoading(false);
         }
-        
       },
       signOut: async () => {
         setLoading(true);
