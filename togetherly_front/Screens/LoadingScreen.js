@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-const ProfileScreen = ({navigation}) => {
+const LoadingScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <Text>Loading</Text>
@@ -18,4 +18,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProfileScreen;
+export default LoadingScreen;
