@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FeedScreen from "./Screens/FeedScreen";
+import EventListScreen from "./Screens/EventListScreen"
 
 const Auth = () => {
   const Tab = createBottomTabNavigator();
@@ -16,10 +17,10 @@ const Auth = () => {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={FeedScreen}
+        name="Event List"
+        component={EventListScreen}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: "Event List",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),

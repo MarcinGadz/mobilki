@@ -6,6 +6,7 @@ import LoadingScreen from "./Screens/LoadingScreen";
 import useToken from "./useToken";
 import Auth from "./AuthNavigator";
 import NoAuth from "./NoAuthNavigator.js";
+import axios from "axios";
 
 AuthContext = React.createContext();
 const MAIN_URL = "http://192.168.1.106:8080";
@@ -14,6 +15,9 @@ const App = () => {
   const [isLoading, setLoading] = useState(false);
   const { token, setToken } = useToken();
   const [localToken, setLocalToken] = useState();
+  const axios = require("axios");
+  axios.defaults.baseURL = "http://192.168.1.106:8080";
+  axios.defaults.timeout = 2500;
 
   React.useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
@@ -26,6 +30,9 @@ const App = () => {
         // Restoring token failed
         // try to login user again
       }
+      if (userToken) {
+        axios.defaults.headers.common['Authorization'] = userToken;
+      }
 
       // After restoring token, we may need to validate it in production apps
 
@@ -35,7 +42,7 @@ const App = () => {
       setLocalToken(userToken);
     };
     bootstrapAsync();
-  }, []);
+  }, [localToken]);
 
   const authContext = useMemo(
     () => ({
@@ -52,39 +59,28 @@ const App = () => {
         setLoading(true);
 
         try {
-          async function fetch_authenticate() {
-            return Promise.race([
-              // maybe verify data before input
-
-              fetch(MAIN_URL + "/user/authenticate", requestOptions)
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error("Bad response");
-                  }
-                  return response.text();
-                })
-                .then((text) => {
-                  tempToken = text;
-                  if (tempToken !== null) {
-                    setLoading(false);
-                    setToken(tempToken);
-                    return tempToken;
-                  }
-                })
-                .catch(function (error) {
-                  // logowanie niepoprawne popup
-                  Alert.alert("Couldn't log in");
-                  setLoading(false);
-                }),
-              new Promise((_, reject) =>
-                setTimeout(() => reject(new Error("timeout")), 5000)
-              ),
-            ]);
-          }
-          setLocalToken(await fetch_authenticate());
-          setLoading(false);
+          axios
+            .post("/user/authenticate", {
+              username: "Mar",
+              password: "t",
+              // username: data.email,
+              // password: data.password,
+            })
+            .then((response) => {
+              tempToken = response.data;
+              if (tempToken) {
+                setToken(tempToken);
+                setLocalToken(tempToken);
+              }
+            })
+            .catch((error) => {
+              // logowanie niepoprawne popup
+              Alert.alert("Couldn't log in, bad request");
+              setLoading(false);
+            });
         } catch (error) {
-          Alert.alert("Couldn't log in");
+          Alert.alert("Couldn't log in: " + error);
+        } finally {
           setLoading(false);
         }
       },

@@ -5,7 +5,7 @@ import useToken from '../useToken';
 
 
 const FeedScreen = ({navigation}) => {
-    const { token, setToken, getToken } = useToken();
+    const { token, setToken } = useToken();
     const { signOut } = React.useContext(AuthContext);
     return (
         <View style={styles.container}>
