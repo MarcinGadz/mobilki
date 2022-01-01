@@ -12,12 +12,12 @@ const EventListScreen = () => {
   const { token, setToken } = useToken();
   const [localToken, setLocalToken] = useState();
   const axios = require("axios").default;
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState();
 
   React.useEffect(() => {
+    setLoading(true);
     const bootstrapAsync = async () => {
       let userToken;
-
       try {
         userToken = await token;
       } catch (e) {
@@ -26,33 +26,30 @@ const EventListScreen = () => {
         // try to login user again
       }
       setLocalToken(userToken);
-      if (userToken) {
-        axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
-      }
     };
 
     bootstrapAsync();
-    console.log(axios.defaults.headers.common["Authorization"]);
+  }, []);
 
-    axios
-      .get("/event", {
-        headers: {
-          Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNYXIiLCJhdXRoIjoiIiwiaWF0IjoxNjQwODA5ODI1LCJleHAiOjE2NDA4MTU4MjV9.CAdRfDvgjYbQEr8iU3G5VXKxAVolRQvxAImGels_hnOttUNa0UPzvGjfT6CUs7fivOXby10Suhy9DbPGUQFIuw`,
-        },
-      })
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  React.useEffect(() => {
+    if (localToken) {
+      let authString = "Bearer " + localToken;
+      axios
+        .get("/event", { headers: { Authorization: authString } })
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
-    setLoading(false);
-  }, [isLoading]);
+      setLoading(false);
+    }
+  }, [localToken]);
 
   const renderTable = () => {
     return data.map((e) => {
-      return <Event EventData={e} key={e.id}/>;
+      return <Event EventData={e} key={e.id} />;
     });
   };
 

@@ -19,31 +19,6 @@ const App = () => {
   axios.defaults.baseURL = "http://192.168.1.106:8080";
   axios.defaults.timeout = 2500;
 
-  React.useEffect(() => {
-    // Fetch the token from storage then navigate to our appropriate place
-    const bootstrapAsync = async () => {
-      let userToken;
-
-      try {
-        userToken = await token;
-      } catch (e) {
-        // Restoring token failed
-        // try to login user again
-      }
-      if (userToken) {
-        axios.defaults.headers.common['Authorization'] = userToken;
-      }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-
-      setLocalToken(userToken);
-    };
-    bootstrapAsync();
-  }, [localToken]);
-
   const authContext = useMemo(
     () => ({
       signIn: async (data) => {
@@ -60,22 +35,28 @@ const App = () => {
 
         try {
           axios
-            .post("/user/authenticate", {
-              username: "Mar",
-              password: "t",
-              // username: data.email,
-              // password: data.password,
-            })
+            .post(
+              "/user/authenticate",
+              {
+                // username: "M", for quick debug login
+                // password: "t",
+                username: data.email,
+                password: data.password,
+              },
+              { headers: {} }
+            )
             .then((response) => {
               tempToken = response.data;
               if (tempToken) {
                 setToken(tempToken);
                 setLocalToken(tempToken);
+                axios.defaults.headers.common["Authorization"] = tempToken;
               }
             })
-            .catch((error) => {
+            .catch(error => {
               // logowanie niepoprawne popup
-              Alert.alert("Couldn't log in, bad request");
+              Alert.alert("Couldn't log in, bad request" + error);
+              console.log(error);
               setLoading(false);
             });
         } catch (error) {

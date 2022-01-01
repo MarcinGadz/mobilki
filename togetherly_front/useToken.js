@@ -4,7 +4,12 @@ import * as SecureStore from 'expo-secure-store';
 export default function useToken() {
 
     const getToken = async () => {
-        return await SecureStore.getItemAsync('userToken');
+        let tmp = await SecureStore.getItemAsync('userToken');
+        if (tmp) {
+            return tmp.replace(/"/g, "");
+        } else {
+            return tmp;
+        }
     };
 
     const [token, setToken] = useState(getToken());
