@@ -16,7 +16,7 @@ const App = () => {
   const { token, setToken } = useToken();
   const [localToken, setLocalToken] = useState();
   const axios = require("axios");
-  axios.defaults.baseURL = "http://192.168.1.106:8080";
+  axios.defaults.baseURL = "http://10.1.27.229:8080";
   axios.defaults.timeout = 2500;
 
   const authContext = useMemo(
