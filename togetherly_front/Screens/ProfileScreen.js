@@ -16,7 +16,8 @@ const ProfileScreen = ({ navigation }) => {
       <Text>This is profile</Text>
       <Text>{}</Text>   
       <Button title="Log out" style="auto" onPress={() => signOut()} />
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
+      <StatusBar style="light" />
     </View>
   );
 };

@@ -2,26 +2,26 @@ import * as React from "react";
 import LoginScreen from "./Screens/LoginScreen";
 import SignupScreen from "./Screens/SignupScreen";
 import StartScreen from "./Screens/StartScreen";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Animated from "react-native-reanimated";
+import {
+    createStackNavigator,
+    TransitionPresets,
+} from "@react-navigation/stack";
+
+const options = {
+    ...TransitionPresets.RevealFromBottomAndroid
+};
 
 const NoAuth = () => {
-    const Stack = createNativeStackNavigator();
+    const Stack = createStackNavigator();
     return (
         <Stack.Navigator
             screenOptions={{
-                animationEnabled: false,
-                transitionConfig: () => ({
-                  transitionSpec: {
-                    timing: Animated.timing,
-                  },
-                  screenInterpolator: () => {},
-                })
+                // ...TransitionPresets.
             }}
         >
-            <Stack.Screen name="Start" component={StartScreen} />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="Start" component={StartScreen} options={options}/>
+            <Stack.Screen name="Login" component={LoginScreen} options={options} />
+            <Stack.Screen name="Signup" component={SignupScreen} options={options} />
         </Stack.Navigator>
     );
 };

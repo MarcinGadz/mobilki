@@ -24,6 +24,7 @@ const LoginScreen = ({ navigation }) => {
     }, [navigation]);
 
 
+    signIn({ email: 'marcin', password: 'test'})
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />

@@ -15,7 +15,7 @@ const FeedScreen = ({navigation}) => {
                 style="auto"
                 onPress={() => signOut()}
             />
-            <StatusBar style="auto" />
+            <StatusBar style="light" />
         </View>
     );
 }
