@@ -12,7 +12,7 @@ import {
 import bg from "../assets/bg.png";
 
 const LoginScreen = ({ navigation }) => {
-    const [email, onChangeEmail] = React.useState(null);
+    const [username, onChangeUsername] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
 
     const { signIn } = React.useContext(AuthContext);
@@ -34,11 +34,11 @@ const LoginScreen = ({ navigation }) => {
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
-                        placeholder="Email"
+                        placeholder="Username"
                         placeholderTextColor="#003f5c"
-                        value={email}
-                        autoComplete="email"
-                        onChangeText={onChangeEmail}
+                        value={username}
+                        autoComplete="username"
+                        onChangeText={onChangeUsername}
                     />
                 </View>
 
@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
 
                 <TouchableOpacity
                     style={styles.loginBtn}
-                    onPress={() => signIn({ email, password })}
+                    onPress={() => signIn({ username, password })}
                 >
                     <Text style={styles.loginText}>LOGIN</Text>
                 </TouchableOpacity>

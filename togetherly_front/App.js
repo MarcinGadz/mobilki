@@ -9,28 +9,21 @@ import NoAuth from "./NoAuthNavigator.js";
 import axios from "axios";
 
 AuthContext = React.createContext();
-const MAIN_URL = "http://192.168.1.106:8080";
 
 const App = () => {
   const [isLoading, setLoading] = useState(false);
   const { token, setToken } = useToken();
   const [localToken, setLocalToken] = useState();
+  const [username, setUsername] = useState();
   const axios = require("axios");
-  axios.defaults.baseURL = "http://10.1.27.229:8080";
+  //axios.defaults.baseURL = "http://10.1.27.229:8080";
+  axios.defaults.baseURL = "http://192.168.1.46:8080";
   axios.defaults.timeout = 2500;
 
   const authContext = useMemo(
     () => ({
       signIn: async (data) => {
         let tempToken = null;
-        const requestOptions = {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: data.email,
-            password: data.password,
-          }),
-        };
         setLoading(true);
 
         try {
@@ -40,20 +33,22 @@ const App = () => {
               {
                 // username: "M", for quick debug login
                 // password: "t",
-                username: data.email,
+                username: data.username,
                 password: data.password,
               },
               { headers: {} }
             )
             .then((response) => {
+              console.log(response);
               tempToken = response.data;
               if (tempToken) {
                 setToken(tempToken);
                 setLocalToken(tempToken);
+                setUsername(data.username);
                 axios.defaults.headers.common["Authorization"] = tempToken;
               }
             })
-            .catch(error => {
+            .catch((error) => {
               // logowanie niepoprawne popup
               Alert.alert("Couldn't log in, bad request" + error);
               console.log(error);
@@ -71,10 +66,28 @@ const App = () => {
         setLoading(false);
       },
       signUp: async (data) => {
-        // In a production app, we need to send user data to server and get a token
-        // We will also need to handle errors if sign up failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
+        let tempToken = null;
+        setLoading(true);
+
+        // creating user
+        axios
+          .post(
+            "/user",
+            {
+              username: data.username,
+              password: data.password,
+            },
+            { headers: {} }
+          )
+          .catch((error) => {
+            // logowanie niepoprawne popup
+            Alert.alert("Couldn't sign up" + error);
+            console.log(error);
+            setLoading(false);
+            return error;
+          });
+          setLoading(false);
+          return true;
       },
     }),
     []
@@ -85,7 +98,7 @@ const App = () => {
 
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>{token ? <NoAuth /> : <Auth />}</NavigationContainer>
+      <NavigationContainer>{token ? <NoAuth /> : <Auth data={username} />}</NavigationContainer>
     </AuthContext.Provider>
   );
 };
