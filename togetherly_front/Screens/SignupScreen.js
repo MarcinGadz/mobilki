@@ -38,10 +38,17 @@ const SignupScreen = ({ navigation }) => {
     }
   }
 
-  function onSubmit() {
+  async function onSubmit() {
     if (validate()) {
-      signUp({ username, password });
-    }
+      let result = await signUp({ username, password });
+      console.log("Account created: " + result);
+      if (result) {
+        Alert.alert("Account created sucessfully");
+        navigation.navigate('Start', {screen: 'StartScreen'});
+      } else {
+        Alert.alert(result);
+      }
+    }    
   }
 
   React.useLayoutEffect(() => {
