@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginHorizontal: 40,
         backgroundColor: "#313f59dd",
-        borderColor: "#273247",
+        borderColor: "hsla(219, 29%, 20%, .85)",
         borderWidth: 3,
     },
     loginText: {
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: '80%',
-        height: "70%",
+        height: "auto",
         borderRadius: 30,
         
     }

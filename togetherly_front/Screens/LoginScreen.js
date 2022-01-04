@@ -23,13 +23,13 @@ const LoginScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    // const bg = {uri: './resources/port-man-with-runner-street-be-running-exercise.png'}
 
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
             <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
             <View style={styles.wrapper}>
+                {/* <Text style={styles.title}>SIGN IN</Text> */}
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
         marginTop: 40,
         marginHorizontal: 40,
         backgroundColor: "#313f59dd",
-        borderColor: "#273247",
+        borderColor: "hsla(219, 29%, 20%, .85)",
         borderWidth: 3,
     },
     loginText: {
@@ -117,8 +117,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: '80%',
-        height: "40%",
+        height: "auto",
         borderRadius: 30,
+        paddingVertical: '10%'
         
     }
 });
