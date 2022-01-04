@@ -91,6 +91,11 @@ public class UserController {
         return service.getAll();
     }
 
+    @GetMapping("/find")
+    public UserDTO findByUsername(@RequestParam(name = "username") String username) {
+        return service.findByUsername(username);
+    }
+
     @GetMapping("/{id}")
     public UserDTO getById(@PathVariable Long id) {
         logger.info("Getting user by id: " + id);
