@@ -19,6 +19,7 @@ const StartScreen = ({ navigation }) => {
             headerShown: false,
         });
     }, [navigation]);
+    
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         // flex: 1,
-        flexWrap: "wrap",
+        // flexWrap: "wrap",
         alignContent: "center",
         backgroundColor: "#ffffff30",
         alignItems: "center",

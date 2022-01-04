@@ -16,20 +16,20 @@ const LoginScreen = ({ navigation }) => {
     const [password, onChangePassword] = React.useState(null);
 
     const { signIn } = React.useContext(AuthContext);
+    
+    React.useLayoutEffect(() => {
+        navigation.setOptions({
+            headerShown: false,
+        });
+    }, [navigation]);
 
     // const bg = {uri: './resources/port-man-with-runner-street-be-running-exercise.png'}
 
     return (
         <View style={styles.container}>
-            <SafeAreaView>
-                <ImageBackground
-                    source={bg}
-                    resizeMode="cover"
-                    style={styles.bg}
-                />
-                <Text>This is login screen</Text>
-                <StatusBar style="auto" />
-
+            <StatusBar style="auto" />
+            <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
+            <View style={styles.wrapper}>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
@@ -59,7 +59,8 @@ const LoginScreen = ({ navigation }) => {
                 >
                     <Text style={styles.loginText}>LOGIN</Text>
                 </TouchableOpacity>
-            </SafeAreaView>
+                
+            </View>
         </View>
     );
 };
@@ -72,28 +73,35 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     inputView: {
-        backgroundColor: "#FFC0CB",
+        width: "80%",
+        backgroundColor: "hsla(219, 29%, 100%, .80)",
         borderRadius: 30,
-        width: 300,
         height: 45,
         marginBottom: 20,
-
+        justifyContent: 'center',
         alignItems: "center",
     },
     TextInput: {
+        width: '100%',
         height: 200,
         flex: 1,
         padding: 10,
         marginLeft: 20,
     },
     loginBtn: {
-        width: 300,
+        width: "80%",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
         justifyContent: "center",
         marginTop: 40,
-        backgroundColor: "#FF1493",
+        marginHorizontal: 40,
+        backgroundColor: "#313f59dd",
+        borderColor: "#273247",
+        borderWidth: 3,
+    },
+    loginText: {
+        color: "white",
     },
     bg: {
         height: "100%",
@@ -101,6 +109,18 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         position: "absolute",
     },
+    wrapper: {
+        // flex: 1,
+        // flexWrap: "wrap",
+        alignContent: "center",
+        backgroundColor: "#ffffff30",
+        alignItems: "center",
+        justifyContent: "center",
+        width: '80%',
+        height: "40%",
+        borderRadius: 30,
+        
+    }
 });
 
 export default LoginScreen;
