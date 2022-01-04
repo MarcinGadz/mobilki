@@ -26,6 +26,9 @@ public class Event {
     @Column
     private String description;
 
+    @Column(unique = true)
+    private String title;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private User owner;
@@ -39,7 +42,13 @@ public class Event {
 
     }
 
+    public String getTitle() {
+        return title;
+    }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public Point getStartPoint() {
         return startPoint;

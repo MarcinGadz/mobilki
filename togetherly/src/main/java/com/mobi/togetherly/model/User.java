@@ -1,7 +1,5 @@
 package com.mobi.togetherly.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -10,7 +8,7 @@ import java.util.*;
 @Entity
 public class User implements UserDetails {
 
-    @Column
+    @Column(unique = true)
     private String username;
     @Column
     private String password;

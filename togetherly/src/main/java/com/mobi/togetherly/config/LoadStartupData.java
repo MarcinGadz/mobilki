@@ -31,12 +31,14 @@ public class LoadStartupData implements ApplicationRunner {
         Event e = new Event();
         e.setStartPoint(p);
         e.setDescription("Test event");
+        e.setTitle("Test event title!");
         u.registerNewEvent(e);
 
         Point p2 = new Point(1.5555, 2.5555);
         Event e2 = new Event();
         e2.setStartPoint(p2);
         e2.setDescription("Test event 5555");
+        e2.setTitle("Test event2");
         u.registerNewEvent(e2);
 
 
@@ -48,7 +50,8 @@ public class LoadStartupData implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         if (service.getAll().isEmpty()) {
             addUsersToRepo();
-        } else {
+        }
+        else {
             service.getAll().forEach(System.out::println);
             System.out.println("\n");
             eventService.getAll().forEach(System.out::println);
