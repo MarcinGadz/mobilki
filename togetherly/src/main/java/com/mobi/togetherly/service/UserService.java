@@ -79,6 +79,8 @@ public class UserService {
         return userDao.findByUsername(userName);
     }
 
+    public UserDTO findByUsername(String userName) {return new UserDTO(loadUserByUsername(userName));}
+
     public Event enroll(Long id) {
         Event event = eventService.getById(id).fromDto();
         if (event == null) {
