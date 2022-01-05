@@ -533,3 +533,5 @@ Temporary Items
 # End of https://www.toptal.com/developers/gitignore/api/reactnative,webstorm,visualstudiocode,intellij,java
 
 .idea
+*.db
+togetherly_front/package-lock.json

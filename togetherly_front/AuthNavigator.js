@@ -5,90 +5,157 @@ import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FeedScreen from "./Screens/FeedScreen";
 import EventListScreen from "./Screens/EventListScreen";
+import { createAppContainer } from "react-navigation";
+import MenuPopup from "./components/MenuPopup";
+import { View } from "react-native-web";
 
 const Auth = () => {
+    const [menuVisible, setMenuVisibility] = React.useState(false);
+
     const Tab = createBottomTabNavigator();
     const { signOut } = React.useContext(AuthContext);
+    const toggleMenu = () => {
+        setMenuVisibility(!menuVisible);
+    };
     const menuButton = ({ color, size }) => (
-        // <Button
-        //     onPress={() => signOut()}
-        //     title="Log out"
-        //     style="auto"
-        // />
         <MaterialCommunityIcons
             name="menu"
-            color={'white'}
+            color={"white"}
             size={45}
+            onPress={toggleMenu}
         />
-    )
-    const bgColor = '#313f59'
+    );
+
+    const bgColor = "#313f59";
     return (
-        <Tab.Navigator
-            initialRouteName="Profile"
-            screenOptions={{
-                tabBarActiveTintColor: "#F1A81D",
-                tabBarInactiveTintColor: "white",
-                tabBarActiveBackgroundColor: '#ffffff15',
-                tabBarStyle: {
-                    backgroundColor: bgColor,
-                    
-                },
-                headerStyle: {
-                    backgroundColor: bgColor,
-                    
-                },
-                headerTitleStyle: {
-                    color:'white'
-                }
-            }}
-        >
-            <Tab.Screen
-                name="Event List"
-                component={EventListScreen}
-                options={{
-                    tabBarLabel: "Event List",
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons
-                            name="home"
-                            color={color}
-                            size={size}
-                        />
-                    ),
-                    headerRight: menuButton,
+        <>
+            <Tab.Navigator
+                initialRouteName="Profile"
+                screenOptions={() => {
+                    return {
+                        tabBarActiveTintColor: "#F1A81D",
+                        tabBarInactiveTintColor: "white",
+                        tabBarActiveBackgroundColor: "#ffffff15",
+
+                        tabBarStyle: {
+                            backgroundColor: bgColor,
+                        },
+                        headerStyle: {
+                            backgroundColor: bgColor,
+                        },
+                        headerTitleStyle: {
+                            color: "white",
+                        },
+                        // header: () => (
+                        //     <View style={{
+                        //         width: 200,
+                        //         height: 200,
+                        //         backgroundColor: 'green'
+                        //     }}></View>
+                        // )
+                        // tabBarLabel: navigation.isFocused() ? route.name : ''
+                    };
                 }}
-            />
-            <Tab.Screen
-                name="Feed"
-                component={FeedScreen}
-                options={{
-                    tabBarLabel: "Feed",
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons
-                            name="bell"
-                            color={color}
-                            size={size}
-                        />
-                    ),
-                    headerRight: menuButton,
-                }}
-            />
-            <Tab.Screen
-                name="Profile"
-                component={ProfileScreen}
-                options={{
-                    tabBarLabel: "Profile",
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons
-                            name="account"
-                            color={color}
-                            size={size}
-                        />
-                    ),
-                    headerRight: menuButton,
-                }}
-            />
-        </Tab.Navigator>
+            >
+                <Tab.Screen
+                    name="Event List"
+                    component={EventListScreen}
+                    options={{
+                        tabBarLabel: "Event List",
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons
+                                name="home"
+                                color={color}
+                                size={size}
+                            />
+                        ),
+                        headerRight: menuButton,
+                    }}
+                />
+                <Tab.Screen
+                    name="Feed"
+                    component={FeedScreen}
+                    options={{
+                        tabBarLabel: "Feed",
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons
+                                name="bell"
+                                color={color}
+                                size={size}
+                            />
+                        ),
+                        headerRight: menuButton,
+                    }}
+                />
+                <Tab.Screen
+                    name="Profile"
+                    component={ProfileScreen}
+                    options={{
+                        tabBarLabel: "Profile",
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons
+                                name="account"
+                                color={color}
+                                size={size}
+                            />
+                        ),
+                        headerRight: menuButton,
+                    }}
+                />
+            </Tab.Navigator>
+            <MenuPopup visible={menuVisible} setVisible={toggleMenu}></MenuPopup>
+        </>
     );
 };
 
+// const TabNavigator = createBottomTabNavigator(
+//     {
+//         Journal: {
+//             screen: EventListScreen,
+//             navigationOptions: {
+//                 tabBarIcon: ({color, size}) => (
+//                     <MaterialCommunityIcons
+//                             name="home"
+//                             color={color}
+//                             size={25}
+//                         />
+//                 ),
+//             },
+//         },
+//         Feed: {
+//             screen: FeedScreen,
+//             navigationOptions: {
+//                 tabBarIcon: ({color, size}) => (
+//                     <MaterialCommunityIcons
+//                             name="bell"
+//                             color={color}
+//                             size={25}
+//                         />
+//                 ),
+//             },
+//         },
+//         Profile: {
+//             screen: ProfileScreen,
+//             navigationOptions: {
+//                 tabBarIcon: ({color, size}) => (
+//                     <MaterialCommunityIcons
+//                             name="account"
+//                             color={color}
+//                             size={25}
+//                         />
+//                 ),
+//             },
+//         },
+//     },
+//     {
+//         tabBarOptions: {
+//             showLabel: false,
+//             activeBackgroundColor: 'red',
+//             inactiveBackgroundColor: 'green',
+//             backgroundColor: 'green'
+//         }
+//     }
+// );
+
 export default Auth;
+// export default createAppContainer(TabNavigator);

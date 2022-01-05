@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import useToken from "../useToken";
+import MenuPopup from "../components/MenuPopup";
 
 const ProfileScreen = ({ navigation }) => {
   const { token, setToken } = useToken();
@@ -13,11 +14,9 @@ const ProfileScreen = ({ navigation }) => {
   return (
 
     <View style={styles.container}>
-      <Text>This is profile</Text>
-      <Text>{}</Text>   
-      <Button title="Log out" style="auto" onPress={() => signOut()} />
-      {/* <StatusBar style="auto" /> */}
       <StatusBar style="light" />
+      <Text>This is profile</Text>
+      <Button title="Log out" style="auto" onPress={() => signOut()} />
     </View>
   );
 };

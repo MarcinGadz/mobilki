@@ -24,7 +24,8 @@ const LoginScreen = ({ navigation }) => {
     }, [navigation]);
 
 
-    signIn({ email: 'marcin', password: 'test'})
+
+    // signIn({ email: 'M', password: 't'})
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
@@ -39,7 +40,7 @@ const LoginScreen = ({ navigation }) => {
                         value={username}
                         autoComplete="username"
                         onChangeText={onChangeUsername}
-                    />
+                        />
                 </View>
 
                 <View style={styles.inputView}>
@@ -51,12 +52,13 @@ const LoginScreen = ({ navigation }) => {
                         value={password}
                         autoComplete="password"
                         onChangeText={onChangePassword}
-                    />
+                        />
                 </View>
 
                 <TouchableOpacity
                     style={styles.loginBtn}
-                    onPress={() => signIn({ username, password })}
+                    // onPress={() => signIn({ username, password })}
+                    onPress={() => signIn({ username: "M", password: 't' })}
                 >
                     <Text style={styles.loginText}>LOGIN</Text>
                 </TouchableOpacity>
