@@ -1,15 +1,33 @@
 import * as React from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 import Button from "../components/Button";
 import PopupBackground from "./PopupBackground";
+import { colors } from "../colors";
 
-const AreYouSurePopup = ({ visible, setVisible, text, event, parents, background=true }) => {
+const AreYouSurePopup = ({
+    visible,
+    setVisible,
+    text,
+    event,
+    parents,
+    background = true,
+}) => {
     return (
         <>
-            {background ? <PopupBackground visible={visible} setVisible={setVisible}/> : ''}
-            <PopupBackground visible={visible} setVisible={setVisible}/>
-            <Modal animationType="fade" transparent={true} visible={visible}>
+            {background ? (
+                <PopupBackground visible={visible} setVisible={setVisible} />
+            ) : (
+                <></>
+            )}
+            {/* <PopupBackground visible={visible} setVisible={setVisible} /> */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={visible}
+                onRequestClose={() => setVisible(false)}
+            >
                 <View style={s.modal}>
                     <View style={s.wrapper}>
                         <Text style={s.text}>{text}</Text>
@@ -26,7 +44,7 @@ const AreYouSurePopup = ({ visible, setVisible, text, event, parents, background
                             <View style={s.logOut}>
                                 <Button
                                     text={"Log out"}
-                                    onPress={(parents) => {
+                                    onPress={() => {
                                         // parents.forEach(f => f(false))
                                         for (
                                             let i = 0;
@@ -63,13 +81,18 @@ const s = StyleSheet.create({
         width: "auto",
         height: "auto",
         padding: 30,
-        backgroundColor: "green",
+        backgroundColor: colors.popupBackground,
+        borderColor: colors.popupBorder,
+        borderWidth: 2,
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center",
+        borderRadius: 15,
     },
     text: {
         fontSize: 20,
+        color: "white",
+        transform: [{ translateY: -15 }],
     },
     cancel: {
         marginRight: 10,

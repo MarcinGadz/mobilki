@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Modal, View, Text, StyleSheet } from "react-native";
+import { Alert, Modal, View, Text, StyleSheet } from "react-native";
 
 import Button from "../components/Button";
 import AreYouSurePopup from "./AreYouSurePopup";
 import PopupBackground from "./PopupBackground";
+import { colors } from "../colors";
 
-const MenuPopup = ({ visible, setVisible, background=true }) => {
+const MenuPopup = ({ visible, setVisible, background = true }) => {
     // const [visible, setVisible] = React.useState(false);
     console.log("visible", visible);
     console.log("setVisible", setVisible);
@@ -14,7 +15,11 @@ const MenuPopup = ({ visible, setVisible, background=true }) => {
 
     return (
         <>
-        {background ? <PopupBackground visible={visible} setVisible={setVisible}/> : ''}
+            {background ? (
+                <PopupBackground visible={visible} setVisible={setVisible} />
+            ) : (
+                <></>
+            )}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -24,16 +29,40 @@ const MenuPopup = ({ visible, setVisible, background=true }) => {
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>
-                        <Button
-                            text="Cancel"
-                            onPress={setVisible}
-                            width="80%"
-                        ></Button>
-                        <Button
-                            text="Log out"
-                            onPress={() => setAreYouSureVisibility(true)}
-                            width="80%"
-                        ></Button>
+                        <View style={styles.button}>
+                            <Button
+                                text="Settings"
+                                onPress={() => {
+                                    Alert.alert("Not yet implemented");
+                                }}
+                                icon={'cog'}
+                            ></Button>
+                        </View>
+                        <View style={styles.button}>
+                            <Button
+                                text="About"
+                                onPress={() => {
+                                    Alert.alert("Not yet implemented");
+                                }}
+                                icon={'info'}
+                                ></Button>
+                        </View>
+                        <View style={styles.button}>
+                            <Button
+                                text="Support us!"
+                                onPress={() => {
+                                    Alert.alert("Not yet implemented");
+                                }}
+                                icon={'dollar'}
+                                ></Button>
+                        </View>
+                        <View style={styles.button}>
+                            <Button
+                                text="Log out"
+                                onPress={() => setAreYouSureVisibility(true)}
+                                icon={'sign-out'}
+                                ></Button>
+                        </View>
                     </View>
                 </View>
                 <AreYouSurePopup
@@ -58,13 +87,19 @@ const styles = StyleSheet.create({
     },
     wrapper: {
         // flex: 1,
-        width: "90%",
+        width: "70%",
         height: "70%",
         paddingVertical: 30,
-        backgroundColor: "red",
+        backgroundColor: colors.popupBackground,
+        borderColor: colors.popupBorder,
+        borderWidth: 2,
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center",
+    },
+    button: {
+        width: "80%",
+        marginVertical: 10
     },
 });
 
