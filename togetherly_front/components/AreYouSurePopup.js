@@ -4,7 +4,7 @@ import LinearGradient from "react-native-linear-gradient";
 
 import Button from "../components/Button";
 import PopupBackground from "./PopupBackground";
-import { colors } from "../colors";
+import { colors, values } from "../globals";
 
 const AreYouSurePopup = ({
     visible,
@@ -21,7 +21,6 @@ const AreYouSurePopup = ({
             ) : (
                 <></>
             )}
-            {/* <PopupBackground visible={visible} setVisible={setVisible} /> */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -46,16 +45,16 @@ const AreYouSurePopup = ({
                                     text={"Log out"}
                                     onPress={() => {
                                         // parents.forEach(f => f(false))
-                                        for (
-                                            let i = 0;
-                                            i < parents.length;
-                                            i++
-                                        ) {
-                                            const f = parents[i];
-                                            f(false);
-                                        }
-                                        event();
-                                        setVisible(false);
+                                        // for (
+                                        //     let i = 0;
+                                        //     i < parents.length;
+                                        //     i++
+                                        // ) {
+                                        //     const f = parents[i];
+                                        //     f(false);
+                                        // }
+                                        // event();
+                                        // setVisible(false);
                                     }}
                                     width={100}
                                     style={s.button}
@@ -87,12 +86,13 @@ const s = StyleSheet.create({
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 15,
+        borderRadius: values.popupBorderRadius,
     },
     text: {
         fontSize: 20,
         color: "white",
         transform: [{ translateY: -15 }],
+        textAlign: "center",
     },
     cancel: {
         marginRight: 10,

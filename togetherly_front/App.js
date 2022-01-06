@@ -8,6 +8,7 @@ import Auth from "./AuthNavigator";
 import NoAuth from "./NoAuthNavigator.js";
 import axios from "axios";
 import MenuPopup from "./components/MenuPopup";
+import { setCustomText } from "react-native-global-props";
 
 AuthContext = React.createContext();
 
