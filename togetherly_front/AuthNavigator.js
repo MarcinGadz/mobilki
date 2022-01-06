@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FeedScreen from "./Screens/FeedScreen";
+import MapScreen from "./Screens/MapScreen"
 import EventListScreen from "./Screens/EventListScreen";
 import { createAppContainer } from "react-navigation";
 import MenuPopup from "./components/MenuPopup";
@@ -84,6 +85,21 @@ const Auth = () => {
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons
                                 name="bell"
+                                color={color}
+                                size={size}
+                            />
+                        ),
+                        headerRight: menuButton,
+                    }}
+                />
+                <Tab.Screen
+                    name="Events Map"
+                    component={MapScreen}
+                    options={{
+                        tabBarLabel: "Events Map",
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons
+                                name="map"
                                 color={color}
                                 size={size}
                             />
