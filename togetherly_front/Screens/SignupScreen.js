@@ -16,7 +16,6 @@ const SignupScreen = ({ navigation }) => {
     const [username, onChangeUsername] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
     const [password2, onChangePassword2] = React.useState(null);
-
     const { signUp } = React.useContext(AuthContext);
 
     // validation of signup data
@@ -45,7 +44,7 @@ const SignupScreen = ({ navigation }) => {
             let result = await signUp({ username, password });
             console.log("Account created: " + result);
             if (result) {
-                Alert.alert("Account created sucessfully");
+                Alert.alert("Account created successfully");
                 navigation.navigate("Start", { screen: "StartScreen" });
             } else {
                 Alert.alert(result);

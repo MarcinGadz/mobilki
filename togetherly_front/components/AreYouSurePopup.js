@@ -44,20 +44,11 @@ const AreYouSurePopup = ({
                                 <Button
                                     text={"Log out"}
                                     onPress={() => {
-                                        // parents.forEach(f => f(false))
-                                        // for (
-                                        //     let i = 0;
-                                        //     i < parents.length;
-                                        //     i++
-                                        // ) {
-                                        //     const f = parents[i];
-                                        //     f(false);
-                                        // }
-                                        // event();
-                                        // setVisible(false);
+                                        parents.forEach((f) => f(false));
+                                        event();
+                                        setVisible(false);
                                     }}
                                     width={100}
-                                    style={s.button}
                                 ></Button>
                             </View>
                         </View>

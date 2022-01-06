@@ -8,9 +8,12 @@ import EventListScreen from "./Screens/EventListScreen";
 import { createAppContainer } from "react-navigation";
 import MenuPopup from "./components/MenuPopup";
 import { View } from "react-native-web";
+import { colors } from "./globals";
+import { UIContext } from "./UIContext";
 
 const Auth = () => {
     const [menuVisible, setMenuVisibility] = React.useState(false);
+    const [headerShadow, setHeaderShadow] = React.useState(true);
 
     const Tab = createBottomTabNavigator();
     const { signOut } = React.useContext(AuthContext);
@@ -26,35 +29,36 @@ const Auth = () => {
         />
     );
 
-    const bgColor = "#313f59";
+    const { state, dispatch } = React.useContext(UIContext);
+
+    const bgColor = colors.mainBackground;
     return (
         <>
             <Tab.Navigator
                 initialRouteName="Profile"
-                screenOptions={() => {
-                    return {
-                        tabBarActiveTintColor: "#F1A81D",
-                        tabBarInactiveTintColor: "white",
-                        tabBarActiveBackgroundColor: "#ffffff15",
+                screenOptions={{
+                    tabBarActiveTintColor: "#F1A81D",
+                    tabBarInactiveTintColor: "white",
+                    tabBarActiveBackgroundColor: "#ffffff15",
 
-                        tabBarStyle: {
-                            backgroundColor: bgColor,
-                        },
-                        headerStyle: {
-                            backgroundColor: bgColor,
-                        },
-                        headerTitleStyle: {
-                            color: "white",
-                        },
-                        // header: () => (
-                        //     <View style={{
-                        //         width: 200,
-                        //         height: 200,
-                        //         backgroundColor: 'green'
-                        //     }}></View>
-                        // )
-                        // tabBarLabel: navigation.isFocused() ? route.name : ''
-                    };
+                    tabBarStyle: {
+                        backgroundColor: bgColor,
+                    },
+                    headerStyle: {
+                        backgroundColor: bgColor,
+                        elevation: state.headerShadow ? 4 : 0,
+                    },
+                    headerTitleStyle: {
+                        color: "white",
+                    },
+                    // header: () => (
+                    //     <View style={{
+                    //         width: 200,
+                    //         height: 200,
+                    //         backgroundColor: 'green'
+                    //     }}></View>
+                    // )
+                    // tabBarLabel: navigation.isFocused() ? route.name : ''
                 }}
             >
                 <Tab.Screen
@@ -101,9 +105,16 @@ const Auth = () => {
                         ),
                         headerRight: menuButton,
                     }}
+                    initialParams={{
+                        headerShadow: { headerShadow },
+                        setHeaderShadow: { setHeaderShadow },
+                    }}
                 />
             </Tab.Navigator>
-            <MenuPopup visible={menuVisible} setVisible={toggleMenu}></MenuPopup>
+            <MenuPopup
+                visible={menuVisible}
+                setVisible={toggleMenu}
+            ></MenuPopup>
         </>
     );
 };

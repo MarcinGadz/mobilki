@@ -1,4 +1,5 @@
 export const colors = {
+    mainBackground: "#313f59",
     popupBackground: "#313f59",
     popupBorder: "#242f42d9",
     button: {

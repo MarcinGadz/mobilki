@@ -7,8 +7,7 @@ import useToken from "./useToken";
 import Auth from "./AuthNavigator";
 import NoAuth from "./NoAuthNavigator.js";
 import axios from "axios";
-import MenuPopup from "./components/MenuPopup";
-import { setCustomText } from "react-native-global-props";
+import { UIProvider } from "./UIContext";
 
 AuthContext = React.createContext();
 
@@ -105,9 +104,11 @@ const App = () => {
 
     return (
         <AuthContext.Provider value={authContext}>
-            <NavigationContainer>
-                {token ? <NoAuth /> : <Auth data={username} />}
-            </NavigationContainer>
+            <UIProvider>
+                <NavigationContainer>
+                    {token ? <NoAuth /> : <Auth data={username} />}
+                </NavigationContainer>
+            </UIProvider>
         </AuthContext.Provider>
     );
 };
