@@ -6,18 +6,51 @@ import {
     View,
     TextInput,
     TouchableOpacity,
-    SafeAreaView,
+    Alert,
     ImageBackground,
 } from "react-native";
 import bg from "../assets/bg.png";
 
+import Button from "../components/Button";
 const SignupScreen = ({ navigation }) => {
-    const [email, onChangeEmail] = React.useState(null);
+    const [username, onChangeUsername] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
-    const [name, onChangeName] = React.useState(null);
-    const [surname, onChangeSurname] = React.useState(null);
-
+    const [password2, onChangePassword2] = React.useState(null);
     const { signUp } = React.useContext(AuthContext);
+
+    // validation of signup data
+    function validate() {
+        if (password === null || password2 === null) {
+            Alert.alert("Password is empty");
+        } else if (username === null) {
+            Alert.alert("Username is empty");
+        } else if (password === password2) {
+            //
+            if (password.length > 7 && password.length < 21) {
+                return true;
+            } else {
+                Alert.alert("Password length must be between 8 and 20");
+            }
+        } else {
+            Alert.alert("Passwords are not equal");
+            onChangePassword("");
+            onChangePassword2("");
+            return false;
+        }
+    }
+
+    async function onSubmit() {
+        if (validate()) {
+            let result = await signUp({ username, password });
+            console.log("Account created: " + result);
+            if (result) {
+                Alert.alert("Account created successfully");
+                navigation.navigate("Start", { screen: "StartScreen" });
+            } else {
+                Alert.alert(result);
+            }
+        }
+    }
 
     React.useLayoutEffect(() => {
         navigation.setOptions({
@@ -34,11 +67,11 @@ const SignupScreen = ({ navigation }) => {
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
-                        placeholder="Email"
+                        placeholder="Username"
                         placeholderTextColor="#003f5c"
-                        value={email}
-                        autoComplete="email"
-                        onChangeText={onChangeEmail}
+                        value={username}
+                        autoComplete="username"
+                        onChangeText={onChangeUsername}
                     />
                 </View>
 
@@ -57,31 +90,28 @@ const SignupScreen = ({ navigation }) => {
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
-                        placeholder="Name"
+                        placeholder="Confirm password"
                         placeholderTextColor="#003f5c"
-                        value={name}
-                        autoComplete="name"
-                        onChangeText={onChangeName}
+                        secureTextEntry={true}
+                        value={password2}
+                        autoComplete="password"
+                        onChangeText={onChangePassword2}
                     />
                 </View>
 
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="Surname"
-                        placeholderTextColor="#003f5c"
-                        value={surname}
-                        autoComplete="surname"
-                        onChangeText={onChangeSurname}
-                    />
-                </View>
-
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.signupBtn}
-                    onPress={() => signUp({ email, password, name, surname })}
+                    onPress={() => onSubmit()}
                 >
                     <Text style={styles.loginText}>SIGN UP</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                <Button
+                    text="SIGN UP"
+                    // onPress={() => signIn({ username, password })}
+                    onPress={() => onSubmit()}
+                    variant="blue"
+                    width="80%"
+                ></Button>
             </View>
         </View>
     );
@@ -100,11 +130,13 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         height: 45,
         marginBottom: 20,
-        justifyContent: 'center',
+        justifyContent: "center",
         alignItems: "center",
+        elevation: 5,
+        shadowColor: "black",
     },
     TextInput: {
-        width: '100%',
+        width: "100%",
         height: 200,
         flex: 1,
         padding: 10,
@@ -138,17 +170,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff30",
         alignItems: "center",
         justifyContent: "center",
-        width: '80%',
+        width: "80%",
         height: "auto",
         borderRadius: 30,
-        paddingVertical: '10%'
-        
+        paddingVertical: "10%",
     },
     title: {
         fontSize: 25,
-        fontWeight: 'bold',
-        marginBottom: 30
-    }
+        fontWeight: "bold",
+        marginBottom: 30,
+    },
 });
 
 export default SignupScreen;

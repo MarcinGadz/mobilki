@@ -7,11 +7,12 @@ import {
     TouchableOpacity,
     SafeAreaView,
     ImageBackground,
-    Image
+    Image,
 } from "react-native";
 
 import bg from "../assets/bg.png";
 import logo from "../assets/logo.png";
+import Button from "../components/Button";
 
 const StartScreen = ({ navigation }) => {
     React.useLayoutEffect(() => {
@@ -19,14 +20,18 @@ const StartScreen = ({ navigation }) => {
             headerShown: false,
         });
     }, [navigation]);
-    
+
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
             <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
             <View style={styles.wrapper} blurRadius={5}>
-                <Image source={logo} resizeMode="contain" style={styles.logo}></Image>
-                <TouchableOpacity
+                <Image
+                    source={logo}
+                    resizeMode="contain"
+                    style={styles.logo}
+                ></Image>
+                {/* <TouchableOpacity
                     style={styles.loginBtn}
                     onPress={() => navigation.navigate("Login")}
                 >
@@ -37,8 +42,24 @@ const StartScreen = ({ navigation }) => {
                     onPress={() => navigation.navigate("Signup")}
                 >
                     <Text style={styles.loginText}> SIGN UP </Text>
-                </TouchableOpacity>
-                
+                </TouchableOpacity> */}
+
+                <Button
+                    text="LOGIN"
+                    // onPress={() => signIn({ username, password })}
+                    onPress={() => navigation.navigate("Login")}
+                    variant="blue"
+                    width="80%"
+                    marginVertical={10}
+                ></Button>
+                <Button
+                    text="SIGN UP"
+                    // onPress={() => signIn({ username, password })}
+                    onPress={() => navigation.navigate("Signup")}
+                    variant="blue"
+                    width="80%"
+                    marginVertical={10}
+                ></Button>
             </View>
         </View>
     );
@@ -70,7 +91,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     loginBtn: {
-        width: '80%',
+        width: "80%",
         borderRadius: 25,
         height: 50,
         alignItems: "center",
@@ -92,11 +113,11 @@ const styles = StyleSheet.create({
         // opacity: .8
     },
     logo: {
-        width: '70%',
-        height: '40%',
+        width: "70%",
+        height: "40%",
         // marginTop: -200,
-        marginBottom: '10%',
-        tintColor: '#313F59',
+        marginBottom: "10%",
+        tintColor: "#313F59",
     },
     wrapper: {
         // flex: 1,
@@ -105,11 +126,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff30",
         alignItems: "center",
         justifyContent: "center",
-        width: '80%',
+        width: "80%",
         height: "auto",
         borderRadius: 30,
-        
-    }
+    },
 });
 
 export default StartScreen;

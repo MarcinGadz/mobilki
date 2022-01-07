@@ -10,20 +10,21 @@ import {
     ImageBackground,
 } from "react-native";
 import bg from "../assets/bg.png";
+import Button from "../components/Button";
 
 const LoginScreen = ({ navigation }) => {
-    const [email, onChangeEmail] = React.useState(null);
+    const [username, onChangeUsername] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
 
     const { signIn } = React.useContext(AuthContext);
-    
+
     React.useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
         });
     }, [navigation]);
 
-
+    // signIn({ email: 'M', password: 't'})
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
@@ -33,11 +34,11 @@ const LoginScreen = ({ navigation }) => {
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
-                        placeholder="Email"
+                        placeholder="Username"
                         placeholderTextColor="#003f5c"
-                        value={email}
-                        autoComplete="email"
-                        onChangeText={onChangeEmail}
+                        value={username}
+                        autoComplete="username"
+                        onChangeText={onChangeUsername}
                     />
                 </View>
 
@@ -53,13 +54,20 @@ const LoginScreen = ({ navigation }) => {
                     />
                 </View>
 
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={styles.loginBtn}
-                    onPress={() => signIn({ email, password })}
-                >
+                    // onPress={() => signIn({ username, password })}
+                    onPress={() => signIn({ username: "M", password: "t" })}
+                    >
                     <Text style={styles.loginText}>LOGIN</Text>
-                </TouchableOpacity>
-                
+                </TouchableOpacity> */}
+                <Button
+                    text="LOGIN"
+                    // onPress={() => signIn({ username, password })}
+                    onPress={() => signIn({ username: "M", password: "t" })}
+                    variant="blue"
+                    width="80%"
+                ></Button>
             </View>
         </View>
     );
@@ -78,11 +86,13 @@ const styles = StyleSheet.create({
         borderRadius: 30,
         height: 45,
         marginBottom: 20,
-        justifyContent: 'center',
+        justifyContent: "center",
         alignItems: "center",
+        elevation: 5,
+        shadowColor: "black",
     },
     TextInput: {
-        width: '100%',
+        width: "100%",
         height: 200,
         flex: 1,
         padding: 10,
@@ -116,12 +126,11 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffffff30",
         alignItems: "center",
         justifyContent: "center",
-        width: '80%',
+        width: "80%",
         height: "auto",
         borderRadius: 30,
-        paddingVertical: '10%'
-        
-    }
+        paddingVertical: "10%",
+    },
 });
 
 export default LoginScreen;
