@@ -18,7 +18,7 @@ const App = () => {
     const [username, setUsername] = useState();
     const axios = require("axios");
     // const [visible, settVisible] = React.useState(false);
-    axios.defaults.baseURL = "http://10.1.27.229:8080";
+    axios.defaults.baseURL = "http://192.168.55.103:8080";
     axios.defaults.timeout = 2500;
 
     // const toggleVisible = () => {
@@ -44,7 +44,6 @@ const App = () => {
                             { headers: {} }
                         )
                         .then((response) => {
-                            console.log(response);
                             tempToken = response.data;
                             if (tempToken) {
                                 setToken(tempToken);
