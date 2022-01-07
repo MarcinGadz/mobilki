@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class UserService {
@@ -53,8 +52,13 @@ public class UserService {
         return !(s == null || s.equals("") || s.trim().equals(""));
     }
 
+    private boolean checkEmail(String email) {
+        if (email == null) return false;
+        return email.matches("^[^@]+@[^@]+\\.[^@]+$");
+    }
+
     public User addUser(User u) {
-        if (checkString(u.getUsername()) && checkString(u.getPassword())) {
+        if (checkString(u.getUsername()) && checkString(u.getPassword()) && checkEmail(u.getEmail())) {
             u.setPassword(encoder.encode(u.getPassword()));
             Collection<Role> userRoles = u.getAuthorities();
             if (userRoles == null) {
@@ -79,7 +83,9 @@ public class UserService {
         return userDao.findByUsername(userName);
     }
 
-    public UserDTO findByUsername(String userName) {return new UserDTO(loadUserByUsername(userName));}
+    public UserDTO findByUsername(String userName) {
+        return new UserDTO(loadUserByUsername(userName));
+    }
 
     public Event enroll(Long id) {
         Event event = eventService.getById(id).fromDto();
@@ -87,11 +93,11 @@ public class UserService {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth == null) {
+        if (auth == null) {
             throw new IllegalStateException("User is not logged in");
         }
         Object principal = auth.getPrincipal();
-        String userName = ((UserDetails)principal).getUsername();
+        String userName = ((UserDetails) principal).getUsername();
         User u = loadUserByUsername(userName);
         if (u == null) {
             throw new IllegalArgumentException("User with specified id does not exists");
@@ -99,16 +105,19 @@ public class UserService {
         u.addEvent(event);
         event.addUser(u);
         eventService.addEvent(event);
+        if (!u.getAchievements().contains(Achievement.BEGINNER) && u.getEvents().size() == 1) {
+            u.addAchievement(Achievement.BEGINNER);
+        }
         return event;
     }
 
     public Event registerEvent(Event e) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth == null) {
+        if (auth == null) {
             throw new IllegalStateException("User is not logged in");
         }
         Object principal = auth.getPrincipal();
-        String userName = ((UserDetails)principal).getUsername();
+        String userName = ((UserDetails) principal).getUsername();
         User p = loadUserByUsername(userName);
         if (p == null) {
             throw new IllegalArgumentException("User does not exists");
@@ -125,11 +134,11 @@ public class UserService {
 
     public UserDTO getLoggedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth == null) {
+        if (auth == null) {
             throw new IllegalStateException("User is not logged in");
         }
         Object principal = auth.getPrincipal();
-        String userName = ((UserDetails)principal).getUsername();
+        String userName = ((UserDetails) principal).getUsername();
         User p = loadUserByUsername(userName);
         return new UserDTO(p);
     }
