@@ -87,6 +87,46 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
                             email={"filiptheg@gmail.com"}
                         ></Gravatar>
                     </View>
+                    <View
+                        style={{
+                            position: "absolute",
+                            backgroundColor: "white",
+                            width: 300,
+                            left: -40,
+                            height: 40,
+                            top: 110,
+                            zIndex: -2,
+                        }}
+                    ></View>
+                    <View
+                        style={{
+                            position: "absolute",
+                            width: 220,
+                            height: 40,
+                            top: 107.9999555555,
+                        }}
+                    >
+                        <View
+                            style={{
+                                position: "absolute",
+                                height: 42,
+                                width: 42,
+                                backgroundColor: colors.mainBackground,
+                                borderBottomRightRadius: 30,
+                                left: -42.00001,
+                            }}
+                        ></View>
+                        <View
+                            style={{
+                                position: "absolute",
+                                height: 42,
+                                width: 42,
+                                backgroundColor: colors.mainBackground,
+                                borderBottomLeftRadius: 30,
+                                right: -42.00001,
+                            }}
+                        ></View>
+                    </View>
                 </View>
             </View>
 
