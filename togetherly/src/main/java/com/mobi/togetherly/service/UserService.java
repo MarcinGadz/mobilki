@@ -105,8 +105,19 @@ public class UserService {
         u.addEvent(event);
         event.addUser(u);
         eventService.addEvent(event);
+        boolean wasUserChanged = false;
         if (!u.getAchievements().contains(Achievement.BEGINNER) && u.getEvents().size() == 1) {
             u.addAchievement(Achievement.BEGINNER);
+            wasUserChanged = true;
+        } else if (u.getEvents().size() > 5 && !u.getAchievements().contains(Achievement.INTERMEDIATE)) {
+            u.addAchievement(Achievement.INTERMEDIATE);
+            wasUserChanged = true;
+        } else if (u.getEvents().size() > 10 && !u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
+            u.addAchievement(Achievement.INSANE_SPORTSMAN);
+            wasUserChanged = true;
+        }
+        if (wasUserChanged) {
+            userDao.save(u);
         }
         return event;
     }
@@ -125,6 +136,13 @@ public class UserService {
         try {
             Event res = p.registerNewEvent(e);
             eventService.addEvent(e);
+            if(p.getOwnedEvents().size() == 1 && (p.getAchievements() == null || !p.getAchievements().contains(Achievement.CREATOR))) {
+                p.addAchievement(Achievement.CREATOR);
+                userDao.save(p);
+            } else if (p.getOwnedEvents().size() > 5 && !p.getAchievements().contains(Achievement.SOCIAL_STAR)){
+                p.addAchievement(Achievement.SOCIAL_STAR);
+                userDao.save(p);
+            }
             return res;
         } catch (IllegalArgumentException ex) {
             p.unRegisterEvent(e);
