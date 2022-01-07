@@ -1,11 +1,21 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, View, Alert, Text } from "react-native";
+import {
+    StyleSheet,
+    View,
+    Alert,
+    Text,
+    ScrollView,
+    Touchable,
+    Pressable,
+} from "react-native";
 import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
 import axios from "axios";
 import Event from "../components/Event";
+import { AntDesign, FontAwesome5, Ionicons } from "@expo/vector-icons";
+import { colors } from "../globals";
 
 const EventListScreen = () => {
     const [data, setData] = useState([]);
@@ -56,7 +66,54 @@ const EventListScreen = () => {
     if (isLoading) {
         return <LoadingScreen />;
     } else {
-        return <View style={styles.rowStyle}>{renderTable()}</View>;
+        return (
+            <View style={styles.rowStyle}>
+                {renderTable()}
+                <ScrollView>
+                    <View
+                        style={{ height: 1000, backgroundColor: "purple" }}
+                    ></View>
+                </ScrollView>
+                <View
+                    style={{
+                        position: "absolute",
+                        right: 20,
+                        bottom: 20,
+                        borderRadius: 200,
+                        overflow: "hidden",
+                    }}
+                >
+                    <Pressable
+                        style={{
+                            height: 70,
+                            width: 70,
+                            backgroundColor: "red",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 200,
+                            backgroundColor: colors.button.yellow.background,
+                            borderColor: colors.button.yellow.border,
+                            borderWidth: 2,
+                            elevation: 5,
+                            shadowColor: "black",
+                        }}
+                        onPress={() => {
+                            Alert.alert("Not yet implemented");
+                        }}
+                        android_ripple={{
+                            color: "#fff8",
+                            borderless: false,
+                            foreground: true,
+                        }}
+                    >
+                        <FontAwesome5
+                            name="calendar-plus"
+                            size={35}
+                        ></FontAwesome5>
+                    </Pressable>
+                </View>
+            </View>
+        );
     }
 };
 

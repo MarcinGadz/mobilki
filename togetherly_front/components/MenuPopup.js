@@ -51,7 +51,7 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                             <Button
                                 text="Support us!"
                                 onPress={() => {
-                                    // Alert.alert("Not yet implemented");
+                                    Alert.alert("Not yet implemented");
                                 }}
                                 icon={"dollar"}
                             ></Button>
