@@ -1,6 +1,6 @@
 package com.mobi.togetherly.service;
 
-import com.mobi.togetherly.UserDTO;
+import com.mobi.togetherly.model.UserDTO;
 import com.mobi.togetherly.dao.RoleDao;
 import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.Achievement;

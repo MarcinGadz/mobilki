@@ -1,6 +1,6 @@
 package com.mobi.togetherly.api;
 
-import com.mobi.togetherly.UserDTO;
+import com.mobi.togetherly.model.UserDTO;
 import com.mobi.togetherly.config.TokenProvider;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;

@@ -1,19 +1,18 @@
 package com.mobi.togetherly.service;
 
-import com.mobi.togetherly.EventDTO;
+import com.mobi.togetherly.model.EventDTO;
 import com.mobi.togetherly.dao.EventDao;
 import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +47,8 @@ public class EventService {
     }
 
     public EventDTO getById(Long id) {
-        Event e = dao.findById(id).orElse(null);
+        Optional<Event> optEvt = dao.findById(id);
+        Event e = optEvt.orElse(null);
         if (e == null) {
             return null;
         }

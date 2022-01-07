@@ -1,6 +1,6 @@
 package com.mobi.togetherly.api;
 
-import com.mobi.togetherly.EventDTO;
+import com.mobi.togetherly.model.EventDTO;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
 import com.mobi.togetherly.service.EventService;
