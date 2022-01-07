@@ -8,6 +8,8 @@ import java.util.*;
 @Entity
 public class User implements UserDetails {
 
+    @Column
+    private String email;
     @Column(unique = true)
     private String username;
     @Column
@@ -150,4 +152,13 @@ public class User implements UserDetails {
     public void unRegisterEvent(Event e) {
         ownedEvents.remove(e);
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

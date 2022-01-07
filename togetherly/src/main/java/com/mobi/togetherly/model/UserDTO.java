@@ -1,13 +1,11 @@
-package com.mobi.togetherly;
+package com.mobi.togetherly.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mobi.togetherly.model.Achievement;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserDTO {
     private String username;

@@ -1,4 +1,4 @@
-package com.mobi.togetherly;
+package com.mobi.togetherly.model;
 
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
