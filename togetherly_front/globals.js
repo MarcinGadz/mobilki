@@ -14,6 +14,8 @@ export const colors = {
             text: "#242f42",
         },
     },
+    infoName: "#313f59",
+    infoContent: "#313f59",
 };
 export const values = {
     popupBorderRadius: 10,

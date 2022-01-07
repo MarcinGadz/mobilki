@@ -6,6 +6,7 @@ import { colors, values } from "../globals";
 import { UIContext } from "../UIContext";
 import * as gravatar from "gravatar-api";
 import Gravatar from "../components/Gravatar";
+import ProfileInfoElement from "../components/ProfileInfoElement";
 
 const handleScroll = (e) => {
     console.log(e.nativeEvent.contentOffset.y);
@@ -40,7 +41,8 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
         <ScrollView
             style={{
                 flex: 1,
-                backgroundColor: "#fff",
+                backgroundColor: "#ffffff",
+                overflow: "visible",
             }}
             onScroll={(e) => {
                 if (e.nativeEvent.contentOffset.y == 0) {
@@ -58,17 +60,79 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
                 style={{
                     backgroundColor: colors.mainBackground,
                     width: "100%",
-                    height: 200,
+                    height: 180,
+                    overflow: "visible",
+                    justifyContent: "flex-end",
+                    alignItems: "center",
                 }}
-            ></View>
-            <Gravatar size={200}></Gravatar>
+            >
+                <View
+                    style={{
+                        width: 220,
+                        height: 220,
+                        backgroundColor: "white",
+                        borderRadius: 300,
+                        transform: [{ translateY: 70 }],
+                    }}
+                >
+                    <View
+                        style={{
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flex: 1,
+                        }}
+                    >
+                        <Gravatar
+                            size={200}
+                            email={"filiptheg@gmail.com"}
+                        ></Gravatar>
+                    </View>
+                </View>
+            </View>
+
             <View
                 style={{
-                    backgroundColor: colors.mainBackground,
+                    // backgroundColor: "red",
                     width: "100%",
-                    height: 2000,
+                    height: "auto",
+                    alignItems: "center",
                 }}
-            ></View>
+            >
+                <View style={{ height: 75 }} />
+                <ProfileInfoElement
+                    style={{
+                        width: "90%",
+                        marginBottom: 15,
+                    }}
+                    name={"Name"}
+                    content={"filiptheg"}
+                ></ProfileInfoElement>
+                <ProfileInfoElement
+                    style={{
+                        width: "90%",
+                        marginBottom: 15,
+                    }}
+                    name={"Email"}
+                    content={"filiptheg@gmail.com"}
+                ></ProfileInfoElement>
+                <ProfileInfoElement
+                    style={{
+                        width: "90%",
+                        marginBottom: 15,
+                    }}
+                    name={"Birth date"}
+                    content={"12.11.2000"}
+                ></ProfileInfoElement>
+                <ProfileInfoElement
+                    style={{
+                        width: "90%",
+                        marginBottom: 15,
+                    }}
+                    name={"Phone number"}
+                    content={"123456789"}
+                ></ProfileInfoElement>
+            </View>
+            {/* <View style={{ height: 1000 }}></View> */}
         </ScrollView>
     );
 };
