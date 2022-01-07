@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import useToken from "../useToken";
-import MenuPopup from "../components/MenuPopup";
-import { Gravatar, GravatarApi } from "react-native-gravatar";
 import { colors, values } from "../globals";
 import { UIContext } from "../UIContext";
+import * as gravatar from "gravatar-api";
+import Gravatar from "../components/Gravatar";
 
 const handleScroll = (e) => {
     console.log(e.nativeEvent.contentOffset.y);
@@ -19,11 +19,22 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
     if (!token) {
         val = "no token sadge";
     }
-
+    console.log(
+        gravatar.imageUrl({
+            email: "filiptheg@gmail.com",
+            parameters: { size: 1024 },
+            secure: true,
+        })
+    );
     const { state, dispatch } = React.useContext(UIContext);
     React.useEffect(() => {
         dispatch({ type: "SET_HEADER_SHADOW", payload: false });
     }, []);
+    const avatar = gravatar.imageUrl({
+        email: "filiptheg@gmail.com",
+        parameters: { size: 1024 },
+        secure: true,
+    });
 
     return (
         <ScrollView
@@ -50,16 +61,7 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
                     height: 200,
                 }}
             ></View>
-            <Gravatar
-                options={{
-                    email: "filiptheg@gmail.com",
-                    parameters: { size: "400", d: "mm" },
-                    secure: true,
-                }}
-                style={{
-                    borderRadius: 20000,
-                }}
-            ></Gravatar>
+            <Gravatar size={200}></Gravatar>
             <View
                 style={{
                     backgroundColor: colors.mainBackground,
