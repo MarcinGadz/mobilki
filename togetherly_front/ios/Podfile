@@ -24,6 +24,8 @@ target 'togetherlyfront' do
 
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
   post_install do |installer|
     react_native_post_install(installer)
 

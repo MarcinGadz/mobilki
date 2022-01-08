@@ -22,6 +22,8 @@ public class LoadStartupData implements ApplicationRunner {
     private void addUsersToRepo() {
         User u = new User("marcin", "test");
         User u2 = new User("M", "t");
+        u.setEmail("test@test.com");
+        u2.setEmail("testmail@edu.com");
         service.addUser(u);
         service.addUser(u2);
         ArrayList<User> users = new ArrayList<>();
