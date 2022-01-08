@@ -4,15 +4,16 @@ import { Modal, View, Text, StyleSheet } from "react-native";
 import Button from "./Button";
 import PopupBackground from "./PopupBackground";
 import { colors, values } from "../globals";
+import { ScrollView } from "react-native-gesture-handler";
 
 const EventPopup = ({ visible, setVisible, eventData, background = true }) => {
     return (
         <>
-            {/* {background ? (
+            {background ? (
                 <PopupBackground visible={visible} setVisible={setVisible} />
             ) : (
                 <></>
-            )} */}
+            )}
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -20,13 +21,50 @@ const EventPopup = ({ visible, setVisible, eventData, background = true }) => {
                 onRequestClose={() => setVisible(false)}
                 onShow={console.log("shown")}
             >
-                <View
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: "red",
-                    }}
-                ></View>
+                <ScrollView>
+                    <View
+                        style={{
+                            height: "100%",
+                            width: "100%",
+                            // justifyContent: "center",
+                            alignItems: "center",
+                            marginVertical: 80,
+                        }}
+                    >
+                        <View
+                            style={{
+                                width: "85%",
+                                height: 1000,
+                                backgroundColor: "white",
+                                borderRadius: values.popupBorderRadius,
+                                overflow: "hidden",
+                            }}
+                        >
+                            <View
+                                style={{
+                                    backgroundColor: colors.eventHeader,
+                                    width: "100%",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    height: "auto",
+                                    paddingVertical: 7,
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 30,
+                                        marginVertical: 3,
+                                        fontWeight: "bold",
+                                        marginLeft: 15,
+                                    }}
+                                >
+                                    {eventData.title}
+                                </Text>
+                            </View>
+                        </View>
+                    </View>
+                </ScrollView>
             </Modal>
         </>
     );

@@ -3,7 +3,8 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colors, values } from "../globals";
 import Gravatar from "./Gravatar";
-import EventPopup from "./eventPopup";
+import EventPopup from "./EventPopup";
+import { abs, color } from "react-native-reanimated";
 
 const Event = ({ eventData }) => {
     const [eventVisible, setEventVisibility] = React.useState(false);
@@ -27,11 +28,12 @@ const Event = ({ eventData }) => {
                     height: "auto",
                     elevation: 5,
                     shadowColor: "black",
+                    zIndex: 100,
                 }}
                 key={eventData.id}
                 onPress={() => {
                     setEventVisibility(true);
-                    console.log("eventVisible  ", eventVisible);
+                    // console.log("eventVisible  ", eventVisible);
                 }}
             >
                 <View
@@ -43,6 +45,7 @@ const Event = ({ eventData }) => {
                         alignItems: "center",
                         height: "auto",
                         paddingVertical: 4,
+                        overflow: "visible",
                         // height: 20,
                     }}
                 >
@@ -62,8 +65,18 @@ const Event = ({ eventData }) => {
                             marginRight: 8,
                         }}
                     >
-                        {eventData.id}
+                        #{eventData.id}
                     </Text>
+                    {/* <View
+                        style={{
+                            position: "absolute",
+                            width: values.popupBorderRadius,
+                            height: values.popupBorderRadius,
+                            backgroundColor: "red",
+                            bottom: -3,
+                            zIndex: 300,
+                        }}
+                    ></View> */}
                 </View>
                 <View
                     style={{
@@ -71,6 +84,47 @@ const Event = ({ eventData }) => {
                         backgroundColor: "white",
                     }}
                 >
+                    <View
+                        style={{
+                            position: "absolute",
+                            width: values.popupBorderRadius,
+                            height: values.popupBorderRadius + 2,
+                            backgroundColor: colors.eventHeader,
+                            top: -2.3,
+                        }}
+                    >
+                        <View
+                            style={{
+                                position: "absolute",
+                                width: values.popupBorderRadius,
+                                height: values.popupBorderRadius,
+                                backgroundColor: "white",
+                                borderTopLeftRadius: values.popupBorderRadius,
+                                bottom: 0,
+                            }}
+                        ></View>
+                    </View>
+                    <View
+                        style={{
+                            position: "absolute",
+                            width: values.popupBorderRadius,
+                            height: values.popupBorderRadius + 2,
+                            backgroundColor: colors.eventHeader,
+                            top: -2.3,
+                            right: 0,
+                        }}
+                    >
+                        <View
+                            style={{
+                                position: "absolute",
+                                width: values.popupBorderRadius,
+                                height: values.popupBorderRadius,
+                                backgroundColor: "white",
+                                borderTopRightRadius: values.popupBorderRadius,
+                                bottom: 0,
+                            }}
+                        ></View>
+                    </View>
                     <View
                         style={{
                             // backgroundColor: "aqua",
@@ -127,6 +181,8 @@ const Event = ({ eventData }) => {
                             width: "100%",
                             justifyContent: "center",
                             padding: 4,
+                            borderRadius: values.popupBorderRadius,
+                            margin: 4,
                         }}
                     >
                         <Text style={{ textAlign: "center" }}>
