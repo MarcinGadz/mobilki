@@ -1,19 +1,24 @@
 import * as React from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { colors, values } from "../globals";
 import Gravatar from "./Gravatar";
 import EventPopup from "./EventPopup";
 import { abs, color } from "react-native-reanimated";
+import MapComponent from "./MapComponent";
 
 const Event = ({ eventData }) => {
     const [eventVisible, setEventVisibility] = React.useState(false);
+
+    const [checkedMap, setCheckedMap] = React.useState(false);
     return (
         <>
             <EventPopup
                 visible={eventVisible}
                 setVisible={setEventVisibility}
                 eventData={eventData}
+                checkedMap={checkedMap}
+                setCheckedMap={setCheckedMap}
             ></EventPopup>
             <Pressable
                 style={{
@@ -33,6 +38,7 @@ const Event = ({ eventData }) => {
                 key={eventData.id}
                 onPress={() => {
                     setEventVisibility(true);
+                    setCheckedMap(false);
                     // console.log("eventVisible  ", eventVisible);
                 }}
             >
@@ -180,14 +186,25 @@ const Event = ({ eventData }) => {
                             flex: 2,
                             width: "100%",
                             justifyContent: "center",
-                            padding: 4,
+                            // padding: 4,
                             borderRadius: values.popupBorderRadius,
-                            margin: 4,
+                            margin: 8,
+                            overflow: "hidden",
                         }}
                     >
-                        <Text style={{ textAlign: "center" }}>
+                        {/* <Text style={{ textAlign: "center" }}>
                             Tu będzie mapa jak Pietrucha zrobi
-                        </Text>
+                        </Text> */}
+                        <MapComponent />
+                        <View
+                            style={{
+                                position: "absolute",
+                                width: "100%",
+                                height: "100%",
+                                backgroundColor: "red",
+                                opacity: 0,
+                            }}
+                        />
                     </View>
                 </View>
             </Pressable>
