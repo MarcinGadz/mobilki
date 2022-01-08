@@ -3,7 +3,12 @@ import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const PopupBackground = ({ visible, setVisible }) => {
     return (
-        <Modal animationType="fade" transparent={true} visible={visible}>
+        <Modal
+            animationType="fade"
+            transparent={true}
+            visible={visible}
+            onShow={console.log("shown bg")}
+        >
             <TouchableOpacity
                 style={{
                     width: "100%",
