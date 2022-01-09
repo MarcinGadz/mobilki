@@ -20,11 +20,19 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private final UserDao userDao;
-    private final RoleDao roleDao;
-    private final EventService eventService;
-    private final Role customerRole;
+    private UserDao userDao;
+    private RoleDao roleDao;
+    private EventService eventService;
+    private Role customerRole;
     private PasswordEncoder encoder;
+
+    public UserService() {
+
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao, EventService eventService) {
@@ -48,7 +56,7 @@ public class UserService {
         this.encoder = encoder;
     }
 
-    private boolean checkString(String s) {
+    public boolean checkString(String s) {
         return !(s == null || s.equals("") || s.trim().equals(""));
     }
 

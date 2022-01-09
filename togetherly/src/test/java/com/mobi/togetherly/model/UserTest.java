@@ -158,38 +158,14 @@ class UserTest {
     }
 
     @Test
-    void getPassword() {
-    }
-
-    @Test
-    void setPassword() {
-    }
-
-    @Test
-    void getId() {
-    }
-
-    @Test
-    void setId() {
-    }
-
-    @Test
-    void testGetEvents() {
-    }
-
-    @Test
-    void setEvents() {
-    }
-
-    @Test
     void unRegisterEvent() {
+        User u = new User();
+        Event e = new Event();
+        e.setId(1L);
+        u.registerNewEvent(e);
+        assertEquals(1, u.getOwnedEvents().size());
+        u.unRegisterEvent(e);
+        assertEquals(0, u.getOwnedEvents().size());
     }
 
-    @Test
-    void getEmail() {
-    }
-
-    @Test
-    void setEmail() {
-    }
 }
