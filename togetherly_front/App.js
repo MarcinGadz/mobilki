@@ -44,7 +44,6 @@ const App = () => {
                             { headers: {} }
                         )
                         .then((response) => {
-                            console.log(response);
                             tempToken = response.data;
                             if (tempToken) {
                                 setToken(tempToken);

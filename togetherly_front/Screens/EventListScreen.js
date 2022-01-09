@@ -14,8 +14,9 @@ import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
 import axios from "axios";
 import Event from "../components/Event";
-import { AntDesign, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import { colors } from "../globals";
+import FloatingButton from "../components/FloatingButton";
+import { FlipInEasyY } from "react-native-reanimated";
 
 const EventListScreen = () => {
     const [data, setData] = useState([]);
@@ -59,7 +60,7 @@ const EventListScreen = () => {
 
     const renderTable = () => {
         return data.map((e) => {
-            return <Event EventData={e} key={e.id} />;
+            return <Event eventData={e} key={e.id} />;
         });
     };
 
@@ -67,63 +68,100 @@ const EventListScreen = () => {
         return <LoadingScreen />;
     } else {
         return (
-            <View style={styles.rowStyle}>
+            <View
+                style={{
+                    width: "100%",
+                    height: "100%",
+                }}
+            >
                 {renderTable()}
-                <ScrollView>
-                    <View
-                        style={{ height: 1000, backgroundColor: "purple" }}
-                    ></View>
-                </ScrollView>
-                <View
-                    style={{
-                        position: "absolute",
-                        right: 20,
-                        bottom: 20,
-                        borderRadius: 200,
-                        overflow: "hidden",
+                <ScrollView
+                    contentContainerStyle={{
+                        alignItems: "center",
                     }}
                 >
-                    <Pressable
-                        style={{
-                            height: 70,
-                            width: 70,
-                            backgroundColor: "red",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 200,
-                            backgroundColor: colors.button.yellow.background,
-                            borderColor: colors.button.yellow.border,
-                            borderWidth: 2,
-                            elevation: 5,
-                            shadowColor: "black",
+                    {/* <View
+                        style={{ height: 1000, backgroundColor: "teal" }}
+                    ></View> */}
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 1234567,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rutrum leo mi. Pellentesque non erat non turpis porttitor vulputate. Nunc pulvinar velit ut iaculis tincidunt. Quisque eget dapibus sem, eget sodales ex. Cras interdum dolor eget tortor dapibus condimentum. Phasellus ligula massa, mollis ac eleifend sit amet, rhoncus at ligula. Sed efficitur sem vitae dolor vehicula venenatis. Integer vitae ex.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
                         }}
-                        onPress={() => {
-                            Alert.alert("Not yet implemented");
+                    ></Event>
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 2137,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
                         }}
-                        android_ripple={{
-                            color: "#fff8",
-                            borderless: false,
-                            foreground: true,
+                    ></Event>
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 69420,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
                         }}
-                    >
-                        <FontAwesome5
-                            name="calendar-plus"
-                            size={35}
-                        ></FontAwesome5>
-                    </Pressable>
-                </View>
+                    ></Event>
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 69420,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
+                        }}
+                    ></Event>
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 69420,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
+                        }}
+                    ></Event>
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 69420,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
+                        }}
+                    ></Event>
+                    <Event
+                        eventData={{
+                            title: "Flany",
+                            id: 69420,
+                            description:
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
+                            owner: "filiptheg",
+                            date: "12.12.2022",
+                        }}
+                    ></Event>
+                </ScrollView>
+                <FloatingButton
+                    onPress={() => {
+                        Alert.alert("Not yet implemented");
+                    }}
+                />
             </View>
         );
     }
 };
-
-// do zmiany
-const styles = StyleSheet.create({
-    rowStyle: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-    },
-});
 
 export default EventListScreen;
