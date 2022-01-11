@@ -1,21 +1,29 @@
 import * as React from "react";
-import { Alert, Modal, View, Text, StyleSheet } from "react-native";
+import { Alert, Modal, View, Text, StyleSheet, Switch } from "react-native";
 
 import Button from "../components/Button";
 import AreYouSurePopup from "./AreYouSurePopup";
 import PopupBackground from "./PopupBackground";
 import { values } from "../globals";
 import { UIContext } from "../UIContext";
-import SettingsPopup from "./SettingsPopup";
 
-const MenuPopup = ({ visible, setVisible, background = true }) => {
+const SettingsPopup = ({ visible, setVisible, background = true }) => {
     const { state, dispatch } = React.useContext(UIContext);
     let colors = state.theme;
     console.log("visible", visible);
     console.log("setVisible", setVisible);
     const { signOut } = React.useContext(AuthContext);
     const [areYouSureVisible, setAreYouSureVisibility] = React.useState(false);
-    const [settingsVisible, setSettingsVisibility] = React.useState(false);
+
+    const [isEnabled, setIsEnabled] = React.useState(false);
+    const toggleSwitch = () => {
+        setIsEnabled(!isEnabled);
+        if (isEnabled) {
+            dispatch({ type: "SET_THEME", payload: "light" });
+        } else {
+            dispatch({ type: "SET_THEME", payload: "dark" });
+        }
+    };
 
     const styles = StyleSheet.create({
         modal: {
@@ -59,41 +67,10 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>
-                        <View style={styles.button}>
-                            <Button
-                                text="Settings"
-                                onPress={() => {
-                                    setSettingsVisibility(true);
-                                }}
-                                icon={"cog"}
-                            ></Button>
-                        </View>
-                        <View style={styles.button}>
-                            <Button
-                                text="About"
-                                onPress={() => {
-                                    Alert.alert("Not yet implemented");
-                                }}
-                                icon={"info"}
-                            ></Button>
-                        </View>
-                        <View style={styles.button}>
-                            <Button
-                                text="Support us!"
-                                onPress={() => {
-                                    Alert.alert("Not yet implemented");
-                                }}
-                                icon={"dollar"}
-                            ></Button>
-                        </View>
-                        <View style={styles.button}>
-                            <Button
-                                text="Log out"
-                                onPress={() => setAreYouSureVisibility(true)}
-                                icon={"sign-out"}
-                                variant="yellow"
-                            ></Button>
-                        </View>
+                        <Switch
+                            onValueChange={toggleSwitch}
+                            value={isEnabled}
+                        ></Switch>
                     </View>
                 </View>
                 <AreYouSurePopup
@@ -103,13 +80,9 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                     event={signOut}
                     parents={[setVisible]}
                 ></AreYouSurePopup>
-                <SettingsPopup
-                    visible={settingsVisible}
-                    setVisible={setSettingsVisibility}
-                ></SettingsPopup>
             </Modal>
         </>
     );
 };
 
-export default MenuPopup;
+export default SettingsPopup;

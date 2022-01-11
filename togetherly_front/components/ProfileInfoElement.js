@@ -7,9 +7,13 @@ import {
     Image,
     Dimensions,
 } from "react-native";
-import { colors, values } from "../globals";
+import { values } from "../globals";
+import { UIContext } from "../UIContext";
 
 const ProfileInfoElement = ({ style, name, content }) => {
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
+
     return (
         <View
             style={[
@@ -21,7 +25,7 @@ const ProfileInfoElement = ({ style, name, content }) => {
                     paddingVertical: 5,
                     elevation: 5,
                     shadowColor: "#00000082",
-                    backgroundColor: "white",
+                    backgroundColor: colors.mainSecondaryBackground,
                 },
                 style,
             ]}

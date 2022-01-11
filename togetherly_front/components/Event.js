@@ -1,16 +1,33 @@
 import * as React from "react";
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
-import { colors, values } from "../globals";
+import { values } from "../globals";
 import Gravatar from "./Gravatar";
 import EventPopup from "./EventPopup";
 import { abs, color } from "react-native-reanimated";
 import MapComponent from "./MapComponent";
+import RoundedCorners from "./RoundedCorners";
+import { UIContext } from "../UIContext";
 
 const Event = ({ eventData }) => {
     const [eventVisible, setEventVisibility] = React.useState(false);
-
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
     const [checkedMap, setCheckedMap] = React.useState(false);
+
+    const s = StyleSheet.create({
+        infoTitle: {
+            fontWeight: "bold",
+            color: colors.infoName,
+        },
+        infoContent: {
+            color: colors.infoContent,
+        },
+        infoBlock: {
+            marginTop: 7,
+        },
+    });
+
     return (
         <>
             <EventPopup
@@ -87,7 +104,7 @@ const Event = ({ eventData }) => {
                 <View
                     style={{
                         flexDirection: "row",
-                        backgroundColor: "white",
+                        backgroundColor: colors.mainSecondaryBackground,
                     }}
                 >
                     <View
@@ -104,7 +121,7 @@ const Event = ({ eventData }) => {
                                 position: "absolute",
                                 width: values.popupBorderRadius,
                                 height: values.popupBorderRadius,
-                                backgroundColor: "white",
+                                backgroundColor: colors.mainSecondaryBackground,
                                 borderTopLeftRadius: values.popupBorderRadius,
                                 bottom: 0,
                             }}
@@ -125,12 +142,13 @@ const Event = ({ eventData }) => {
                                 position: "absolute",
                                 width: values.popupBorderRadius,
                                 height: values.popupBorderRadius,
-                                backgroundColor: "white",
+                                backgroundColor: colors.mainSecondaryBackground,
                                 borderTopRightRadius: values.popupBorderRadius,
                                 bottom: 0,
                             }}
                         ></View>
                     </View>
+
                     <View
                         style={{
                             // backgroundColor: "aqua",
@@ -211,18 +229,5 @@ const Event = ({ eventData }) => {
         </>
     );
 };
-
-const s = StyleSheet.create({
-    infoTitle: {
-        fontWeight: "bold",
-        color: colors.infoName,
-    },
-    infoContent: {
-        color: colors.infoContent,
-    },
-    infoBlock: {
-        marginTop: 7,
-    },
-});
 
 export default Event;

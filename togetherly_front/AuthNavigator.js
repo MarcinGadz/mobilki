@@ -4,13 +4,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import FeedScreen from "./Screens/FeedScreen";
-import MapScreen from "./Screens/MapScreen"
+import MapScreen from "./Screens/MapScreen";
 import EventListScreen from "./Screens/EventListScreen";
 import { createAppContainer } from "react-navigation";
 import MenuPopup from "./components/MenuPopup";
 import { View } from "react-native-web";
-import { colors } from "./globals";
 import { UIContext } from "./UIContext";
+
+let colors;
 
 const Auth = () => {
     const [menuVisible, setMenuVisibility] = React.useState(false);
@@ -24,13 +25,14 @@ const Auth = () => {
     const menuButton = ({ color, size }) => (
         <MaterialCommunityIcons
             name="menu"
-            color={"white"}
+            color={colors.mainSecondaryBackground}
             size={45}
             onPress={toggleMenu}
         />
     );
 
     const { state, dispatch } = React.useContext(UIContext);
+    colors = state.theme;
 
     const bgColor = colors.mainBackground;
     return (
@@ -39,7 +41,7 @@ const Auth = () => {
                 initialRouteName="Profile"
                 screenOptions={{
                     tabBarActiveTintColor: "#F1A81D",
-                    tabBarInactiveTintColor: "white",
+                    tabBarInactiveTintColor: colors.mainSecondaryBackground,
                     tabBarActiveBackgroundColor: "#ffffff15",
 
                     tabBarStyle: {
@@ -50,7 +52,7 @@ const Auth = () => {
                         elevation: state.headerShadow ? 4 : 0,
                     },
                     headerTitleStyle: {
-                        color: "white",
+                        color: colors.mainSecondaryBackground,
                     },
                     // header: () => (
                     //     <View style={{

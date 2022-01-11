@@ -1,9 +1,11 @@
 import * as React from "react";
 import { Pressable, View, Dimensions } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { colors } from "../globals";
+import { UIContext } from "../UIContext";
 
 const FloatingButton = ({ onPress }) => {
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
     return (
         <View
             style={{

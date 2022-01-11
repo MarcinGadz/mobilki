@@ -5,7 +5,7 @@ import MapView from "react-native-maps";
 import LoadingScreen from "../Screens/LoadingScreen";
 import * as Location from "expo-location";
 
-const MapComponent = ({ width = "100%", height = "100%" }) => {
+const MapComponent = ({ width = "100%", height = "100%", style }) => {
     const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);
 
@@ -46,6 +46,7 @@ const MapComponent = ({ width = "100%", height = "100%" }) => {
                     width: width,
                     height: height,
                 },
+                style,
             ]}
         >
             <MapView

@@ -6,9 +6,9 @@ import {
     StyleSheet,
     Pressable,
 } from "react-native";
-import { colors } from "../globals";
 import { FontAwesome } from "@expo/vector-icons";
 import PropTypes from "prop-types";
+import { UIContext } from "../UIContext";
 
 const Button = ({
     text,
@@ -19,9 +19,12 @@ const Button = ({
     marginHorizontal = 0,
     marginVertical = 0,
 }) => {
-    var bgColor = colors.buttonBackgroundYellow;
-    var borderColor = colors.buttonBorderYellow;
-    var textColor = colors.buttonTextYellow;
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
+
+    let bgColor = colors.button.yellow.background;
+    let borderColor = colors.button.yellow.border;
+    let textColor = colors.button.yellow.text;
 
     switch (variant) {
         case "yellow":
