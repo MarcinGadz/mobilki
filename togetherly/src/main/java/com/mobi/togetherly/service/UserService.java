@@ -62,7 +62,11 @@ public class UserService {
     }
 
     public User addUser(User u) {
-        if (checkString(u.getUsername()) && checkString(u.getPassword()) && checkEmail(u.getEmail())) {
+        if (checkString(u.getUsername()) &&
+                checkString(u.getPassword()) &&
+                checkEmail(u.getEmail()) &&
+                (u.getGravatarEmail() == null ||
+                        checkEmail(u.getGravatarEmail()))) {
             u.setPassword(encoder.encode(u.getPassword()));
             Collection<Role> userRoles = u.getAuthorities();
             if (userRoles == null) {
@@ -168,6 +172,21 @@ public class UserService {
         String userName = ((UserDetails) principal).getUsername();
         User p = loadUserByUsername(userName);
         return new UserDTO(p);
+    }
+
+    public UserDTO updateUser(User u) {
+        UserDTO user = getLoggedUser();
+        if (checkEmail(u.getEmail())) {
+            user.setEmail(u.getEmail());
+        }
+        if (checkEmail(u.getGravatarEmail())) {
+            user.setGravatarEmail(u.getGravatarEmail());
+        }
+        if (checkString(u.getPassword())) {
+            user.setPassword(u.getPassword());
+        }
+        User newUser = userDao.save(user.fromDTO());
+        return new UserDTO(newUser);
     }
 
     public void setEventService(EventService eventService) {

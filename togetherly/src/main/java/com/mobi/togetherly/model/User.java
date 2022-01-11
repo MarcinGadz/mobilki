@@ -3,13 +3,16 @@ package com.mobi.togetherly.model;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.*;
 
 @Entity
 public class User implements UserDetails {
 
-    @Column
+    @Column(unique = true)
     private String email;
+    @Column
+    private String gravatarEmail;
     @Column(unique = true)
     private String username;
     @Column
@@ -42,12 +45,23 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "owner")
     private List<Event> ownedEvents;
 
+    @Column
+    private LocalDate birthDate;
+
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
     public User() {
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public List<Event> getOwnedEvents() {
@@ -159,6 +173,14 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getGravatarEmail() {
+        return gravatarEmail;
+    }
+
+    public void setGravatarEmail(String gravatarEmail) {
+        this.gravatarEmail = gravatarEmail;
     }
 
     @Override

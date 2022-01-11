@@ -1,19 +1,20 @@
 package com.mobi.togetherly.model;
 
-import com.mobi.togetherly.model.Achievement;
-import com.mobi.togetherly.model.Event;
-import com.mobi.togetherly.model.User;
-
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 public class UserDTO {
+
     private String username;
     private String password;
     private Long id;
     private Set<Achievement> achievements;
     private List<Event> events;
     private List<Event> ownedEvents;
+    private String email;
+    private String gravatarEmail;
+    private LocalDate birthDate;
 
     public UserDTO(User u) {
         this.username = u.getUsername();
@@ -22,6 +23,9 @@ public class UserDTO {
         this.achievements = u.getAchievements();
         this.events = u.getEvents();
         this.ownedEvents = u.getOwnedEvents();
+        this.email = u.getEmail();
+        this.gravatarEmail = u.getGravatarEmail();
+        this.birthDate = u.getBirthDate();
     }
 
     public User fromDTO() {
@@ -32,7 +36,34 @@ public class UserDTO {
         u.setPassword(password);
         u.setUsername(username);
         u.setAchievements(achievements);
+        u.setEmail(email);
+        u.setGravatarEmail(gravatarEmail);
+        u.setBirthDate(birthDate);
         return u;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getGravatarEmail() {
+        return gravatarEmail;
+    }
+
+    public void setGravatarEmail(String gravatarEmail) {
+        this.gravatarEmail = gravatarEmail;
     }
 
     public String getUsername() {

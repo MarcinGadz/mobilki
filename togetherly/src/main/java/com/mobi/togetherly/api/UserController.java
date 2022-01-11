@@ -96,6 +96,11 @@ public class UserController {
         return service.findByUsername(username);
     }
 
+    @PutMapping
+    public UserDTO updateUser(@RequestBody User u) {
+        return service.updateUser(u);
+    }
+
     @GetMapping("/{id}")
     public UserDTO getById(@PathVariable Long id) {
         logger.info("Getting user by id: " + id);
