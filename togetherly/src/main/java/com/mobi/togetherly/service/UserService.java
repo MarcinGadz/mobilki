@@ -1,12 +1,8 @@
 package com.mobi.togetherly.service;
 
-import com.mobi.togetherly.model.UserDTO;
 import com.mobi.togetherly.dao.RoleDao;
 import com.mobi.togetherly.dao.UserDao;
-import com.mobi.togetherly.model.Achievement;
-import com.mobi.togetherly.model.Event;
-import com.mobi.togetherly.model.Role;
-import com.mobi.togetherly.model.User;
+import com.mobi.togetherly.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,10 +26,6 @@ public class UserService {
 
     }
 
-    public void setUserDao(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao, EventService eventService) {
         this.userDao = userDao;
@@ -45,6 +37,10 @@ public class UserService {
             roleDao.save(customerRoleTemp);
         }
         this.customerRole = customerRoleTemp;
+    }
+
+    public void setUserDao(UserDao userDao) {
+        this.userDao = userDao;
     }
 
     public PasswordEncoder getEncoder() {
@@ -96,7 +92,12 @@ public class UserService {
     }
 
     public Event enroll(Long id) {
-        Event event = eventService.getById(id).fromDto();
+        Event event;
+        try {
+            event = eventService.getById(id).fromDto();
+        } catch (NullPointerException ex) {
+            event = null;
+        }
         if (event == null) {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
@@ -114,13 +115,13 @@ public class UserService {
         event.addUser(u);
         eventService.addEvent(event);
         boolean wasUserChanged = false;
-        if (!u.getAchievements().contains(Achievement.BEGINNER) && u.getEvents().size() == 1) {
+        if ((u.getAchievements() == null || !u.getAchievements().contains(Achievement.BEGINNER)) && u.getEvents().size() == 1) {
             u.addAchievement(Achievement.BEGINNER);
             wasUserChanged = true;
-        } else if (u.getEvents().size() > 5 && !u.getAchievements().contains(Achievement.INTERMEDIATE)) {
+        } else if (u.getEvents().size() > 5 && (u.getAchievements() == null || !u.getAchievements().contains(Achievement.INTERMEDIATE))) {
             u.addAchievement(Achievement.INTERMEDIATE);
             wasUserChanged = true;
-        } else if (u.getEvents().size() > 10 && !u.getAchievements().contains(Achievement.INSANE_SPORTSMAN)) {
+        } else if (u.getEvents().size() > 10 && (u.getAchievements() == null || !u.getAchievements().contains(Achievement.INSANE_SPORTSMAN))) {
             u.addAchievement(Achievement.INSANE_SPORTSMAN);
             wasUserChanged = true;
         }
@@ -144,10 +145,10 @@ public class UserService {
         try {
             Event res = p.registerNewEvent(e);
             eventService.addEvent(e);
-            if(p.getOwnedEvents().size() == 1 && (p.getAchievements() == null || !p.getAchievements().contains(Achievement.CREATOR))) {
+            if (p.getOwnedEvents().size() == 1 && (p.getAchievements() == null || !p.getAchievements().contains(Achievement.CREATOR))) {
                 p.addAchievement(Achievement.CREATOR);
                 userDao.save(p);
-            } else if (p.getOwnedEvents().size() > 5 && !p.getAchievements().contains(Achievement.SOCIAL_STAR)){
+            } else if (p.getOwnedEvents().size() > 5 && !p.getAchievements().contains(Achievement.SOCIAL_STAR)) {
                 p.addAchievement(Achievement.SOCIAL_STAR);
                 userDao.save(p);
             }
@@ -167,5 +168,9 @@ public class UserService {
         String userName = ((UserDetails) principal).getUsername();
         User p = loadUserByUsername(userName);
         return new UserDTO(p);
+    }
+
+    public void setEventService(EventService eventService) {
+        this.eventService = eventService;
     }
 }
