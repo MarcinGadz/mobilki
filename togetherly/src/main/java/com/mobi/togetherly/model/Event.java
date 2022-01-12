@@ -3,9 +3,11 @@ package com.mobi.togetherly.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +35,8 @@ public class Event {
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private User owner;
+
+    private LocalDate date;
 
 //    public Event(List<User> enrolledUsers, Point startPoint) {
 //        this.enrolledUsers = enrolledUsers;
@@ -93,12 +97,22 @@ public class Event {
 
     @Override
     public String toString() {
-        return new org.apache.commons.lang3.builder.ToStringBuilder(this)
+        return new ToStringBuilder(this)
                 .append("id", id)
                 .append("startPoint", startPoint)
                 .append("description", description)
+                .append("title", title)
                 .append("owner", owner)
+                .append("date", date)
                 .toString();
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public void addUser(User u) {

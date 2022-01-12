@@ -4,6 +4,7 @@ import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
 import org.springframework.data.geo.Point;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ public class EventDTO {
     private Point startPoint;
     private String description;
     private User owner;
+    private LocalDate date;
 
     public EventDTO(Event e) {
         this.id = e.getId();
@@ -20,6 +22,7 @@ public class EventDTO {
         this.startPoint = e.getStartPoint();
         this.description = e.getDescription();
         this.owner = e.getOwner();
+        this.date = e.getDate();
     }
 
     public Event fromDto() {
@@ -29,7 +32,16 @@ public class EventDTO {
         e.setStartPoint(startPoint);
         e.setId(id);
         e.setEnrolledUsers(enrolledUsers);
+        e.setDate(date);
         return e;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Long getId() {

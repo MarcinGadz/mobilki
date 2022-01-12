@@ -54,9 +54,11 @@ public class EventController {
     @GetMapping("/get-near")
     public List<EventDTO> getNear(@RequestParam("latitude") double latitude,
                                   @RequestParam("longitude") double longitude,
-                                  @RequestParam("radius") double radius) {
+                                  @RequestParam("radius") double radius,
+                                  @RequestParam("after") String after,
+                                  @RequestParam("before") String before) {
         Point p = new Point(latitude, longitude);
-        return service.getNearSpecifiedPoint(p, radius);
+        return service.getNearSpecifiedPoint(p, radius, after, before);
     }
 
     @GetMapping("/start-points")
