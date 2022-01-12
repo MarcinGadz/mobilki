@@ -1,7 +1,7 @@
 package com.mobi.togetherly.api;
 
-import com.mobi.togetherly.model.EventDTO;
 import com.mobi.togetherly.model.Event;
+import com.mobi.togetherly.model.EventDTO;
 import com.mobi.togetherly.model.User;
 import com.mobi.togetherly.service.EventService;
 import com.mobi.togetherly.service.UserService;
@@ -53,9 +53,10 @@ public class EventController {
 
     @GetMapping("/get-near")
     public List<EventDTO> getNear(@RequestParam("latitude") double latitude,
-                                  @RequestParam("longitude") double longitude) {
+                                  @RequestParam("longitude") double longitude,
+                                  @RequestParam("radius") double radius) {
         Point p = new Point(latitude, longitude);
-        return service.getNearSpecifiedPoint(p);
+        return service.getNearSpecifiedPoint(p, radius);
     }
 
     @GetMapping("/start-points")

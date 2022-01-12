@@ -75,14 +75,16 @@ public class EventService {
         return userEvents.stream().map(EventDTO::new).collect(Collectors.toList());
     }
 
-    public List<EventDTO> getNearSpecifiedPoint(Point p) {
+    public List<EventDTO> getNearSpecifiedPoint(Point p, Double radius) {
         //Argument is point which is in the center of searched area
         //Returned events starting points are within radius
         //of aprox. 500 meters from specified point
-        double smaller_x = p.getX() - 0.01;
-        double smaller_y = p.getY() - 0.01;
-        double bigger_x = p.getX() + 0.01;
-        double bigger_y = p.getY() + 0.01;
+        //new - assumes that 100m is 0.001 degree of difference
+        double cord_diff = radius/200000;
+        double smaller_x = p.getX() - cord_diff;
+        double smaller_y = p.getY() - cord_diff;
+        double bigger_x = p.getX() + cord_diff;
+        double bigger_y = p.getY() + cord_diff;
         Point p1 = new Point(smaller_x, smaller_y);
         Point p2 = new Point(bigger_x, bigger_y);
         return dao.findByStartPointBetween(p1, p2).stream().map(EventDTO::new).collect(Collectors.toList());
