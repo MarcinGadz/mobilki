@@ -2,6 +2,7 @@ package com.mobi.togetherly.model;
 
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.User;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.geo.Point;
 
 import java.time.LocalDate;
@@ -23,6 +24,17 @@ public class EventDTO {
         this.description = e.getDescription();
         this.owner = e.getOwner();
         this.date = e.getDate();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("startPoint", startPoint)
+                .append("description", description)
+                .append("owner", owner)
+                .append("date", date)
+                .toString();
     }
 
     public Event fromDto() {
