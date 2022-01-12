@@ -64,6 +64,8 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                                 text="Settings"
                                 onPress={() => {
                                     setSettingsVisibility(true);
+                                    console.log("a:", areYouSureVisible);
+                                    console.log("s:", settingsVisible);
                                 }}
                                 icon={"cog"}
                             ></Button>

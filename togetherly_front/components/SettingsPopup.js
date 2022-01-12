@@ -4,7 +4,7 @@ import { Alert, Modal, View, Text, StyleSheet, Switch } from "react-native";
 import Button from "../components/Button";
 import AreYouSurePopup from "./AreYouSurePopup";
 import PopupBackground from "./PopupBackground";
-import { values } from "../globals";
+import { light, dark, values } from "../globals";
 import { UIContext } from "../UIContext";
 
 const SettingsPopup = ({ visible, setVisible, background = true }) => {
@@ -13,9 +13,11 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
     console.log("visible", visible);
     console.log("setVisible", setVisible);
     const { signOut } = React.useContext(AuthContext);
-    const [areYouSureVisible, setAreYouSureVisibility] = React.useState(false);
+    const [areYouSureVisible, setAreYouSureVisibility] = React.useState(
+        state.theme == light ? false : true
+    );
 
-    const [isEnabled, setIsEnabled] = React.useState(false);
+    const [isEnabled, setIsEnabled] = React.useState(state.darkMode);
     const toggleSwitch = () => {
         setIsEnabled(!isEnabled);
         if (isEnabled) {

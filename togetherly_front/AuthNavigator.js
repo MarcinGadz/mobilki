@@ -25,9 +25,12 @@ const Auth = () => {
     const menuButton = ({ color, size }) => (
         <MaterialCommunityIcons
             name="menu"
-            color={colors.mainSecondaryBackground}
+            color={colors.tabBarInactiveTintColor}
             size={45}
             onPress={toggleMenu}
+            style={{
+                marginRight: 8,
+            }}
         />
     );
 
@@ -40,9 +43,10 @@ const Auth = () => {
             <Tab.Navigator
                 initialRouteName="Profile"
                 screenOptions={{
-                    tabBarActiveTintColor: "#F1A81D",
-                    tabBarInactiveTintColor: colors.mainSecondaryBackground,
-                    tabBarActiveBackgroundColor: "#ffffff15",
+                    tabBarActiveTintColor: colors.tabBarActiveTintColor,
+                    tabBarInactiveTintColor: colors.tabBarInactiveTintColor,
+                    tabBarActiveBackgroundColor:
+                        colors.tabBarActiveBackgroundColor,
 
                     tabBarStyle: {
                         backgroundColor: bgColor,
@@ -52,7 +56,7 @@ const Auth = () => {
                         elevation: state.headerShadow ? 4 : 0,
                     },
                     headerTitleStyle: {
-                        color: colors.mainSecondaryBackground,
+                        color: colors.tabBarInactiveTintColor,
                     },
                     // header: () => (
                     //     <View style={{

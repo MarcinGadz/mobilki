@@ -2,6 +2,7 @@ export const light = {
     mainBackground: "#313f59",
     mainSecondaryBackground: "#ffffff",
     popupBackground: "#313f59",
+    popupSecondaryBackground: "#0007",
     popupBorder: "#242f42d9",
     button: {
         blue: {
@@ -18,12 +19,16 @@ export const light = {
     infoName: "#2b364a",
     infoContent: "#313f59",
     eventHeader: "#717f98",
+    tabBarActiveTintColor: "#F1A81D",
+    tabBarInactiveTintColor: "#ffffff",
+    tabBarActiveBackgroundColor: "#ffffff15",
 };
 
 export const dark = {
     mainBackground: "hsl(219, 5%, 6%)",
     mainSecondaryBackground: "hsl(0, 0%, 20%)",
     popupBackground: "hsl(219, 29%, 10%)",
+    popupSecondaryBackground: "#ffffff10",
     popupBorder: "hsla(218, 29%, 20%, 0.3)",
     button: {
         blue: {
@@ -40,6 +45,9 @@ export const dark = {
     infoName: "hsl(218, 26%, 45%)",
     infoContent: "hsl(219, 29%, 65%)",
     eventHeader: "hsl(218, 15%, 70%)",
+    tabBarActiveTintColor: "hsl(39, 88%, 35%)",
+    tabBarInactiveTintColor: "hsl(0, 0%, 50%)",
+    tabBarActiveBackgroundColor: "hsla(0, 0%, 100%, 0.1)",
 };
 
 export const values = {
