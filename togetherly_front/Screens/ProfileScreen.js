@@ -2,7 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 import useToken from "../useToken";
-import { colors, values } from "../globals";
 import { UIContext } from "../UIContext";
 import * as gravatar from "gravatar-api";
 import Gravatar from "../components/Gravatar";
@@ -11,6 +10,8 @@ import ProfileInfoElement from "../components/ProfileInfoElement";
 const handleScroll = (e) => {
     console.log(e.nativeEvent.contentOffset.y);
 };
+
+let colors;
 
 const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
     const { token, setToken } = useToken();
@@ -28,6 +29,7 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
         })
     );
     const { state, dispatch } = React.useContext(UIContext);
+    colors = state.theme;
     React.useEffect(() => {
         dispatch({ type: "SET_HEADER_SHADOW", payload: false });
     }, []);
@@ -41,8 +43,8 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
         <ScrollView
             style={{
                 flex: 1,
-                backgroundColor: "#ffffff",
                 overflow: "visible",
+                backgroundColor: colors.mainSecondaryBackground,
             }}
             onScroll={(e) => {
                 if (e.nativeEvent.contentOffset.y == 0) {
@@ -70,7 +72,7 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
                     style={{
                         width: 220,
                         height: 220,
-                        backgroundColor: "white",
+                        backgroundColor: colors.mainSecondaryBackground,
                         borderRadius: 300,
                         transform: [{ translateY: 70 }],
                     }}
@@ -90,7 +92,7 @@ const ProfileScreen = ({ navigation, headerShadow, setHeaderShadow }) => {
                     <View
                         style={{
                             position: "absolute",
-                            backgroundColor: "white",
+                            backgroundColor: colors.mainSecondaryBackground,
                             width: 300,
                             left: -40,
                             height: 40,

@@ -4,7 +4,8 @@ import LinearGradient from "react-native-linear-gradient";
 
 import Button from "../components/Button";
 import PopupBackground from "./PopupBackground";
-import { colors, values } from "../globals";
+import { values } from "../globals";
+import { UIContext } from "../UIContext";
 
 const AreYouSurePopup = ({
     visible,
@@ -14,6 +15,46 @@ const AreYouSurePopup = ({
     parents,
     background = true,
 }) => {
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
+
+    const s = StyleSheet.create({
+        modal: {
+            width: "100%",
+            height: "100%",
+            margin: "auto",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        wrapper: {
+            width: "auto",
+            height: "auto",
+            padding: 30,
+            backgroundColor: colors.popupBackground,
+            borderColor: colors.popupBorder,
+            borderWidth: 2,
+            borderRadius: 15,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: values.popupBorderRadius,
+        },
+        text: {
+            fontSize: 20,
+            color: colors.mainSecondaryBackground,
+            transform: [{ translateY: -15 }],
+            textAlign: "center",
+        },
+        cancel: {
+            marginRight: 10,
+        },
+        logOut: {
+            marginLeft: 10,
+        },
+        buttons: {
+            flexDirection: "row",
+        },
+    });
+
     return (
         <>
             {background ? (
@@ -58,42 +99,5 @@ const AreYouSurePopup = ({
         </>
     );
 };
-
-const s = StyleSheet.create({
-    modal: {
-        width: "100%",
-        height: "100%",
-        margin: "auto",
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    wrapper: {
-        width: "auto",
-        height: "auto",
-        padding: 30,
-        backgroundColor: colors.popupBackground,
-        borderColor: colors.popupBorder,
-        borderWidth: 2,
-        borderRadius: 15,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: values.popupBorderRadius,
-    },
-    text: {
-        fontSize: 20,
-        color: "white",
-        transform: [{ translateY: -15 }],
-        textAlign: "center",
-    },
-    cancel: {
-        marginRight: 10,
-    },
-    logOut: {
-        marginLeft: 10,
-    },
-    buttons: {
-        flexDirection: "row",
-    },
-});
 
 export default AreYouSurePopup;

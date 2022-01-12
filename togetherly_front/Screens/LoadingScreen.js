@@ -1,21 +1,22 @@
-import * as React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { UIContext } from "../UIContext";
 
-const LoadingScreen = ({navigation}) => {
+const LoadingScreen = ({ navigation }) => {
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
     return (
-        <View style={styles.container}>
+        <View
+            style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: colors.mainSecondaryBackground,
+            }}
+        >
             <Text>Loading</Text>
         </View>
     );
-}
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
-});
+};
 
 export default LoadingScreen;

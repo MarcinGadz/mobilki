@@ -14,9 +14,11 @@ import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
 import axios from "axios";
 import Event from "../components/Event";
-import { colors } from "../globals";
 import FloatingButton from "../components/FloatingButton";
 import { FlipInEasyY } from "react-native-reanimated";
+import { UIContext } from "../UIContext";
+
+let colors;
 
 const EventListScreen = () => {
     const [data, setData] = useState([]);
@@ -24,6 +26,8 @@ const EventListScreen = () => {
     const [localToken, setLocalToken] = useState();
     const axios = require("axios").default;
     const [isLoading, setLoading] = useState();
+    const { state, dispatch } = React.useContext(UIContext);
+    colors = state.theme;
 
     React.useEffect(() => {
         setLoading(true);
@@ -72,6 +76,7 @@ const EventListScreen = () => {
                 style={{
                     width: "100%",
                     height: "100%",
+                    backgroundColor: colors.mainSecondaryBackground,
                 }}
             >
                 {renderTable()}
