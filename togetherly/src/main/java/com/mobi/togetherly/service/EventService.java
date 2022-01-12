@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class EventService {
 
+    private final Logger logger = Logger.getLogger(getClass().getName());
+
     private EventDao dao;
     private UserDao userDao;
 
@@ -83,14 +85,30 @@ public class EventService {
         //Returned events starting points are within radius
         //of aprox. 500 meters from specified point
         //new - assumes that 100m is 0.001 degree of difference
+        logger.info("Passed point: " + p.toString());
         double cord_diff = radius / 200000;
+        logger.info("calculated coord_diff: " + cord_diff);
         double smaller_x = p.getX() - cord_diff;
         double smaller_y = p.getY() - cord_diff;
         double bigger_x = p.getX() + cord_diff;
         double bigger_y = p.getY() + cord_diff;
         Point p1 = new Point(smaller_x, smaller_y);
         Point p2 = new Point(bigger_x, bigger_y);
-        return dao.findByStartPointBetween(p1, p2).stream().map(EventDTO::new).collect(Collectors.toList());
+        logger.info("Calculated point p1: " + p1);
+        logger.info("Calculated point p2: " + p2);
+
+        //TODO
+        // WARNING
+        // HORRIBLE SOLUTION BUT ONLY IT IS WORKING AS DESIRED
+//        List<EventDTO> dtos = dao.findByStartPointBetween(p1, p2).stream().map(EventDTO::new).collect(Collectors.toList());
+        List<EventDTO> dtos = dao.findAll().stream()
+                .filter(x -> x.getStartPoint().getX() < p2.getX() && x.getStartPoint().getX() > p1.getX()
+                        && x.getStartPoint().getY() < p2.getY() && x.getStartPoint().getY() > p1.getY())
+                .map(EventDTO::new).collect(Collectors.toList());
+
+        logger.info("Returning: " + dtos.size() + " values");
+        dtos.forEach(x -> logger.info(x.toString()));
+        return dtos;
     }
 
     public List<EventDTO> getNearSpecifiedPoint(Point p, Double radius, String afterStr, String beforeStr) {
@@ -100,27 +118,30 @@ public class EventService {
 
         try {
             after = LocalDate.parse(afterStr);
-        } catch (DateTimeParseException ex) {
-            Logger.getLogger(getClass().getName()).info("Cannot parse after date " + ex.getMessage());
+        } catch (DateTimeParseException | NullPointerException ex) {
+            logger.info("Cannot parse after date " + ex.getMessage());
             after = LocalDate.now();
         }
         try {
             before = LocalDate.parse(beforeStr);
             wasBeforeDatePassed = true;
-        } catch (DateTimeParseException ex) {
-            Logger.getLogger(getClass().getName()).info("Cannot parse before date " + ex.getMessage());
+        } catch (DateTimeParseException | NullPointerException ex) {
+            logger.info("Cannot parse before date " + ex.getMessage());
             before = LocalDate.now();
         }
         LocalDate finalAfter = after;
         LocalDate finalBefore = before;
-
+        logger.info("After date: " + after);
+        logger.info("Before date: " + before);
         // if none date was passed - return all from now
         // if only after was passed - return all after specified date
         // finalAfter will be specified date or now
         if (!wasBeforeDatePassed) {
+            logger.info("Getting all after: " + after);
             return getNearSpecifiedPoint(p, radius).stream().filter(x -> x.getDate().isAfter(finalAfter)).collect(Collectors.toList());
         }
 
+        logger.info("Getting all between: " + before + " and " + after);
         // if only before was passed - return all from now to specified date
         // if both was passed - return all between passed dates
         return getNearSpecifiedPoint(p, radius).stream().filter(x -> x.getDate().isAfter(finalAfter) && x.getDate().isBefore(finalBefore)).collect(Collectors.toList());
