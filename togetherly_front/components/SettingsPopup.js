@@ -75,13 +75,6 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
                         ></Switch>
                     </View>
                 </View>
-                <AreYouSurePopup
-                    visible={areYouSureVisible}
-                    setVisible={setAreYouSureVisibility}
-                    text={"Are you sure you want to log out?"}
-                    event={signOut}
-                    parents={[setVisible]}
-                ></AreYouSurePopup>
             </Modal>
         </>
     );

@@ -9,6 +9,7 @@ import {
     ScrollView,
     Touchable,
     Pressable,
+    RefreshControl,
 } from "react-native";
 import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
@@ -20,6 +21,10 @@ import { UIContext } from "../UIContext";
 
 let colors;
 
+// const wait = (timeout) => {
+//     return new Promise((resolve) => setTimeout(resolve, timeout));
+// };
+
 const EventListScreen = () => {
     const [data, setData] = useState([]);
     const { token, setToken } = useToken();
@@ -28,6 +33,25 @@ const EventListScreen = () => {
     const [isLoading, setLoading] = useState();
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
+
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [value, setValue] = useState();
+
+    // const onRefresh = React.useCallback(() => {
+    //     setRefreshing(true);
+    //     wait(2000).then(() => setRefreshing(false));
+    // }, []);
+
+    // const onRefresh = () => {
+    //     setRefreshing(true);
+    //     fetchData().then(() => setRefreshing(false));
+    // };
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        setValue({});
+        setRefreshing(false);
+    };
 
     React.useEffect(() => {
         setLoading(true);
@@ -50,9 +74,21 @@ const EventListScreen = () => {
         if (localToken) {
             let authString = "Bearer " + localToken;
             axios
-                .get("/event", { headers: { Authorization: authString } })
+                .get("/event", {
+                    headers: {
+                        Authorization: authString,
+                        params: {
+                            latitude: 1,
+                            longitude: 1,
+                            radius: 1000,
+                            before: null,
+                            after: null,
+                        },
+                    },
+                })
                 .then((res) => {
                     setData(res.data);
+                    console.log(data);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -84,6 +120,12 @@ const EventListScreen = () => {
                     contentContainerStyle={{
                         alignItems: "center",
                     }}
+                    // refreshControl={
+                    //     <RefreshControl
+                    //         refreshing={refreshing}
+                    //         onRefresh={onRefresh}
+                    //     />
+                    // }
                 >
                     {/* <View
                         style={{ height: 1000, backgroundColor: "teal" }}
