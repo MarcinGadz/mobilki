@@ -144,7 +144,9 @@ public class EventService {
         logger.info("Getting all between: " + before + " and " + after);
         // if only before was passed - return all from now to specified date
         // if both was passed - return all between passed dates
-        return getNearSpecifiedPoint(p, radius).stream().filter(x -> x.getDate().isAfter(finalAfter) && x.getDate().isBefore(finalBefore)).collect(Collectors.toList());
+        return getNearSpecifiedPoint(p, radius).stream().
+                filter(x -> x.getDate().isAfter(finalAfter) && x.getDate().isBefore(finalBefore)).
+                collect(Collectors.toList());
     }
 
     public List<Object> getStartPoints() {
