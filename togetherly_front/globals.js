@@ -22,6 +22,11 @@ export const light = {
     tabBarActiveTintColor: "#F1A81D",
     tabBarInactiveTintColor: "#ffffff",
     tabBarActiveBackgroundColor: "#ffffff15",
+    textField: {
+        background: "#fff",
+        border: "#ccc",
+        text: "#000",
+    },
 };
 
 export const dark = {
@@ -48,6 +53,11 @@ export const dark = {
     tabBarActiveTintColor: "hsl(39, 88%, 35%)",
     tabBarInactiveTintColor: "hsl(0, 0%, 50%)",
     tabBarActiveBackgroundColor: "hsla(0, 0%, 100%, 0.1)",
+    textField: {
+        background: "#fff",
+        border: "#ccc",
+        text: "#000",
+    },
 };
 
 export const values = {

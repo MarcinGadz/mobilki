@@ -9,6 +9,7 @@ import {
     ScrollView,
     Touchable,
     Pressable,
+    RefreshControl,
 } from "react-native";
 import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
@@ -17,8 +18,13 @@ import Event from "../components/Event";
 import FloatingButton from "../components/FloatingButton";
 import { FlipInEasyY } from "react-native-reanimated";
 import { UIContext } from "../UIContext";
+import Search from "../components/Search";
 
 let colors;
+
+const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 const EventListScreen = () => {
     const [data, setData] = useState([]);
@@ -28,6 +34,24 @@ const EventListScreen = () => {
     const [isLoading, setLoading] = useState();
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
+
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+    }, []);
+
+    // const onRefresh = () => {
+    //     setRefreshing(true);
+    //     fetchData().then(() => setRefreshing(false));
+    // };
+
+    // const onRefresh = () => {
+    //     setRefreshing(true);
+    //     setValue({});
+    //     setRefreshing(false);
+    // };
 
     React.useEffect(() => {
         setLoading(true);
@@ -50,14 +74,26 @@ const EventListScreen = () => {
         if (localToken) {
             let authString = "Bearer " + localToken;
             axios
-                .get("/event", { headers: { Authorization: authString } })
+                .get("/event/get-near", {
+                    headers: {
+                        Authorization: authString,
+                        params: {
+                            latitude: 1,
+                            longitude: 1,
+                            radius: 1000,
+                            before: null,
+                            after: null,
+                        },
+                    },
+                })
                 .then((res) => {
                     setData(res.data);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-
+            console.log(localToken);
+            console.log(data);
             setLoading(false);
         }
     }, [localToken]);
@@ -79,11 +115,19 @@ const EventListScreen = () => {
                     backgroundColor: colors.mainSecondaryBackground,
                 }}
             >
-                {renderTable()}
+                {/* {renderTable()} */}
+                <Search />
+
                 <ScrollView
                     contentContainerStyle={{
                         alignItems: "center",
                     }}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={onRefresh}
+                        />
+                    }
                 >
                     {/* <View
                         style={{ height: 1000, backgroundColor: "teal" }}
