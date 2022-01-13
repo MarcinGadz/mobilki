@@ -34,7 +34,7 @@ const MapScreen = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            <MapComponent region={null} points={points} autoZoom={false} />
+            <MapComponent region={null} points={points} autoZoom={true} />
             <StatusBar style="light" />
         </View>
     );

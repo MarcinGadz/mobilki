@@ -6,8 +6,17 @@ const Search = () => {
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
     return (
-        <View>
-            <TextInput></TextInput>
+        <View style={{ backgroundColor: colors.mainBackground, padding: 15 }}>
+            <TextInput
+                style={{
+                    backgroundColor: colors.textField.background,
+                    borderColor: colors.textField.border,
+                    borderRadius: 200,
+                    borderWidth: 3,
+                    paddingHorizontal: 15,
+                    paddingVertical: 3,
+                }}
+            ></TextInput>
         </View>
     );
 };
