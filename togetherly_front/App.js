@@ -18,8 +18,10 @@ const App = () => {
     const [username, setUsername] = useState();
     const axios = require("axios");
     // const [visible, settVisible] = React.useState(false);
-    axios.defaults.baseURL = "http://10.1.27.229:8080";
+    // axios.defaults.baseURL = "http://10.1.27.229:8080";
+    // axios.defaults.baseURL = "http://10.12.62.59:8080";
     // axios.defaults.baseURL = "http://10.128.160.217:8080";
+    axios.defaults.baseURL = "https://togetherly-app.herokuapp.com/";
     axios.defaults.timeout = 2500;
 
     // const toggleVisible = () => {
