@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class LoadStartupData implements ApplicationRunner {
@@ -25,6 +26,8 @@ public class LoadStartupData implements ApplicationRunner {
         User u2 = new User("M", "t");
         u.setEmail("test@test.com");
         u2.setEmail("testmail@edu.com");
+        u.setGravatarEmail("testgravatar@av.pl");
+        u2.setGravatarEmail("testgravatar@org.pl");
         service.addUser(u);
         service.addUser(u2);
         ArrayList<User> users = new ArrayList<>();
@@ -79,12 +82,15 @@ public class LoadStartupData implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
+        List<User> all = service.getAll();
         if (service.getAll().isEmpty()) {
             System.out.println("Adding...");
             addUsersToRepo();
-        }
-        else {
+        } else if (all.stream().anyMatch(x -> x.getGravatarEmail() == null)) {
+            all.forEach(service::remove);
+            addUsersToRepo();
+        } else {
             service.getAll().forEach(System.out::println);
             System.out.println("\n");
             eventService.getAll().forEach(System.out::println);

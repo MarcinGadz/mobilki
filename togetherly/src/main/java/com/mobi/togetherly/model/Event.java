@@ -38,11 +38,6 @@ public class Event {
 
     private LocalDate date;
 
-//    public Event(List<User> enrolledUsers, Point startPoint) {
-//        this.enrolledUsers = enrolledUsers;
-//        this.startPoint = startPoint;
-//    }
-
     public Event() {
 
     }

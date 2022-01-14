@@ -16,6 +16,7 @@ public class EventDTO {
     private String description;
     private User owner;
     private LocalDate date;
+    private String title;
 
     public EventDTO(Event e) {
         this.id = e.getId();
@@ -24,6 +25,7 @@ public class EventDTO {
         this.description = e.getDescription();
         this.owner = e.getOwner();
         this.date = e.getDate();
+        this.title = e.getTitle();
     }
 
     @Override
@@ -34,6 +36,7 @@ public class EventDTO {
                 .append("description", description)
                 .append("owner", owner)
                 .append("date", date)
+                .append("title", title)
                 .toString();
     }
 
@@ -45,7 +48,16 @@ public class EventDTO {
         e.setId(id);
         e.setEnrolledUsers(enrolledUsers);
         e.setDate(date);
+        e.setTitle(title);
         return e;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public LocalDate getDate() {
@@ -64,8 +76,10 @@ public class EventDTO {
         this.id = id;
     }
 
-    public List<String> getEnrolledUsers() {
-        return enrolledUsers.stream().map(User::getUsername).collect(Collectors.toList());
+    public List<List<String>> getEnrolledUsers() {
+        List<List<String>> enrolled = enrolledUsers.stream().map(User::getUserShortInfo).collect(Collectors.toList());
+        System.out.println(enrolled);
+        return enrolled;
     }
 
     public void setEnrolledUsers(List<User> enrolledUsers) {
@@ -88,12 +102,7 @@ public class EventDTO {
         this.description = description;
     }
 
-    public String getOwner() {
-        if(owner == null) return "";
-        return owner.getUsername();
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public List<String> getOwnerShortInfo() {
+        return owner.getUserShortInfo();
     }
 }

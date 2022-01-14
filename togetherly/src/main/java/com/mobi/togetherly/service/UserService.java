@@ -26,6 +26,10 @@ public class UserService {
 
     }
 
+    public UserDao getUserDao() {
+        return userDao;
+    }
+
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao, EventService eventService) {
         this.userDao = userDao;
@@ -191,5 +195,9 @@ public class UserService {
 
     public void setEventService(EventService eventService) {
         this.eventService = eventService;
+    }
+
+    public void remove(User u) {
+        userDao.delete(u);
     }
 }
