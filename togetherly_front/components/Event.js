@@ -50,7 +50,7 @@ const Event = ({ eventData }) => {
                     height: "auto",
                     elevation: 5,
                     shadowColor: "black",
-                    zIndex: 100,
+                    zIndex: -100,
                 }}
                 key={eventData.id}
                 onPress={() => {

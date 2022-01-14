@@ -17,7 +17,9 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
         state.theme == light ? false : true
     );
 
-    const [isEnabled, setIsEnabled] = React.useState(state.darkMode);
+    const [isEnabled, setIsEnabled] = React.useState(
+        state.theme == light ? false : true
+    );
     const toggleSwitch = () => {
         setIsEnabled(!isEnabled);
         if (isEnabled) {

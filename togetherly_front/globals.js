@@ -24,9 +24,10 @@ export const light = {
     tabBarActiveBackgroundColor: "#ffffff15",
     textField: {
         background: "#fff",
-        border: "#ccc",
+        border: "#fff8",
         text: "#000",
     },
+    searchDropdown: "hsl(219, 29%, 45%)",
 };
 
 export const dark = {
@@ -58,6 +59,7 @@ export const dark = {
         border: "#ccc",
         text: "#000",
     },
+    searchDropdown: "#313f59",
 };
 
 export const values = {
