@@ -81,9 +81,13 @@ public class EventServiceTest {
         u2.setId(3L);
         e.setEnrolledUsers(List.of(u, u2));
         Mockito.when(userDao.findByUsername(uUserName)).thenReturn(u);
+        Mockito.when(dao.getEventsByEnrolledUsersContaining(u)).thenReturn(List.of(e));
         List<EventDTO> ev = eventService.getByEnrolledUser(uUserName);
+
         assertEquals(ev.get(0).fromDto(), e);
+
         Mockito.when(userDao.findByUsername(u2UserName)).thenReturn(u2);
+        Mockito.when(dao.getEventsByEnrolledUsersContaining(u2)).thenReturn(List.of());
         assertTrue(eventService.getByEnrolledUser(u2UserName).isEmpty());
         String nonExistingUsername = "404";
         Mockito.when(userDao.findByUsername(nonExistingUsername)).thenReturn(null);
