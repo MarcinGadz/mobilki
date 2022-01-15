@@ -76,8 +76,8 @@ public class EventDTO {
         this.id = id;
     }
 
-    public List<List<String>> getEnrolledUsers() {
-        List<List<String>> enrolled = enrolledUsers.stream().map(User::getUserShortInfo).collect(Collectors.toList());
+    public List<UserShortInfo> getEnrolledUsers() {
+        List<UserShortInfo> enrolled = enrolledUsers.stream().map(User::getUserShortInfo).collect(Collectors.toList());
         System.out.println(enrolled);
         return enrolled;
     }
@@ -102,7 +102,7 @@ public class EventDTO {
         this.description = description;
     }
 
-    public List<String> getOwnerShortInfo() {
+    public UserShortInfo getOwnerShortInfo() {
         return owner.getUserShortInfo();
     }
 }

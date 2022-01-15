@@ -10,9 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -26,10 +28,6 @@ public class UserService {
 
     }
 
-    public UserDao getUserDao() {
-        return userDao;
-    }
-
     @Autowired
     public UserService(UserDao userDao, RoleDao roleDao, EventService eventService) {
         this.userDao = userDao;
@@ -41,6 +39,10 @@ public class UserService {
             roleDao.save(customerRoleTemp);
         }
         this.customerRole = customerRoleTemp;
+    }
+
+    public UserDao getUserDao() {
+        return userDao;
     }
 
     public void setUserDao(UserDao userDao) {
@@ -191,6 +193,32 @@ public class UserService {
         }
         User newUser = userDao.save(user.fromDTO());
         return new UserDTO(newUser);
+    }
+
+    public List<EventDTO> getPastEvents() {
+        UserDTO u = getLoggedUser();
+        if (u == null) {
+            throw new IllegalStateException("User is not logged in");
+        }
+        return eventService.getByEnrolledUserAndDateBefore(u.fromDTO(),
+                LocalDate.now()).stream().map(EventDTO::new).collect(Collectors.toList());
+    }
+
+    public List<EventDTO> getFutureEvents() {
+        UserDTO u = getLoggedUser();
+        if (u == null) {
+            throw new IllegalStateException("User is not logged in");
+        }
+        return eventService.getByEnrolledUserAndDateAfter(u.fromDTO(),
+                LocalDate.now()).stream().map(EventDTO::new).collect(Collectors.toList());
+    }
+
+    public List<EventDTO> getByEnrolledUser() {
+        UserDTO u = getLoggedUser();
+        if (u == null) {
+            throw new IllegalStateException("User is not logged in");
+        }
+        return eventService.getByEnrolledUser(u);
     }
 
     public void setEventService(EventService eventService) {

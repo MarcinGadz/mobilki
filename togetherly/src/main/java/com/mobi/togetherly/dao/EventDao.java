@@ -6,6 +6,7 @@ import org.springframework.data.geo.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface EventDao extends JpaRepository<Event, Long> {
@@ -17,4 +18,7 @@ public interface EventDao extends JpaRepository<Event, Long> {
     List<Object> findTitles();
     Event findEventByTitle(String title);
     List<Event> getEventsByStartPoint(Point p);
+    List<Event> getEventsByEnrolledUsersContainingAndDateAfterOrDateEquals(User user, LocalDate date, LocalDate dateEquals);
+    List<Event> getEventsByEnrolledUsersContainingAndDateBefore(User user, LocalDate date);
+    List<Event> getEventsByEnrolledUsersContaining(User user);
 }

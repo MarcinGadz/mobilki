@@ -183,8 +183,8 @@ public class User implements UserDetails {
         this.gravatarEmail = gravatarEmail;
     }
 
-    public List<String> getUserShortInfo() {
-        return List.of(id.toString(), username, gravatarEmail == null ? "" : gravatarEmail);
+    public UserShortInfo getUserShortInfo() {
+        return new UserShortInfo(this);
     }
 
     @Override

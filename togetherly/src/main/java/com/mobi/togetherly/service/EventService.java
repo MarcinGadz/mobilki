@@ -5,6 +5,7 @@ import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.Event;
 import com.mobi.togetherly.model.EventDTO;
 import com.mobi.togetherly.model.User;
+import com.mobi.togetherly.model.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,14 @@ public class EventService {
         return new EventDTO(e);
     }
 
+    public List<Event> getByEnrolledUserAndDateBefore(User user, LocalDate date) {
+        return dao.getEventsByEnrolledUsersContainingAndDateBefore(user, date);
+    }
+
+    public List<Event> getByEnrolledUserAndDateAfter(User user, LocalDate date) {
+        return dao.getEventsByEnrolledUsersContainingAndDateAfterOrDateEquals(user, date, date);
+    }
+
     public List<EventDTO> getAll() {
         return dao.findAll().stream().map(EventDTO::new).collect(Collectors.toList());
     }
@@ -74,7 +83,18 @@ public class EventService {
         if (u == null) {
             throw new NoSuchElementException("User with specified login does not exists");
         }
-        List<Event> userEvents = u.getEvents();
+        List<Event> userEvents = dao.getEventsByEnrolledUsersContaining(u);
+        if (userEvents == null) {
+            return new LinkedList<>();
+        }
+        return userEvents.stream().map(EventDTO::new).collect(Collectors.toList());
+    }
+
+    public List<EventDTO> getByEnrolledUser(UserDTO user) {
+        if (user == null) {
+            throw new NoSuchElementException("User does not exists");
+        }
+        List<Event> userEvents = dao.getEventsByEnrolledUsersContaining(user.fromDTO());
         if (userEvents == null) {
             return new LinkedList<>();
         }

@@ -1,5 +1,6 @@
 package com.mobi.togetherly.api;
 
+import com.mobi.togetherly.model.EventDTO;
 import com.mobi.togetherly.model.UserDTO;
 import com.mobi.togetherly.config.TokenProvider;
 import com.mobi.togetherly.model.Event;
@@ -120,9 +121,18 @@ public class UserController {
 
     // Mapping to get events in which user has enrolled
     @GetMapping("/events")
-    public List<Event> eventList() {
+    public List<EventDTO> eventList(@RequestParam(name = "past", required = false) Object past,
+                                    @RequestParam(name = "future", required = false) Object future) {
+        if(past != null) {
+            logger.info("Trying to get past events of user");
+            return service.getPastEvents();
+        }
+        if(future != null) {
+            logger.info("Trying to get future events of user");
+            return service.getFutureEvents();
+        }
         logger.info("Trying to get all events of user");
-        return service.getLoggedUser().getEvents();
+        return service.getByEnrolledUser();
     }
 
     @PostMapping("/enroll")
