@@ -141,6 +141,8 @@ public class EventService {
         LocalDate after;
         LocalDate before;
         boolean wasBeforeDatePassed = false;
+        logger.info("Passed before string: " + beforeStr);
+        logger.info("Passed after string: " + afterStr);
 
         try {
             after = LocalDate.parse(afterStr);
@@ -170,7 +172,8 @@ public class EventService {
         logger.info("Getting all between: " + before + " and " + after);
         // if only before was passed - return all from now to specified date
         // if both was passed - return all between passed dates
-        return getNearSpecifiedPoint(p, radius).stream().
+        List<EventDTO> nearEvents = getNearSpecifiedPoint(p, radius);
+        return nearEvents.stream().
                 filter(x -> x.getDate().isAfter(finalAfter) && x.getDate().isBefore(finalBefore)).
                 collect(Collectors.toList());
     }

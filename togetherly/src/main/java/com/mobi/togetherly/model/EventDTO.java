@@ -7,6 +7,7 @@ import org.springframework.data.geo.Point;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class EventDTO {
@@ -104,5 +105,18 @@ public class EventDTO {
 
     public UserShortInfo getOwnerShortInfo() {
         return owner.getUserShortInfo();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EventDTO eventDTO = (EventDTO) o;
+        return Objects.equals(id, eventDTO.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
