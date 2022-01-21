@@ -174,6 +174,12 @@ class UserServiceTest {
     }
 
     @Test
+    public void updateUser() {
+        User u = new User();
+        User updated = new User();
+    }
+
+    @Test
     void getLoggedUser() {
     }
 

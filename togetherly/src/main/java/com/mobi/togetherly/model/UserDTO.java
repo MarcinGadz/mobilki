@@ -27,6 +27,7 @@ public class UserDTO {
         this.gravatarEmail = u.getGravatarEmail();
         this.birthDate = u.getBirthDate();
     }
+    public UserDTO() {}
 
     public User fromDTO() {
         User u = new User();
