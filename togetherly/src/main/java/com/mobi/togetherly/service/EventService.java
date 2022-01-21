@@ -102,12 +102,17 @@ public class EventService {
     }
 
     public List<EventDTO> getNearSpecifiedPoint(Point p, Double radius) {
-        //Argument is point which is in the center of searched area
-        //Returned events starting points are within radius
-        //of aprox. 500 meters from specified point
-        //new - assumes that 100m is 0.001 degree of difference
+        // Argument is point which is in the center of searched area
+        // Returned events starting points are within radius
+        // new - assumes that 100m is 0.001 degree of difference
+        // so if radius is 1, searched area is near 1 m^2
+        // and difference between specified point and found event location
+        // is something like 0,00001
+        if (p == null || radius < 0) {
+            throw new IllegalArgumentException("Passed wrong arguments");
+        }
         logger.info("Passed point: " + p.toString());
-        double cord_diff = radius / 200000;
+        double cord_diff = radius / 100000;
         logger.info("calculated coord_diff: " + cord_diff);
         double smaller_x = p.getX() - cord_diff;
         double smaller_y = p.getY() - cord_diff;
