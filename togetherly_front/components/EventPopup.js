@@ -57,19 +57,40 @@ const EventPopup = ({
                 }}
                 onShow={console.log("shown")}
             >
-                <ScrollView
-                    ref={scroll}
-                    scrollEnabled={!mapVisible}
-                    onLayout={(e) => {
-                        if (!heightCheck) {
-                            var { x, y, width, height } = e.nativeEvent.layout;
-                            heightCheck = true;
-                            scrollHeight = height;
-                            console.log(scrollHeight);
-                        }
+                <View
+                    style={{
+                        // paddingVertical: "10%",
+                        backgroundColor: "red",
                     }}
                 >
-                    <View
+                    <View>
+                        <ScrollView
+                            ref={scroll}
+                            // scrollEnabled={!mapVisible}
+                            onLayout={(e) => {
+                                if (!heightCheck) {
+                                    var { x, y, width, height } =
+                                        e.nativeEvent.layout;
+                                    heightCheck = true;
+                                    scrollHeight = height;
+                                    console.log(scrollHeight);
+                                }
+                            }}
+                            contentContainerStyle={{
+                                // height: "100%",
+                                // width: "100%",
+                                // justifyContent: "center",
+                                alignItems: "center",
+                                // marginVertical: 80,
+                                backgroundColor: colors.mainSecondaryBackground,
+                                // width: "85%",
+                                borderRadius: values.popupBorderRadius,
+                                overflow: "hidden",
+                                marginHorizontal: "10%",
+                                // marginVertical: "10%",
+                            }}
+                        >
+                            {/* <View
                         style={{
                             height: "100%",
                             width: "100%",
@@ -77,16 +98,16 @@ const EventPopup = ({
                             alignItems: "center",
                             marginVertical: 80,
                         }}
-                    >
-                        <View
-                            style={{
-                                width: "85%",
-                                // height: 1000,
-                                backgroundColor: colors.mainSecondaryBackground,
-                                borderRadius: values.popupBorderRadius,
-                                overflow: "hidden",
-                            }}
-                        >
+                    > */}
+                            {/* <View
+                        style={{
+                            width: "85%",
+                            // height: 1000,
+                            backgroundColor: colors.mainSecondaryBackground,
+                            borderRadius: values.popupBorderRadius,
+                            overflow: "hidden",
+                        }}
+                    > */}
                             <Header
                                 eventData={eventData}
                                 colors={colors}
@@ -101,24 +122,31 @@ const EventPopup = ({
                                     eventData={eventData}
                                     colors={colors}
                                 ></EventInfo>
+                            </View>
+                            <View
+                                style={{ padding: 15, width: "100%" }}
+                                onLayout={(e) => {
+                                    let { x, y, width, height } =
+                                        e.nativeEvent.layout;
+                                    mapPosition = x;
+                                }}
+                            >
                                 <Map
                                     eventData={eventData}
                                     mapVisible={mapVisible}
                                     setMapVisible={setMapVisible}
                                     scroll={scroll}
                                     mapPosition={mapPosition}
-                                    onLayout={(e) => {
-                                        let { x, y, width, height } =
-                                            e.nativeEvent.layout;
-                                        mapPosition = x;
-                                    }}
                                     colors={colors}
                                 ></Map>
-                                <Participants colors={colors}></Participants>
                             </View>
-                        </View>
+
+                            <Participants colors={colors}></Participants>
+                            {/* </View> */}
+                            {/* </View> */}
+                        </ScrollView>
                     </View>
-                </ScrollView>
+                </View>
             </Modal>
         </>
     );
@@ -166,6 +194,7 @@ const Header = ({ eventData, colors }) => {
                 alignItems: "center",
                 height: "auto",
                 paddingVertical: 7,
+                // borderRadiusTop: 50,
             }}
         >
             <Text
@@ -435,6 +464,9 @@ const Participants = ({ colors }) => {
                     justifyContent: "space-between",
                 }}
             >
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
                 <Participant></Participant>
             </View>
         </View>

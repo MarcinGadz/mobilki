@@ -1,6 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as React from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
     Modal,
     TextInput,
@@ -13,6 +13,7 @@ import {
 // import Picker from "react-native-picker";
 import { Picker } from "@react-native-picker/picker";
 import { UIContext } from "../UIContext";
+import DatePicker from "react-native-neat-date-picker";
 
 const Search = () => {
     const { state, dispatch } = React.useContext(UIContext);
@@ -178,6 +179,9 @@ const Dropdown = ({
         },
     });
 
+    const [fromDateOpen, setFromDateOpen] = useState(false);
+    const [toDateOpen, setToDateOpen] = useState(false);
+
     return (
         <View
             style={[
@@ -235,16 +239,52 @@ const Dropdown = ({
                     }}
                 >
                     <View style={s.dateContainer}>
+                        <DatePicker
+                            isVisible={fromDateOpen}
+                            mode={"single"}
+                            onCancel={() => {
+                                setFromDateOpen(false);
+                            }}
+                            onConfirm={(date) => {
+                                setFromDateOpen(false);
+                                console.log(
+                                    date.getFullYear(),
+                                    date.getMonth(),
+                                    date.getDate()
+                                );
+                            }}
+                        />
                         <Text style={s.text}>From:</Text>
-                        <Pressable style={s.pressable}>
+                        <Pressable
+                            style={s.pressable}
+                            onPress={() => {
+                                setFromDateOpen(true);
+                            }}
+                        >
                             <Text style={[s.text, s.date]}>
                                 {dateFrom ? dateFrom : "-"}
                             </Text>
                         </Pressable>
                     </View>
                     <View style={s.dateContainer}>
+                        <DatePicker
+                            isVisible={toDateOpen}
+                            mode={"single"}
+                            onCancel={() => {
+                                setToDateOpen(false);
+                            }}
+                            onConfirm={(date) => {
+                                setToDateOpen(false);
+                                console.log(date.getDate());
+                            }}
+                        />
                         <Text style={s.text}>To:</Text>
-                        <Pressable style={s.pressable}>
+                        <Pressable
+                            style={s.pressable}
+                            onPress={() => {
+                                setToDateOpen(true);
+                            }}
+                        >
                             <Text style={[s.text, s.date]}>
                                 {dateTo ? dateTo : "-"}
                             </Text>
