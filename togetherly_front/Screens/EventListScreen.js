@@ -19,6 +19,7 @@ import FloatingButton from "../components/FloatingButton";
 import { FlipInEasyY } from "react-native-reanimated";
 import { UIContext } from "../UIContext";
 import Search from "../components/Search";
+import CreateNewEventPopup from "../components/CreateNewEventPopup";
 
 let colors;
 
@@ -36,6 +37,10 @@ const EventListScreen = () => {
     colors = state.theme;
 
     const [refreshing, setRefreshing] = React.useState(false);
+    const [createEventPopupVisible, setCreateEventPopupVisible] = React.useState(false);
+    const toggleCreateEventPopupVisible = () => {
+        setCreateEventPopupVisible(!createEventPopupVisible);
+    };
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -203,9 +208,13 @@ const EventListScreen = () => {
                         }}
                     ></Event>
                 </ScrollView>
+                <CreateNewEventPopup
+                     visible={createEventPopupVisible}
+                     setVisible={toggleCreateEventPopupVisible}
+                ></CreateNewEventPopup>
                 <FloatingButton
                     onPress={() => {
-                        Alert.alert("Not yet implemented");
+                        setCreateEventPopupVisible(true)
                     }}
                 />
             </View>
