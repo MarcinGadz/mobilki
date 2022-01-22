@@ -30,6 +30,7 @@ const App = () => {
             signIn: async (data) => {
                 let tempToken = null;
                 setLoading(true);
+                setUsername(data.username);
 
                 try {
                     axios
@@ -51,7 +52,6 @@ const App = () => {
                                 setUsername(data.username);
                                 axios.defaults.headers.common["Authorization"] =
                                     tempToken;
-                                console.log(tempToken);
                             }
                         })
                         .catch((error) => {
@@ -106,7 +106,7 @@ const App = () => {
         <AuthContext.Provider value={authContext}>
             <UIProvider>
                 <NavigationContainer>
-                    {token ? <NoAuth /> : <Auth data={username} />}
+                    {token ? <NoAuth /> : <Auth username={username} />}
                 </NavigationContainer>
             </UIProvider>
         </AuthContext.Provider>
