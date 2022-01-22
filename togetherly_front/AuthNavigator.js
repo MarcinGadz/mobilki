@@ -3,7 +3,6 @@ import { Button } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import FeedScreen from "./Screens/FeedScreen";
 import MapScreen from "./Screens/MapScreen";
 import EventListScreen from "./Screens/EventListScreen";
 import { createAppContainer } from "react-navigation";
@@ -78,21 +77,6 @@ const Auth = ({ username }) => {
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons
                                 name="home"
-                                color={color}
-                                size={size}
-                            />
-                        ),
-                        headerRight: menuButton,
-                    }}
-                />
-                <Tab.Screen
-                    name="Feed"
-                    component={FeedScreen}
-                    options={{
-                        tabBarLabel: "Feed",
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons
-                                name="bell"
                                 color={color}
                                 size={size}
                             />
