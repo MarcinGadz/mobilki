@@ -19,7 +19,6 @@ const MapComponent = ({
         (async () => {
             let { status } = await Location.requestForegroundPermissionsAsync();
             if (status !== "granted") {
-                Alert.alert("Permission to access location was denied");
                 setLocation({
                     latitude: 0.0,
                     longitude: 0.0,

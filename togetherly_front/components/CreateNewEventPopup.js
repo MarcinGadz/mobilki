@@ -18,8 +18,6 @@ import { UIContext } from "../UIContext";
 const CreateNewEventPopup = ({ visible, setVisible, background = true }) => {
   const { state, dispatch } = React.useContext(UIContext);
   let colors = state.theme;
-  console.log("visible", visible);
-  console.log("setVisible", setVisible);
   const [newEvent, setNewEvent] = React.useState({
     title: "",
     description: "",
