@@ -61,6 +61,8 @@ const EventPopup = ({
                     style={{
                         // paddingVertical: "10%",
                         backgroundColor: "red",
+                        position: "absolute",
+                        height: Dimensions.get.screenHeight,
                     }}
                 >
                     <View>
@@ -302,7 +304,14 @@ const EventInfo = ({ eventData, colors }) => {
     );
 };
 
-const Map = ({ mapVisible, setMapVisible, scroll, mapPosition, colors }) => {
+const Map = ({
+    mapVisible,
+    setMapVisible,
+    scroll,
+    mapPosition,
+    colors,
+    eventData,
+}) => {
     const mapEnabled = StyleSheet.create({
         wrapper: {
             height: Dimensions.get("window").height * 0.7,
@@ -385,7 +394,19 @@ const Map = ({ mapVisible, setMapVisible, scroll, mapPosition, colors }) => {
                         }
                     }}
                 >
-                    <MapComponent></MapComponent>
+                    <MapComponent
+                        points={[
+                            {
+                                id: eventData.id,
+                                coordinates: {
+                                    latitude: eventData.startPoint.x,
+                                    longitude: eventData.startPoint.y,
+                                },
+                                title: eventData.title,
+                                description: eventData.description,
+                            },
+                        ]}
+                    ></MapComponent>
                     <View
                         style={[
                             {
