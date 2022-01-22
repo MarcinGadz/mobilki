@@ -132,19 +132,20 @@ const Search = ({ setParentRadius }) => {
                 />
               </View>
             </View>
-          </View>
-        </View>
-      </View>
-      <Dropdown
-        colors={colors}
-        isOpen={isOpen}
-        searchBarHeight={searchBarHeight}
-        style={{}}
-        selectedRadius={selectedRadius}
-        setSelectedRadius={setSelectedRadius}
-      ></Dropdown>
-    </>
-  );
+            <Dropdown
+                colors={colors}
+                isOpen={isOpen}
+                searchBarHeight={searchBarHeight}
+                style={{}}
+                selectedRadius={selectedRadius}
+                setSelectedRadius={setSelectedRadius}
+                dateTo={dateTo}
+                dateFrom={dateFrom}
+                setDateTo={setDateTo}
+                setDateFrom={setDateFrom}
+            ></Dropdown>
+        </>
+    );
 };
 
 const Dropdown = ({
@@ -261,31 +262,101 @@ const Dropdown = ({
                 setFromDateOpen(true);
               }}
             >
-              <Text style={[s.text, s.date]}>{dateFrom ? dateFrom : "-"}</Text>
-            </Pressable>
-          </View>
-          <View style={s.dateContainer}>
-            <DatePicker
-              isVisible={toDateOpen}
-              mode={"single"}
-              onCancel={() => {
-                setToDateOpen(false);
-              }}
-              onConfirm={(date) => {
-                setToDateOpen(false);
-                console.log(date.getDate());
-              }}
-            />
-            <Text style={s.text}>To:</Text>
-            <Pressable
-              style={s.pressable}
-              onPress={() => {
-                setToDateOpen(true);
-              }}
-            >
-              <Text style={[s.text, s.date]}>{dateTo ? dateTo : "-"}</Text>
-            </Pressable>
-          </View>
+                <View
+                    style={{
+                        borderWidth: 2,
+                        borderRadius: 100,
+                        borderColor: colors.textField.border,
+                    }}
+                >
+                    <Picker
+                        mode={"dropdown"}
+                        prompt={"qwerty"}
+                        selectedValue={selectedRadius}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setSelectedRadius(itemValue)
+                        }
+                        style={[s.text]}
+                        dropdownIconColor={colors.tabBarInactiveTintColor}
+                        dropdownIconRippleColor={"#fff4"}
+                    >
+                        <Picker.Item label="500m" value={500} />
+                        <Picker.Item label="1km" value={1000} />
+                        <Picker.Item label="5km" value={5000} />
+                        <Picker.Item label="10km" value={10000} />
+                        <Picker.Item label="15km" value={15000} />
+                    </Picker>
+                </View>
+                <View
+                    style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        marginTop: 10,
+                    }}
+                >
+                    <View style={s.dateContainer}>
+                        <DatePicker
+                            isVisible={fromDateOpen}
+                            mode={"single"}
+                            onCancel={() => {
+                                setFromDateOpen(false);
+                            }}
+                            onConfirm={(date) => {
+                                setFromDateOpen(false);
+                                // console.log(
+                                // date.getFullYear(),
+                                // date.getMonth(),
+                                // date.getDate()
+                                // );
+                                // console.log(date.toISOString());
+                                setDateFrom(date);
+                            }}
+                        />
+                        <Text style={s.text}>From:</Text>
+                        <Pressable
+                            style={s.pressable}
+                            onPress={() => {
+                                setFromDateOpen(true);
+                            }}
+                            onLongPress={() => {
+                                setDateFrom(null);
+                            }}
+                        >
+                            <Text style={[s.text, s.date]}>
+                                {dateFrom ? dateFrom.toDateString() : "-"}
+                            </Text>
+                        </Pressable>
+                    </View>
+                    <View style={s.dateContainer}>
+                        <DatePicker
+                            isVisible={toDateOpen}
+                            mode={"single"}
+                            onCancel={() => {
+                                setToDateOpen(false);
+                            }}
+                            onConfirm={(date) => {
+                                setToDateOpen(false);
+                                // console.log(date.getDate());
+                                setDateTo(date);
+                            }}
+                        />
+                        <Text style={s.text}>To:</Text>
+                        <Pressable
+                            style={s.pressable}
+                            onPress={() => {
+                                setToDateOpen(true);
+                            }}
+                            onLongPress={() => {
+                                setDateTo(null);
+                            }}
+                        >
+                            <Text style={[s.text, s.date]}>
+                                {dateTo ? dateTo.toDateString() : "-"}
+                            </Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </View>
         </View>
       </View>
     </View>
