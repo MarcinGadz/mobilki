@@ -1,5 +1,7 @@
 package com.mobi.togetherly.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -75,6 +77,7 @@ public class UserDTO {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -113,5 +116,17 @@ public class UserDTO {
 
     public void setOwnedEvents(List<Event> ownedEvents) {
         this.ownedEvents = ownedEvents;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "username='" + username + '\'' +
+                ", id=" + id +
+                ", achievements=" + achievements +
+                ", email='" + email + '\'' +
+                ", gravatarEmail='" + gravatarEmail + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }

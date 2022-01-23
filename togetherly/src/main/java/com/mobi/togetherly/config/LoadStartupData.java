@@ -98,7 +98,6 @@ public class LoadStartupData implements ApplicationRunner {
                 ev.addUser(u);
                 eventService.addEvent(event);
                 eventService.addEvent(ev);
-                service.addUser(u);
             }
         }
 

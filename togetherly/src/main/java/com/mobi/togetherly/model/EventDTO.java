@@ -77,7 +77,6 @@ public class EventDTO {
 
     public List<UserShortInfo> getEnrolledUsers() {
         List<UserShortInfo> enrolled = enrolledUsers.stream().map(User::getUserShortInfo).collect(Collectors.toList());
-        System.out.println(enrolled);
         return enrolled;
     }
 

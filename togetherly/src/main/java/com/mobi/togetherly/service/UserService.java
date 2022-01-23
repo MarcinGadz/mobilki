@@ -111,16 +111,21 @@ public class UserService {
         if (event == null) {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
-            throw new IllegalStateException("User is not logged in");
-        }
-        Object principal = auth.getPrincipal();
-        String userName = ((UserDetails) principal).getUsername();
-        User u = loadUserByUsername(userName);
+        User u = getLoggedUser();
         if (u == null) {
-            throw new IllegalArgumentException("User with specified id does not exists");
+            throw new IllegalStateException("Something went wrong");
         }
+//        User u = user;
+//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth == null) {
+//            throw new IllegalStateException("User is not logged in");
+//        }
+//        Object principal = auth.getPrincipal();
+//        String userName = ((UserDetails) principal).getUsername();
+//        User u = loadUserByUsername(userName);
+//        if (u == null) {
+//            throw new IllegalArgumentException("User with specified id does not exists");
+//        }
         u.addEvent(event);
         event.addUser(u);
         eventService.addEvent(event);
@@ -142,16 +147,7 @@ public class UserService {
     }
 
     public Event registerEvent(Event e) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null) {
-            throw new IllegalStateException("User is not logged in");
-        }
-        Object principal = auth.getPrincipal();
-        String userName = ((UserDetails) principal).getUsername();
-        User p = loadUserByUsername(userName);
-        if (p == null) {
-            throw new IllegalArgumentException("User does not exists");
-        }
+        User p = getLoggedUser();
         try {
             Event res = p.registerNewEvent(e);
             eventService.addEvent(e);
@@ -169,7 +165,7 @@ public class UserService {
         }
     }
 
-    public UserDTO getLoggedUser() {
+    public User getLoggedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null) {
             throw new IllegalStateException("User is not logged in");
@@ -177,11 +173,14 @@ public class UserService {
         Object principal = auth.getPrincipal();
         String userName = ((UserDetails) principal).getUsername();
         User p = loadUserByUsername(userName);
-        return new UserDTO(p);
+        if (p == null) {
+            throw new IllegalArgumentException("User does not exists");
+        }
+        return p;
     }
 
     public UserDTO updateUser(User u) {
-        UserDTO user = getLoggedUser();
+        User user = getLoggedUser();
         if (checkEmail(u.getEmail())) {
             user.setEmail(u.getEmail());
         }
@@ -191,34 +190,25 @@ public class UserService {
         if (checkString(u.getPassword())) {
             user.setPassword(u.getPassword());
         }
-        User newUser = userDao.save(user.fromDTO());
+        User newUser = userDao.save(user);
         return new UserDTO(newUser);
     }
 
     public List<EventDTO> getPastEvents() {
-        UserDTO u = getLoggedUser();
-        if (u == null) {
-            throw new IllegalStateException("User is not logged in");
-        }
-        return eventService.getByEnrolledUserAndDateBefore(u.fromDTO(),
+        User u = getLoggedUser();
+        return eventService.getByEnrolledUserAndDateBefore(u,
                 LocalDate.now()).stream().map(EventDTO::new).collect(Collectors.toList());
     }
 
     public List<EventDTO> getFutureEvents() {
-        UserDTO u = getLoggedUser();
-        if (u == null) {
-            throw new IllegalStateException("User is not logged in");
-        }
-        return eventService.getByEnrolledUserAndDateAfter(u.fromDTO(),
+        User u = getLoggedUser();
+        return eventService.getByEnrolledUserAndDateAfter(u,
                 LocalDate.now()).stream().map(EventDTO::new).collect(Collectors.toList());
     }
 
     public List<EventDTO> getByEnrolledUser() {
-        UserDTO u = getLoggedUser();
-        if (u == null) {
-            throw new IllegalStateException("User is not logged in");
-        }
-        return eventService.getByEnrolledUser(u);
+        User u = getLoggedUser();
+        return eventService.getByEnrolledUser(new UserDTO(u));
     }
 
     public void setEventService(EventService eventService) {

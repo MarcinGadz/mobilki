@@ -1,5 +1,6 @@
 package com.mobi.togetherly.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -139,6 +140,7 @@ public class User implements UserDetails {
         return false;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
@@ -198,5 +200,18 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(username, id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "email='" + email + '\'' +
+                ", gravatarEmail='" + gravatarEmail + '\'' +
+                ", username='" + username + '\'' +
+                ", id=" + id +
+                ", achievements=" + achievements +
+                ", authorities=" + authorities +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }
