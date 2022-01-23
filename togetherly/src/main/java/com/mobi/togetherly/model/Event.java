@@ -1,13 +1,11 @@
 package com.mobi.togetherly.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +34,7 @@ public class Event {
     @JsonIgnore
     private User owner;
 
-    private LocalDate date;
+    private LocalDateTime date;
 
     public Event() {
 
@@ -102,11 +100,11 @@ public class Event {
                 .toString();
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

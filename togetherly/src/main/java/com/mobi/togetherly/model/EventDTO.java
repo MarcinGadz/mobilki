@@ -1,11 +1,9 @@
 package com.mobi.togetherly.model;
 
-import com.mobi.togetherly.model.Event;
-import com.mobi.togetherly.model.User;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.data.geo.Point;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -16,7 +14,7 @@ public class EventDTO {
     private Point startPoint;
     private String description;
     private User owner;
-    private LocalDate date;
+    private LocalDateTime date;
     private String title;
 
     public EventDTO(Event e) {
@@ -61,11 +59,11 @@ public class EventDTO {
         this.title = title;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
