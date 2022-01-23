@@ -101,7 +101,7 @@ public class EventService {
         return userEvents.stream().map(EventDTO::new).collect(Collectors.toList());
     }
 
-    public List<EventDTO> getNearSpecifiedPoint(Point p, Double radius) {
+    public List<EventDTO> search(Point p, Double radius) {
         // Argument is point which is in the center of searched area
         // Returned events starting points are within radius
         // new - assumes that 100m is 0.001 degree of difference
@@ -137,7 +137,7 @@ public class EventService {
         return dtos;
     }
 
-    public List<EventDTO> getNearSpecifiedPoint(Point p, Double radius, String afterStr, String beforeStr) {
+    public List<EventDTO> search(Point p, Double radius, String afterStr, String beforeStr, String title) {
         LocalDateTime after;
         LocalDateTime before;
         boolean wasBeforeDatePassed = false;
@@ -164,18 +164,23 @@ public class EventService {
         // if none date was passed - return all from now
         // if only after was passed - return all after specified date
         // finalAfter will be specified date or now
+        List<EventDTO> nearEvents = search(p, radius);
+        if(title != null && !title.trim().equals("")) {
+            System.out.println("HERE");
+            nearEvents = nearEvents.stream().filter(x -> x.getTitle().toLowerCase().contains(title.toLowerCase())).collect(Collectors.toList());
+        }
         if (!wasBeforeDatePassed) {
             logger.info("Getting all after: " + after);
-            return getNearSpecifiedPoint(p, radius).stream().filter(x -> x.getDate().isAfter(finalAfter)).collect(Collectors.toList());
+            nearEvents = nearEvents.stream().filter(x -> x.getDate().isAfter(finalAfter)).collect(Collectors.toList());
+        } else {
+            logger.info("Getting all between: " + before + " and " + after);
+            // if only before was passed - return all from now to specified date
+            // if both was passed - return all between passed dates
+            nearEvents = nearEvents.stream().
+                    filter(x -> x.getDate().isAfter(finalAfter) && x.getDate().isBefore(finalBefore)).
+                    collect(Collectors.toList());
         }
-
-        logger.info("Getting all between: " + before + " and " + after);
-        // if only before was passed - return all from now to specified date
-        // if both was passed - return all between passed dates
-        List<EventDTO> nearEvents = getNearSpecifiedPoint(p, radius);
-        return nearEvents.stream().
-                filter(x -> x.getDate().isAfter(finalAfter) && x.getDate().isBefore(finalBefore)).
-                collect(Collectors.toList());
+        return nearEvents;
     }
 
     public List<Object> getShortInfo() {

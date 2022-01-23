@@ -56,9 +56,10 @@ public class EventController {
                                   @RequestParam("longitude") Double longitude,
                                   @RequestParam("radius") Double radius,
                                   @RequestParam(value = "after", required = false) String after,
-                                  @RequestParam(value = "before", required = false) String before) {
+                                  @RequestParam(value = "before", required = false) String before,
+                                  @RequestParam(value = "title", required = false) String title) {
         Point p = new Point(latitude, longitude);
-        return service.getNearSpecifiedPoint(p, radius, after, before);
+        return service.search(p, radius, after, before, title);
     }
 
     @GetMapping("/start-points")

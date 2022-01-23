@@ -16,12 +16,10 @@ import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.geo.Point;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -109,8 +107,8 @@ public class EventServiceTest {
         Point testPointGood = new Point(22, 25);
         Double testRadiusWrong = -0.1;
         Double testRadiusGood = 4000.0;
-        assertThrows(IllegalArgumentException.class, () -> eventService.getNearSpecifiedPoint(testPointWrong, testRadiusGood));
-        assertThrows(IllegalArgumentException.class, () -> eventService.getNearSpecifiedPoint(testPointGood, testRadiusWrong));
+        assertThrows(IllegalArgumentException.class, () -> eventService.search(testPointWrong, testRadiusGood));
+        assertThrows(IllegalArgumentException.class, () -> eventService.search(testPointGood, testRadiusWrong));
         Event futureEventNear = new Event();
         futureEventNear.setStartPoint(new Point(testPointGood.getX() - 0.01, testPointGood.getY() - 0.015));
         futureEventNear.setTitle("Test event");
@@ -125,11 +123,11 @@ public class EventServiceTest {
         Mockito.when(dao.findAll()).thenReturn(testEvents);
         // Distance between testPointGood and testEvents is ~1,5km
         // So both events should be found within 2km radius
-        assertEquals(testEvents.size(), eventService.getNearSpecifiedPoint(testPointGood, testRadiusGood).size());
-        assertEquals(testEvents, eventService.getNearSpecifiedPoint(testPointGood, testRadiusGood).stream().map(EventDTO::fromDto).collect(Collectors.toList()));
+        assertEquals(testEvents.size(), eventService.search(testPointGood, testRadiusGood).size());
+        assertEquals(testEvents, eventService.search(testPointGood, testRadiusGood).stream().map(EventDTO::fromDto).collect(Collectors.toList()));
         // But they shouldn't be found in 1km radius
         Double testRadiusTooSmall = 1000.0;
-        assertEquals(0, eventService.getNearSpecifiedPoint(testPointGood, testRadiusTooSmall).size());
+        assertEquals(0, eventService.search(testPointGood, testRadiusTooSmall).size());
     }
 
     @Test
@@ -165,10 +163,10 @@ public class EventServiceTest {
         // mock service
         Mockito.when(dao.findAll()).thenReturn(allEvents);
         // Test
-        assertEquals(List.of(earliestDTO, futureDTO, futureLaterDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, null, null));
-        assertEquals(List.of(earliestDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, null, "2023-03-01T00:00"));
-        assertEquals(List.of(futureDTO, futureLaterDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, "2023-03-01T00:00", null));
-        assertEquals(List.of(futureDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, "2023-03-01T00:00", "2024-04-01T00:00"));
+        assertEquals(List.of(earliestDTO, futureDTO, futureLaterDTO), eventService.search(testPoint, testRadius, null, null, null));
+        assertEquals(List.of(earliestDTO), eventService.search(testPoint, testRadius, null, "2023-03-01T00:00", null));
+        assertEquals(List.of(futureDTO, futureLaterDTO), eventService.search(testPoint, testRadius, "2023-03-01T00:00", null, null));
+        assertEquals(List.of(futureDTO), eventService.search(testPoint, testRadius, "2023-03-01T00:00", "2024-04-01T00:00", null));
     }
 
     @Test
