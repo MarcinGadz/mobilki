@@ -7,6 +7,7 @@ import PopupBackground from "./PopupBackground";
 import { values } from "../globals";
 import { UIContext } from "../UIContext";
 import SettingsPopup from "./SettingsPopup";
+import SupportUsPopup from "./SupportUsPopup";
 
 const MenuPopup = ({ visible, setVisible, background = true }) => {
     const { state, dispatch } = React.useContext(UIContext);
@@ -16,6 +17,7 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
     const { signOut } = React.useContext(AuthContext);
     const [areYouSureVisible, setAreYouSureVisibility] = React.useState(false);
     const [settingsVisible, setSettingsVisibility] = React.useState(false);
+    const [supportUsVisible, setSupportUsVisibility] = React.useState(false);
 
     const styles = StyleSheet.create({
         modal: {
@@ -83,7 +85,8 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                             <Button
                                 text="Support us!"
                                 onPress={() => {
-                                    Alert.alert("Not yet implemented");
+                                    // Alert.alert("Not yet implemented");
+                                    setSupportUsVisibility(true);
                                 }}
                                 icon={"dollar"}
                             ></Button>
@@ -109,6 +112,10 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                     visible={settingsVisible}
                     setVisible={setSettingsVisibility}
                 ></SettingsPopup>
+                <SupportUsPopup
+                    setVisible={setSupportUsVisibility}
+                    visible={supportUsVisible}
+                ></SupportUsPopup>
             </Modal>
         </>
     );
