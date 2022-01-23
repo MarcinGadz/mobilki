@@ -1,43 +1,89 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
+import { useState } from "react";
 import MapComponent from "../components/MapComponent";
 import { StyleSheet, View } from "react-native";
 import { UIContext } from "../UIContext";
+import useToken from "../useToken";
+import LoadingScreen from "../Screens/LoadingScreen";
 
 const MapScreen = ({ navigation }) => {
+    const { token, setToken } = useToken();
+    const [localToken, setLocalToken] = useState();
+    const axios = require("axios").default;
     const { state, dispatch } = React.useContext(UIContext);
     let colors = state.theme;
+    const [isLoading, setLoading] = useState(true);
+    const [points, setPoints] = React.useState([]);
 
-    const points = [
-        {
-            id: 1,
-            coordinates: { latitude: 16.82739, longitude: -164.7437 },
-            title: "Punkt 1",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tempus.",
-        },
-        {
-            id: 2,
-            coordinates: { latitude: 31.75676, longitude: -151.82154 },
-            title: "Punkt 2",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tempus.",
-        },
-        {
-            id: 2,
-            coordinates: { latitude: 28.48787, longitude: -130.96293 },
-            title: "Punkt 4",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi tempus.",
-        },
-    ];
+    React.useEffect(() => {
+        (async () => {
+            setLoading(true);
+            let userToken;
+            try {
+                userToken = await token;
+            } catch (e) {
+                console.log(e);
+                // Restoring token failed
+                // try to login user again
+            }
+            setLocalToken(userToken);
+        })();
+    }, []);
 
-    return (
-        <View style={styles.container}>
-            <MapComponent region={null} points={points} autoZoom={true} />
-            <StatusBar style="light" />
-        </View>
-    );
+    function fetchData() {
+        let authString = "Bearer " + localToken;
+        axios
+            .get("/event/start-points", {
+                headers: {
+                    Authorization: authString,
+                },
+            })
+            .then((res) => {
+                setPoints(mapPoints(res.data));
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    React.useEffect(() => {
+        if (isLoading === false) {
+            return;
+        }
+        if (localToken) {
+            fetchData();
+        }
+    }, [localToken, isLoading]);
+
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+          fetchData();
+        });
+        return unsubscribe;
+      }, [navigation]);
+
+    const mapPoints = (data) => {
+        return data.map((e) => {
+            return {
+                id: e[0],
+                title: e[1],
+                coordinates: { latitude: e[2].x, longitude: e[2].y },
+            };
+        });
+    };
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    } else {
+        return (
+            <View style={styles.container}>
+                <MapComponent region={null} points={points} autoZoom={true} />
+                <StatusBar style="light" />
+            </View>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
