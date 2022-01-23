@@ -25,9 +25,10 @@ public class LoadStartupData implements ApplicationRunner {
 
     private void addUsersToRepo() {
         User u = new User("marcin", "test");
-        User u2 = new User("M", "t");
+        User u2 = new User("John", "test");
         u.addAchievement(Achievement.BEGINNER);
         u.addAchievement(Achievement.CREATOR);
+        u2.addAchievement(Achievement.SOCIAL_STAR);
         u.setEmail("test@test.com");
         u2.setEmail("testmail@edu.com");
         u.setGravatarEmail("filiptheg@gmail.com");
@@ -59,7 +60,7 @@ public class LoadStartupData implements ApplicationRunner {
         e3.setDescription("Przejażdżka rowerowa, planowana długość ok. 50km");
         e3.setTitle("Rowerem dookoła Łodzi");
 
-        Point p4 = new Point(1.6123, 2.2345);
+        Point p4 = new Point(51.789872,19.465442);
         Event e4 = new Event();
         e4.setDate(LocalDateTime.parse("2022-02-23T00:00"));
         e4.setStartPoint(p4);
@@ -91,11 +92,16 @@ public class LoadStartupData implements ApplicationRunner {
             if(!dtos.isEmpty()) {
                 Event event = dtos.get(0).fromDto();
                 User u = userDTOS.get(0).fromDTO();
+                User u2 = userDTOS.get(1).fromDTO();
                 Event ev = dtos.get(1).fromDto();
+
                 u.addEvent(event);
                 u.addEvent(ev);
+                u2.addEvent(event);
                 event.addUser(u);
+                event.addUser(u2);
                 ev.addUser(u);
+
                 eventService.addEvent(event);
                 eventService.addEvent(ev);
             }

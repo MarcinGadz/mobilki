@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.security.Principal;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -176,8 +177,39 @@ class UserServiceTest {
 
     @Test
     public void updateUser() {
-        User u = new User();
+
+        userService.setUserDao(userDao);
+        userService = spy(userService);
+
+        User user = new User();
+        user.setGravatarEmail("abc@abc.com");
+        user.setBirthDate(LocalDate.of(1999,1,1));
+        user.setPassword("p@ssw0rd");
+
+        doReturn(user).when(userService).getLoggedUser();
         User updated = new User();
+        doReturn(updated).when(userDao).save(updated);
+        String newMail = "test@mail.com";
+        String newPassword = "strongpassword";
+        String newUsername = "nonexistinguser";
+        doReturn(null).when(userDao).findByUsername(newUsername);
+        LocalDate date = LocalDate.of(2000,9,9);
+
+        updated.setGravatarEmail(newMail);
+        userService.updateUser(updated);
+        assertEquals(newMail, user.getGravatarEmail());
+
+        updated.setPassword(newPassword);
+        userService.updateUser(updated);
+        assertEquals(newPassword, user.getPassword());
+
+        updated.setBirthDate(date);
+        userService.updateUser(updated);
+        assertEquals(date, user.getBirthDate());
+
+        updated.setUsername(newUsername);
+        userService.updateUser(updated);
+        assertEquals(newUsername, updated.getUsername());
     }
 
     @Test

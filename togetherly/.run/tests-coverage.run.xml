@@ -3,11 +3,20 @@
     <module name="togetherly" />
     <extension name="coverage">
       <pattern>
+        <option name="PATTERN" value="com.mobi.togetherly.config.*" />
+        <option name="ENABLED" value="true" />
+        <option name="INCLUDE" value="false" />
+      </pattern>
+      <pattern>
         <option name="PATTERN" value="com.mobi.togetherly.model.*" />
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
         <option name="PATTERN" value="com.mobi.togetherly.service.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+      <pattern>
+        <option name="PATTERN" value="com.mobi.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

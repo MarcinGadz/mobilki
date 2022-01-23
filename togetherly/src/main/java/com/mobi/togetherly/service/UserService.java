@@ -59,7 +59,7 @@ public class UserService {
     }
 
     public boolean checkString(String s) {
-        return !(s == null || s.equals("") || s.trim().equals(""));
+        return !(s == null || s.trim().equals(""));
     }
 
     private boolean checkEmail(String email) {
@@ -68,7 +68,7 @@ public class UserService {
     }
 
     public User addUser(User u) {
-        if (checkString(u.getUsername()) &&
+        if (checkUsername(u.getUsername()) &&
                 checkString(u.getPassword()) &&
                 checkEmail(u.getEmail()) &&
                 (u.getGravatarEmail() == null ||
@@ -112,20 +112,6 @@ public class UserService {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
         User u = getLoggedUser();
-        if (u == null) {
-            throw new IllegalStateException("Something went wrong");
-        }
-//        User u = user;
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth == null) {
-//            throw new IllegalStateException("User is not logged in");
-//        }
-//        Object principal = auth.getPrincipal();
-//        String userName = ((UserDetails) principal).getUsername();
-//        User u = loadUserByUsername(userName);
-//        if (u == null) {
-//            throw new IllegalArgumentException("User with specified id does not exists");
-//        }
         u.addEvent(event);
         event.addUser(u);
         eventService.addEvent(event);
@@ -181,17 +167,27 @@ public class UserService {
 
     public UserDTO updateUser(User u) {
         User user = getLoggedUser();
-        if (checkEmail(u.getEmail())) {
-            user.setEmail(u.getEmail());
-        }
         if (checkEmail(u.getGravatarEmail())) {
             user.setGravatarEmail(u.getGravatarEmail());
         }
         if (checkString(u.getPassword())) {
             user.setPassword(u.getPassword());
         }
+        if(u.getBirthDate() != null && u.getBirthDate() != LocalDate.EPOCH) {
+            user.setBirthDate(u.getBirthDate());
+        }
+        if(checkUsername(u.getUsername())) {
+            user.setUsername(u.getUsername());
+        }
         User newUser = userDao.save(user);
         return new UserDTO(newUser);
+    }
+
+    private boolean checkUsername(String username) {
+        if(!checkString(username)){
+            return false;
+        }
+        return userDao.findByUsername(username) == null;
     }
 
     public List<EventDTO> getPastEvents() {
