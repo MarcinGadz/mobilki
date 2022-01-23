@@ -140,7 +140,6 @@ public class User implements UserDetails {
         return false;
     }
 
-    @JsonIgnore
     public String getPassword() {
         return password;
     }

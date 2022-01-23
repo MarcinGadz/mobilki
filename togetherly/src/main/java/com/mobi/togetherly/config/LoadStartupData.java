@@ -104,7 +104,6 @@ public class LoadStartupData implements ApplicationRunner {
     }
     @Override
     public void run(ApplicationArguments args) {
-        List<UserDTO> all = service.getAll();
         if (service.getAll().isEmpty()) {
             System.out.println("Adding...");
             addUsersToRepo();
