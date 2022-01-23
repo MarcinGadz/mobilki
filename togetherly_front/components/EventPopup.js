@@ -60,39 +60,43 @@ const EventPopup = ({
                 <View
                     style={{
                         // paddingVertical: "10%",
-                        backgroundColor: "red",
-                        position: "absolute",
-                        height: Dimensions.get.screenHeight,
+                        // backgroundColor: "red",
+                        // position: "absolute",
+                        // height: Dimensions.get.screenHeight,
+                        // paddingTop: "10%",
+                        overflow: "visible",
                     }}
                 >
-                    <View>
-                        <ScrollView
-                            ref={scroll}
-                            // scrollEnabled={!mapVisible}
-                            onLayout={(e) => {
-                                if (!heightCheck) {
-                                    var { x, y, width, height } =
-                                        e.nativeEvent.layout;
-                                    heightCheck = true;
-                                    scrollHeight = height;
-                                    console.log(scrollHeight);
-                                }
-                            }}
-                            contentContainerStyle={{
-                                // height: "100%",
-                                // width: "100%",
-                                // justifyContent: "center",
-                                alignItems: "center",
-                                // marginVertical: 80,
-                                backgroundColor: colors.mainSecondaryBackground,
-                                // width: "85%",
-                                borderRadius: values.popupBorderRadius,
-                                overflow: "hidden",
-                                marginHorizontal: "10%",
-                                // marginVertical: "10%",
-                            }}
-                        >
-                            {/* <View
+                    {/* <View> */}
+                    <ScrollView
+                        ref={scroll}
+                        // scrollEnabled={!mapVisible}
+                        onLayout={(e) => {
+                            if (!heightCheck) {
+                                var { x, y, width, height } =
+                                    e.nativeEvent.layout;
+                                heightCheck = true;
+                                scrollHeight = height;
+                                console.log(scrollHeight);
+                            }
+                        }}
+                        contentContainerStyle={{
+                            // height: "100%",
+                            // width: "100%",
+                            // justifyContent: "center",
+                            alignItems: "center",
+                            // marginVertical: 80,
+                            // backgroundColor: colors.mainSecondaryBackground,
+                            // width: "85%",
+                            borderRadius: values.popupBorderRadius,
+                            overflow: "hidden",
+                            marginHorizontal: "10%",
+                            // borderTopWidth: 50,
+                            // borderBottomWidth: 50,
+                            // paddingTop: "10%",
+                        }}
+                    >
+                        {/* <View
                         style={{
                             height: "100%",
                             width: "100%",
@@ -101,7 +105,7 @@ const EventPopup = ({
                             marginVertical: 80,
                         }}
                     > */}
-                            {/* <View
+                        {/* <View
                         style={{
                             width: "85%",
                             // height: 1000,
@@ -110,6 +114,15 @@ const EventPopup = ({
                             overflow: "hidden",
                         }}
                     > */}
+                        <View
+                            style={{
+                                width: "100%",
+                                marginVertical: 50,
+                                borderRadius: values.popupBorderRadius,
+                                overflow: "hidden",
+                                backgroundColor: colors.mainSecondaryBackground,
+                            }}
+                        >
                             <Header
                                 eventData={eventData}
                                 colors={colors}
@@ -144,11 +157,12 @@ const EventPopup = ({
                             </View>
 
                             <Participants colors={colors}></Participants>
-                            {/* </View> */}
-                            {/* </View> */}
-                        </ScrollView>
-                    </View>
+                        </View>
+                        {/* </View> */}
+                        {/* </View> */}
+                    </ScrollView>
                 </View>
+                {/* </View> */}
             </Modal>
         </>
     );
@@ -163,7 +177,7 @@ const Participant = ({}) => {
                 marginVertical: 5,
                 // zIndex: -1,
                 // flex: 1,
-                width: "32%",
+                width: "50%",
                 // backgroundColor: "red",
                 // marginHorizontal: 3,
             }}
@@ -485,6 +499,13 @@ const Participants = ({ colors }) => {
                     justifyContent: "space-between",
                 }}
             >
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
                 <Participant></Participant>
                 <Participant></Participant>
                 <Participant></Participant>
