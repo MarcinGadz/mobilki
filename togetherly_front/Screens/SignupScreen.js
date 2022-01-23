@@ -9,7 +9,7 @@ import {
     Alert,
     ImageBackground,
 } from "react-native";
-import bg from "../assets/bg.png";
+import bg from "../assets/bg.jpg";
 
 import { UIContext } from "../UIContext";
 

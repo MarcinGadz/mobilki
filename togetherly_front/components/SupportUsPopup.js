@@ -60,9 +60,11 @@ const SupportUsPopup = ({ visible, setVisible, background = true }) => {
         },
         buttonTextA: {
             fontWeight: "bold",
+            color: colors.tabBarInactiveTintColor,
         },
         buttonTextB: {
             fontSize: 12,
+            color: colors.tabBarInactiveTintColor,
         },
     });
 
@@ -82,21 +84,46 @@ const SupportUsPopup = ({ visible, setVisible, background = true }) => {
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>
-                        <Text>Do you want to help us?</Text>
-                        <Text style={{ textAlign: "center" }}>
-                            If you appreciate what we do, you can show it by
-                            buying us a coffe. It will help us develop the app.
+                        <Text
+                            style={{
+                                textAlign: "center",
+                                color: colors.tabBarInactiveTintColor,
+                                marginBottom: 7,
+                            }}
+                        >
+                            Do you want to help us?
                         </Text>
-                        <Text>Thank you Togheterly team</Text>
+                        <Text
+                            style={{
+                                textAlign: "center",
+                                color: colors.tabBarInactiveTintColor,
+                                marginBottom: 7,
+                            }}
+                        >
+                            If you appreciate what we do, you can show it by
+                            buying us a coffee. It will help us develop the app.
+                        </Text>
+                        <Text
+                            style={{
+                                textAlign: "center",
+                                color: colors.tabBarInactiveTintColor,
+                                fontWeight: "bold",
+                                marginBottom: 15,
+                            }}
+                        >
+                            Thank you Togheterly team
+                        </Text>
                         <MaterialCommunityIcons
                             name="coffee"
                             size={30}
+                            color={colors.tabBarInactiveTintColor}
                         ></MaterialCommunityIcons>
                         <View
                             style={{
                                 flexDirection: "row",
                                 justifyContent: "space-between",
                                 alignContent: "space-between",
+                                marginTop: 10,
                             }}
                         >
                             <Pressable
