@@ -246,11 +246,23 @@ const CreateNewEventPopup = ({
                                         <Button
                                             text="Confirm"
                                             onPress={() => {
-                                                setVisible(false);
-                                                setDate(null);
-                                                setPosition(null);
-                                                setDescription(null);
-                                                setName(null);
+                                                // setVisible(false);
+                                                // setDate(null);
+                                                // setPosition(null);
+                                                // setDescription(null);
+                                                // setName(null);
+
+                                                if (!name) {
+                                                    Alert.alert("Add name");
+                                                } else if (!date) {
+                                                    Alert.alert("Add date");
+                                                } else if (!description) {
+                                                    Alert.alert(
+                                                        "Add description"
+                                                    );
+                                                } else if (!position) {
+                                                    Alert.alert("Add position");
+                                                }
                                             }}
                                         ></Button>
                                     </View>
