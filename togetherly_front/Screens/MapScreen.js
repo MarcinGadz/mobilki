@@ -15,6 +15,7 @@ const MapScreen = ({ navigation }) => {
     let colors = state.theme;
     const [isLoading, setLoading] = useState(true);
     const [points, setPoints] = React.useState([]);
+    const [data, setData] = React.useState([]);
 
     React.useEffect(() => {
         (async () => {
@@ -44,28 +45,27 @@ const MapScreen = ({ navigation }) => {
                 setLoading(false);
             })
             .catch((error) => {
+                console.log(localToken);
+                console.log("SUPA ERROR");
                 console.log(error);
             });
     }
 
     React.useEffect(() => {
-        if (isLoading === false) {
-            return;
+        if (isLoading === true && localToken) {
+            if (localToken) {
+                fetchData();
+                navigation.addListener('focus', () => {
+                    setLoading(true);
+                  });
+            }
         }
-        if (localToken) {
-            fetchData();
-        }
+        
     }, [localToken, isLoading]);
-
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', () => {
-          fetchData();
-        });
-        return unsubscribe;
-      }, [navigation]);
 
     const mapPoints = (data) => {
         return data.map((e) => {
+            console.log(e);
             return {
                 id: e[0],
                 title: e[1],
