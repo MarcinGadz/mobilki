@@ -19,6 +19,7 @@ import RoundedCorners from "./RoundedCorners";
 import DatePicker from "react-native-neat-date-picker";
 import TextArea from "react-native-textarea";
 import MapView, { Marker } from "react-native-maps";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const CreateNewEventPopup = ({
     visible,
@@ -37,8 +38,10 @@ const CreateNewEventPopup = ({
         date: "",
     });
     const [showDatePicker, setShowDatePicker] = React.useState(false);
+    const [showTimePicker, setShowTimePicker] = React.useState(false);
     const [name, setName] = React.useState(null);
     const [date, setDate] = React.useState(null);
+    const [time, setTime] = React.useState(null);
     const [position, setPosition] = React.useState(null);
     const [description, setDescription] = React.useState(null);
 
@@ -79,7 +82,10 @@ const CreateNewEventPopup = ({
                         title: name,
                         description: description,
                         startPoint: position,
-                        date: date,
+                        date:
+                            date.toISOString().split("T")[0] +
+                            "T" +
+                            time.toISOString().split("T")[1],
                     },
                     {
                         headers: {
@@ -92,7 +98,9 @@ const CreateNewEventPopup = ({
                 })
                 .catch((error) => {
                     console.log(error);
-                    Alert.alert("Cannot add event. Try picking a different name");
+                    Alert.alert(
+                        "Cannot add event. Try picking a different name"
+                    );
                 });
         }
     };
@@ -111,6 +119,7 @@ const CreateNewEventPopup = ({
                 onRequestClose={() => {
                     setVisible(false);
                     setDate(null);
+                    setTime(null);
                     setPosition(null);
                     setDescription(null);
                     setName(null);
@@ -190,9 +199,9 @@ const CreateNewEventPopup = ({
                                         onCancel={() => {
                                             setShowDatePicker(false);
                                         }}
-                                        onConfirm={(date) => {
+                                        onConfirm={(d) => {
                                             setShowDatePicker(false);
-                                            setDate(date);
+                                            setDate(d);
                                         }}
                                         // minDate={() => {
                                         //     date = new Date();
@@ -234,6 +243,67 @@ const CreateNewEventPopup = ({
                                         </Text>
                                     </Pressable>
                                 </View>
+                                <View
+                                    style={{
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        marginBottom: 15,
+                                    }}
+                                >
+                                    <DateTimePickerModal
+                                        isVisible={showTimePicker}
+                                        mode={"time"}
+                                        is24Hour={true}
+                                        value={new Date()}
+                                        onConfirm={(d) => {
+                                            setShowTimePicker(false);
+                                            setTime(d);
+                                        }}
+                                        onCancel={() => {
+                                            setShowTimePicker(false);
+                                        }}
+                                        onChange={() => {}}
+                                    ></DateTimePickerModal>
+                                    {/* <Text>Date: </Text> */}
+                                    <Pressable
+                                        style={{
+                                            backgroundColor:
+                                                colors.textFieldB.background,
+                                            borderColor:
+                                                colors.textFieldB.border,
+                                            borderRadius: 200,
+                                            borderWidth: 2,
+                                            paddingHorizontal: 5,
+                                            paddingVertical: 4,
+                                            flex: 4,
+                                            // width: "auto",
+                                        }}
+                                        onPress={() => {
+                                            setShowTimePicker(true);
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                color: time
+                                                    ? colors.textFieldB.text
+                                                    : colors.textFieldB
+                                                          .placeholder,
+                                                fontSize: 14,
+                                            }}
+                                        >
+                                            {time
+                                                ? (
+                                                      "00" + time.getHours()
+                                                  ).slice(-2) +
+                                                  ":" +
+                                                  (
+                                                      "00" + time.getMinutes()
+                                                  ).slice(-2)
+                                                : "Time"}
+                                        </Text>
+                                    </Pressable>
+                                </View>
+
                                 <View
                                     style={{
                                         flex: 1,
@@ -288,6 +358,7 @@ const CreateNewEventPopup = ({
                                                 setPosition(null);
                                                 setDescription(null);
                                                 setName(null);
+                                                setTime(null);
                                             }}
                                         ></Button>
                                     </View>
@@ -379,5 +450,27 @@ const Map = ({ position, setPosition, currentLocation }) => {
         </View>
     );
 };
+
+// const DatePickerComponent = (
+//     setShowDatePicker,
+//     showDatePicker,
+//     setDate,
+//     date
+// ) => {
+//     return (
+
+//     );
+// };
+
+// const TimePickerComponent = (
+//     setShowTimePicker,
+//     showTimePicker,
+//     setDate,
+//     date
+// ) => {
+//     return (
+
+//     );
+// };
 
 export default CreateNewEventPopup;
