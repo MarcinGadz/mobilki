@@ -1,10 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { UIContext } from "../UIContext";
 
 const LoadingScreen = ({ navigation }) => {
-    const { state, dispatch } = React.useContext(UIContext);
-    let colors = state.theme;
     return (
         <View
             style={{
