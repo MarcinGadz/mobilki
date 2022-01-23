@@ -183,6 +183,7 @@ const EventListScreen = () => {
                 <CreateNewEventPopup
                     visible={createEventPopupVisible}
                     setVisible={toggleCreateEventPopupVisible}
+                    currentLocation={location}
                 ></CreateNewEventPopup>
                 <FloatingButton
                     onPress={() => {

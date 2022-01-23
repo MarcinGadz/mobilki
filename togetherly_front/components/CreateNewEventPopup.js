@@ -20,7 +20,12 @@ import DatePicker from "react-native-neat-date-picker";
 import TextArea from "react-native-textarea";
 import MapView, { Marker } from "react-native-maps";
 
-const CreateNewEventPopup = ({ visible, setVisible, background = true }) => {
+const CreateNewEventPopup = ({
+    visible,
+    setVisible,
+    background = true,
+    currentLocation,
+}) => {
     const { state, dispatch } = React.useContext(UIContext);
     let colors = state.theme;
     const [newEvent, setNewEvent] = React.useState({
@@ -41,6 +46,7 @@ const CreateNewEventPopup = ({ visible, setVisible, background = true }) => {
             [name]: event.nativeEvent,
         });
     };
+    console.log("current location", currentLocation);
 
     return (
         <>
@@ -192,7 +198,8 @@ const CreateNewEventPopup = ({ visible, setVisible, background = true }) => {
                                         containerStyle={{
                                             height: 180,
                                             padding: 5,
-                                            backgroundColor: "#F5FCFF",
+                                            backgroundColor:
+                                                colors.textFieldB.background,
                                             borderColor:
                                                 colors.textFieldB.border,
                                             borderWidth: 2,
@@ -220,13 +227,32 @@ const CreateNewEventPopup = ({ visible, setVisible, background = true }) => {
                                 <Map
                                     position={position}
                                     setPosition={setPosition}
+                                    currentLocation={currentLocation}
                                 ></Map>
                                 <View style={{ flexDirection: "row" }}>
                                     <View style={{ flex: 1, marginRight: 7.5 }}>
-                                        <Button text="Cancel"></Button>
+                                        <Button
+                                            text="Cancel"
+                                            onPress={() => {
+                                                setVisible(false);
+                                                setDate(null);
+                                                setPosition(null);
+                                                setDescription(null);
+                                                setName(null);
+                                            }}
+                                        ></Button>
                                     </View>
                                     <View style={{ flex: 1, marginLeft: 7.5 }}>
-                                        <Button text="Confirm"></Button>
+                                        <Button
+                                            text="Confirm"
+                                            onPress={() => {
+                                                setVisible(false);
+                                                setDate(null);
+                                                setPosition(null);
+                                                setDescription(null);
+                                                setName(null);
+                                            }}
+                                        ></Button>
                                     </View>
                                 </View>
                             </View>
@@ -266,7 +292,7 @@ const Header = ({ eventData, colors }) => {
     );
 };
 
-const Map = ({ position, setPosition }) => {
+const Map = ({ position, setPosition, currentLocation }) => {
     return (
         <View
             style={{
