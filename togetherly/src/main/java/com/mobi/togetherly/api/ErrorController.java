@@ -11,7 +11,6 @@ import java.util.NoSuchElementException;
 public class ErrorController {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handle(NoSuchElementException e){
-
         return ResponseEntity.status(404).body(e.getMessage());
     }
 

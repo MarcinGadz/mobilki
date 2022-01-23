@@ -1,5 +1,6 @@
 package com.mobi.togetherly.config;
 
+import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.*;
 import com.mobi.togetherly.service.EventService;
 import com.mobi.togetherly.service.UserService;
@@ -18,6 +19,8 @@ import java.util.List;
 @Component
 @Transactional
 public class LoadStartupData implements ApplicationRunner {
+    @Autowired
+    UserDao dao;
     @Autowired
     private UserService service;
     @Autowired
@@ -101,7 +104,9 @@ public class LoadStartupData implements ApplicationRunner {
                 event.addUser(u);
                 event.addUser(u2);
                 ev.addUser(u);
-
+                System.out.println("aaaaa");
+                dao.save(u);
+                dao.save(u2);
                 eventService.addEvent(event);
                 eventService.addEvent(ev);
             }
