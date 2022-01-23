@@ -11,7 +11,7 @@ const MapComponent = ({
     style,
     points,
     autoZoom = true,
-    setEventTitle = null,
+    getEventPopup = null,
 }) => {
     const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);
@@ -86,12 +86,11 @@ const MapComponent = ({
         return <LoadingScreen />;
     }
 
-    function onCalloutPress(title) {
-        if (setEventTitle) {
-            console.log("Value passed up " + title);
-            setEventTitle(title);
-        }
-    }
+    // function onCalloutPress() {
+    //     if (setEventTitle) {
+    //         setEventTitle();
+    //     }
+    // }
 
     return (
         <View
@@ -119,7 +118,7 @@ const MapComponent = ({
                                 key={point.id}
                                 coordinate={point.coordinates}
                                 onCalloutPress={(e) =>
-                                    onCalloutPress(point.title)
+                                    getEventPopup(point.title)
                                 }
                             >
                                 <Callout>

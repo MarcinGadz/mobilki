@@ -7,7 +7,6 @@ import { UIContext } from "../UIContext";
 import useToken from "../useToken";
 import LoadingScreen from "../Screens/LoadingScreen";
 import EventPopup from "../components/EventPopup";
-import FloatingButton from "../components/FloatingButton";
 
 const MapScreen = ({ navigation }) => {
     const { token, setToken } = useToken();
@@ -19,7 +18,6 @@ const MapScreen = ({ navigation }) => {
     const [points, setPoints] = React.useState([]);
     const [data, setData] = React.useState([]);
 
-    const [selectedEventTitle, setSelectedEventTitle] = React.useState();
     const [popupVisible, setPopupVisible] = React.useState(false);
     const [eventData, setEventData] = React.useState();
 
@@ -90,8 +88,8 @@ const MapScreen = ({ navigation }) => {
     //     }
     // }, [selectedEventTitle]);
 
-    const getEventPopup = () => {
-        if (selectedEventTitle){
+    const getEventPopup = (title) => {
+        if (title){
             let authString = "Bearer " + localToken;
         axios
             .get("/event/find", {
@@ -99,7 +97,7 @@ const MapScreen = ({ navigation }) => {
                     Authorization: authString,
                 },
                 params: {
-                    title: selectedEventTitle,
+                    title: title,
                 }
             })
             .then((res) => {
@@ -123,7 +121,7 @@ const MapScreen = ({ navigation }) => {
                     region={null}
                     points={points}
                     autoZoom={true}
-                    setEventTitle={setSelectedEventTitle}
+                    getEventPopup={getEventPopup}
                 />
                 <EventPopup
                     visible={popupVisible}
@@ -133,13 +131,6 @@ const MapScreen = ({ navigation }) => {
                     setCheckedMap={null}
                     background={false}
                 />
-                {selectedEventTitle ? (
-                    <FloatingButton
-                        onPress={() => {
-                            getEventPopup();
-                        }}
-                    />
-                ) : null}
                 <StatusBar style="light" />
             </View>
         );
