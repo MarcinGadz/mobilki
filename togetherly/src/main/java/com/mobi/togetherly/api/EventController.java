@@ -27,8 +27,8 @@ public class EventController {
 
     @GetMapping
     public List<EventDTO> getEvents(
-            @RequestParam("owner") String owner,
-            @RequestParam("user") String user) {
+            @RequestParam(value = "owner", required = false) String owner,
+            @RequestParam(value = "user", required = false) String user) {
         if (owner != null) {
             User ownerUser = userService.loadUserByUsername(owner);
             return service.getByOwner(ownerUser);

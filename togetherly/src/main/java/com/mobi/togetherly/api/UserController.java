@@ -87,7 +87,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAll() {
+    public List<UserDTO> getAll() {
         logger.info("Getting all users");
         return service.getAll();
     }

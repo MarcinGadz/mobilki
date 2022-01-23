@@ -89,8 +89,8 @@ public class UserService {
         return new UserDTO(userDao.getById(id));
     }
 
-    public List<User> getAll() {
-        return userDao.findAll();
+    public List<UserDTO> getAll() {
+        return userDao.findAll().stream().map(UserDTO::new).collect(Collectors.toList());
     }
 
     public User loadUserByUsername(String userName) {

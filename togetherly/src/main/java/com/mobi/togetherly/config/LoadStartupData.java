@@ -1,7 +1,6 @@
 package com.mobi.togetherly.config;
 
-import com.mobi.togetherly.model.Event;
-import com.mobi.togetherly.model.User;
+import com.mobi.togetherly.model.*;
 import com.mobi.togetherly.service.EventService;
 import com.mobi.togetherly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +8,15 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Transactional
 public class LoadStartupData implements ApplicationRunner {
     @Autowired
     private UserService service;
@@ -24,51 +26,52 @@ public class LoadStartupData implements ApplicationRunner {
     private void addUsersToRepo() {
         User u = new User("marcin", "test");
         User u2 = new User("M", "t");
+        u.addAchievement(Achievement.BEGINNER);
+        u.addAchievement(Achievement.CREATOR);
         u.setEmail("test@test.com");
         u2.setEmail("testmail@edu.com");
-        u.setGravatarEmail("testgravatar@av.pl");
+        u.setGravatarEmail("filiptheg@gmail.com");
         u2.setGravatarEmail("testgravatar@org.pl");
+        u.setBirthDate(LocalDate.of(2000,9,22));
+        u2.setBirthDate(LocalDate.of(2002,1,13));
         service.addUser(u);
         service.addUser(u2);
-        ArrayList<User> users = new ArrayList<>();
-        users.add(u);
-        users.add(u2);
-        Point p = new Point(1.234, 2.345);
+        Point p = new Point(51.7499026,19.4480431);
         Event e = new Event();
         e.setDate(LocalDateTime.parse("2022-04-16T00:00"));
         e.setStartPoint(p);
-        e.setDescription("Test event");
-        e.setTitle("Test event title!");
+        e.setDescription("Amatorski bieg w okolicach Politechniki Łódzkiej");
+        e.setTitle("Bieg dookoła Politechniki");
         u.registerNewEvent(e);
 
-        Point p2 = new Point(1.5555, 2.5555);
+        Point p2 = new Point(51.7705938,19.4893868);
         Event e2 = new Event();
         e2.setDate(LocalDateTime.parse("2022-02-23T00:00"));
         e2.setStartPoint(p2);
-        e2.setDescription("Test event 5555");
-        e2.setTitle("Test event2");
+        e2.setDescription("Kto najdłużej wytrzyma, wygra prestiżowy tytuł Mistrza");
+        e2.setTitle("Zawody skakankowe");
         u.registerNewEvent(e2);
 
-        Point p3 = new Point(1.5555, 2.5555);
+        Point p3 = new Point(51.7727959,19.4386219);
         Event e3 = new Event();
         e3.setDate(LocalDateTime.parse("2022-02-13T00:00"));
         e3.setStartPoint(p3);
-        e3.setDescription("Test event 5124");
-        e3.setTitle("Test event23333");
+        e3.setDescription("Przejażdżka rowerowa, planowana długość ok. 50km");
+        e3.setTitle("Rowerem dookoła Łodzi");
 
         Point p4 = new Point(1.6123, 2.2345);
         Event e4 = new Event();
         e4.setDate(LocalDateTime.parse("2022-02-23T00:00"));
         e4.setStartPoint(p4);
-        e4.setDescription("Test asfdasf 5555");
-        e4.setTitle("asaaa event2");
+        e4.setDescription("Zawody flankowe");
+        e4.setTitle("Flanki");
 
-        Point p5 = new Point(1.1123, 2.1145);
+        Point p5 = new Point(51.8707398,19.4081212);
         Event e5 = new Event();
         e5.setDate(LocalDateTime.parse("2022-06-11T00:00"));
         e5.setStartPoint(p5);
-        e5.setDescription("Test asfdasf 23");
-        e5.setTitle("asaaa event5");
+        e5.setDescription("Kolejna edycja gry we flanki");
+        e5.setTitle("Flanki - druga edycja");
 
         u.registerNewEvent(e3);
         u.registerNewEvent(e4);
@@ -81,15 +84,32 @@ public class LoadStartupData implements ApplicationRunner {
         eventService.addEvent(e5);
     }
 
+    public void enrollUsersToTestEvents() {
+        List<EventDTO> dtos = eventService.getAll();
+        if(!dtos.isEmpty()) {
+            List<UserDTO> userDTOS = service.getAll();
+            if(!dtos.isEmpty()) {
+                Event event = dtos.get(0).fromDto();
+                User u = userDTOS.get(0).fromDTO();
+                Event ev = dtos.get(1).fromDto();
+                u.addEvent(event);
+                u.addEvent(ev);
+                event.addUser(u);
+                ev.addUser(u);
+                eventService.addEvent(event);
+                eventService.addEvent(ev);
+                service.addUser(u);
+            }
+        }
+
+    }
     @Override
     public void run(ApplicationArguments args) {
-        List<User> all = service.getAll();
+        List<UserDTO> all = service.getAll();
         if (service.getAll().isEmpty()) {
             System.out.println("Adding...");
             addUsersToRepo();
-        } else if (all.stream().anyMatch(x -> x.getGravatarEmail() == null)) {
-            all.forEach(service::remove);
-            addUsersToRepo();
+            enrollUsersToTestEvents();
         } else {
             service.getAll().forEach(System.out::println);
             System.out.println("\n");
