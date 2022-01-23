@@ -184,6 +184,7 @@ const EventListScreen = () => {
                     visible={createEventPopupVisible}
                     setVisible={toggleCreateEventPopupVisible}
                     currentLocation={location}
+                    token={localToken}
                 ></CreateNewEventPopup>
                 <FloatingButton
                     onPress={() => {

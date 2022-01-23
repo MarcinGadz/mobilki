@@ -25,8 +25,10 @@ const CreateNewEventPopup = ({
     setVisible,
     background = true,
     currentLocation,
+    token,
 }) => {
     const { state, dispatch } = React.useContext(UIContext);
+    const axios = require("axios").default;
     let colors = state.theme;
     const [newEvent, setNewEvent] = React.useState({
         title: "",
@@ -46,7 +48,54 @@ const CreateNewEventPopup = ({
             [name]: event.nativeEvent,
         });
     };
-    console.log("current location", currentLocation);
+
+    const createEvent = () => {
+        if (!name) {
+            Alert.alert("Name is empty");
+            return;
+        }
+        if (!date) {
+            Alert.alert("Date is empty");
+            return;
+        }
+        if (!position) {
+            Alert.alert("Position is empty");
+            return;
+        }
+        if (!description) {
+            Alert.alert("Description is empty");
+            return;
+        }
+
+        if (token) {
+            let authString = "Bearer " + token;
+            console.log(token);
+
+            //
+            axios
+                .post(
+                    "/user/register-event",
+                    {
+                        title: name,
+                        description: description,
+                        startPoint: position,
+                        date: date,
+                    },
+                    {
+                        headers: {
+                            Authorization: authString,
+                        },
+                    }
+                )
+                .then((res) => {
+                    Alert.alert("Event added ");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    Alert.alert("Cannot add event. Try picking a different name");
+                });
+        }
+    };
 
     return (
         <>
@@ -262,6 +311,9 @@ const CreateNewEventPopup = ({
                                                     );
                                                 } else if (!position) {
                                                     Alert.alert("Add position");
+                                                } else {
+                                                    createEvent();
+                                                    setVisible(false);
                                                 }
                                             }}
                                         ></Button>
