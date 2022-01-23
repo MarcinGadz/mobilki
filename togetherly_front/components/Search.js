@@ -1,6 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import * as React from "react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
     Modal,
     TextInput,
@@ -13,16 +13,24 @@ import {
 // import Picker from "react-native-picker";
 import { Picker } from "@react-native-picker/picker";
 import { UIContext } from "../UIContext";
+import DatePicker from "react-native-neat-date-picker";
 
-const Search = () => {
+const Search = ({
+    setParentRadius,
+    dateTo,
+    dateFrom,
+    setDateTo,
+    setDateFrom,
+    onRefresh,
+    selectedRadius,
+    setSelectedRadius,
+}) => {
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
     const [isOpen, setOpen] = React.useState(false);
     // let searchBarHeight = 0;
     const [searchBarHeight, setSearchBarHeight] = React.useState(0);
-    const [selectedRadius, setSelectedRadius] = React.useState(1000);
-    const [dateFrom, setDateFrom] = React.useState(null);
-    const [dateTo, setDateTo] = React.useState(null);
+    // const [selectedRadius, setSelectedRadius] = React.useState(15000000);
 
     const heightAnimated = useRef(new Animated.Value(0)).current;
 
@@ -41,6 +49,10 @@ const Search = () => {
             // easing: "easeIn",
         }).start();
     };
+
+    // React.useEffect(() => {
+    //     setParentRadius(selectedRadius);
+    // }, [setParentRadius, selectedRadius]);
 
     return (
         <>
@@ -99,6 +111,7 @@ const Search = () => {
                                 }
                                 size={33}
                                 color={colors.tabBarInactiveTintColor}
+                                onPress={onRefresh}
                             />
                             <View
                                 style={{
@@ -139,6 +152,10 @@ const Search = () => {
                 style={{}}
                 selectedRadius={selectedRadius}
                 setSelectedRadius={setSelectedRadius}
+                dateFrom={dateFrom}
+                dateTo={dateTo}
+                setDateFrom={setDateFrom}
+                setDateTo={setDateTo}
             ></Dropdown>
         </>
     );
@@ -177,6 +194,9 @@ const Dropdown = ({
             marginLeft: 10,
         },
     });
+
+    const [fromDateOpen, setFromDateOpen] = useState(false);
+    const [toDateOpen, setToDateOpen] = useState(false);
 
     return (
         <View
@@ -224,7 +244,7 @@ const Dropdown = ({
                         <Picker.Item label="1km" value={1000} />
                         <Picker.Item label="5km" value={5000} />
                         <Picker.Item label="10km" value={10000} />
-                        <Picker.Item label="15km" value={15000} />
+                        <Picker.Item label="15000km" value={15000000} />
                     </Picker>
                 </View>
                 <View
@@ -235,18 +255,62 @@ const Dropdown = ({
                     }}
                 >
                     <View style={s.dateContainer}>
+                        <DatePicker
+                            isVisible={fromDateOpen}
+                            mode={"single"}
+                            onCancel={() => {
+                                setFromDateOpen(false);
+                            }}
+                            onConfirm={(date) => {
+                                setFromDateOpen(false);
+                                console.log(
+                                    date.getFullYear(),
+                                    date.getMonth(),
+                                    date.getDate()
+                                );
+                                setDateFrom(date);
+                            }}
+                        />
                         <Text style={s.text}>From:</Text>
-                        <Pressable style={s.pressable}>
+                        <Pressable
+                            style={s.pressable}
+                            onPress={() => {
+                                setFromDateOpen(true);
+                            }}
+                            onLongPress={() => {
+                                setDateFrom(null);
+                            }}
+                        >
                             <Text style={[s.text, s.date]}>
-                                {dateFrom ? dateFrom : "-"}
+                                {dateFrom ? dateFrom.toDateString() : "-"}
                             </Text>
                         </Pressable>
                     </View>
                     <View style={s.dateContainer}>
+                        <DatePicker
+                            isVisible={toDateOpen}
+                            mode={"single"}
+                            onCancel={() => {
+                                setToDateOpen(false);
+                            }}
+                            onConfirm={(date) => {
+                                setToDateOpen(false);
+                                console.log(date.getDate());
+                                setDateTo(date);
+                            }}
+                        />
                         <Text style={s.text}>To:</Text>
-                        <Pressable style={s.pressable}>
+                        <Pressable
+                            style={s.pressable}
+                            onPress={() => {
+                                setToDateOpen(true);
+                            }}
+                            onLongPress={() => {
+                                setDateTo(null);
+                            }}
+                        >
                             <Text style={[s.text, s.date]}>
-                                {dateTo ? dateTo : "-"}
+                                {dateTo ? dateTo.toDateString() : "-"}
                             </Text>
                         </Pressable>
                     </View>

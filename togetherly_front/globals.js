@@ -27,6 +27,12 @@ export const light = {
         border: "#fff8",
         text: "#000",
     },
+    textFieldB: {
+        background: "#fff",
+        border: "#0002",
+        text: "#000",
+        placeholder: "#0007",
+    },
     searchDropdown: "hsl(219, 29%, 45%)",
 };
 
@@ -58,6 +64,12 @@ export const dark = {
         background: "#fff",
         border: "#ccc",
         text: "#000",
+    },
+    textFieldB: {
+        background: "#fff",
+        border: "#ccc",
+        text: "#000",
+        placeholder: "#0005",
     },
     searchDropdown: "#313f59",
 };

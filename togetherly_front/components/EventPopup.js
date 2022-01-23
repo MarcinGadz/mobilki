@@ -57,19 +57,46 @@ const EventPopup = ({
                 }}
                 onShow={console.log("shown")}
             >
-                <ScrollView
-                    ref={scroll}
-                    scrollEnabled={!mapVisible}
-                    onLayout={(e) => {
-                        if (!heightCheck) {
-                            var { x, y, width, height } = e.nativeEvent.layout;
-                            heightCheck = true;
-                            scrollHeight = height;
-                            console.log(scrollHeight);
-                        }
+                <View
+                    style={{
+                        // paddingVertical: "10%",
+                        // backgroundColor: "red",
+                        // position: "absolute",
+                        // height: Dimensions.get.screenHeight,
+                        // paddingTop: "10%",
+                        overflow: "visible",
                     }}
                 >
-                    <View
+                    {/* <View> */}
+                    <ScrollView
+                        ref={scroll}
+                        // scrollEnabled={!mapVisible}
+                        onLayout={(e) => {
+                            if (!heightCheck) {
+                                var { x, y, width, height } =
+                                    e.nativeEvent.layout;
+                                heightCheck = true;
+                                scrollHeight = height;
+                                console.log(scrollHeight);
+                            }
+                        }}
+                        contentContainerStyle={{
+                            // height: "100%",
+                            // width: "100%",
+                            // justifyContent: "center",
+                            alignItems: "center",
+                            // marginVertical: 80,
+                            // backgroundColor: colors.mainSecondaryBackground,
+                            // width: "85%",
+                            borderRadius: values.popupBorderRadius,
+                            overflow: "hidden",
+                            marginHorizontal: "10%",
+                            // borderTopWidth: 50,
+                            // borderBottomWidth: 50,
+                            // paddingTop: "10%",
+                        }}
+                    >
+                        {/* <View
                         style={{
                             height: "100%",
                             width: "100%",
@@ -77,14 +104,23 @@ const EventPopup = ({
                             alignItems: "center",
                             marginVertical: 80,
                         }}
-                    >
+                    > */}
+                        {/* <View
+                        style={{
+                            width: "85%",
+                            // height: 1000,
+                            backgroundColor: colors.mainSecondaryBackground,
+                            borderRadius: values.popupBorderRadius,
+                            overflow: "hidden",
+                        }}
+                    > */}
                         <View
                             style={{
-                                width: "85%",
-                                // height: 1000,
-                                backgroundColor: colors.mainSecondaryBackground,
+                                width: "100%",
+                                marginVertical: 50,
                                 borderRadius: values.popupBorderRadius,
                                 overflow: "hidden",
+                                backgroundColor: colors.mainSecondaryBackground,
                             }}
                         >
                             <Header
@@ -101,24 +137,32 @@ const EventPopup = ({
                                     eventData={eventData}
                                     colors={colors}
                                 ></EventInfo>
+                            </View>
+                            <View
+                                style={{ padding: 15, width: "100%" }}
+                                onLayout={(e) => {
+                                    let { x, y, width, height } =
+                                        e.nativeEvent.layout;
+                                    mapPosition = x;
+                                }}
+                            >
                                 <Map
                                     eventData={eventData}
                                     mapVisible={mapVisible}
                                     setMapVisible={setMapVisible}
                                     scroll={scroll}
                                     mapPosition={mapPosition}
-                                    onLayout={(e) => {
-                                        let { x, y, width, height } =
-                                            e.nativeEvent.layout;
-                                        mapPosition = x;
-                                    }}
                                     colors={colors}
                                 ></Map>
-                                <Participants colors={colors}></Participants>
                             </View>
+
+                            <Participants colors={colors}></Participants>
                         </View>
-                    </View>
-                </ScrollView>
+                        {/* </View> */}
+                        {/* </View> */}
+                    </ScrollView>
+                </View>
+                {/* </View> */}
             </Modal>
         </>
     );
@@ -133,7 +177,7 @@ const Participant = ({}) => {
                 marginVertical: 5,
                 // zIndex: -1,
                 // flex: 1,
-                width: "32%",
+                width: "50%",
                 // backgroundColor: "red",
                 // marginHorizontal: 3,
             }}
@@ -166,6 +210,7 @@ const Header = ({ eventData, colors }) => {
                 alignItems: "center",
                 height: "auto",
                 paddingVertical: 7,
+                // borderRadiusTop: 50,
             }}
         >
             <Text
@@ -273,7 +318,14 @@ const EventInfo = ({ eventData, colors }) => {
     );
 };
 
-const Map = ({ mapVisible, setMapVisible, scroll, mapPosition, colors }) => {
+const Map = ({
+    mapVisible,
+    setMapVisible,
+    scroll,
+    mapPosition,
+    colors,
+    eventData,
+}) => {
     const mapEnabled = StyleSheet.create({
         wrapper: {
             height: Dimensions.get("window").height * 0.7,
@@ -356,7 +408,19 @@ const Map = ({ mapVisible, setMapVisible, scroll, mapPosition, colors }) => {
                         }
                     }}
                 >
-                    <MapComponent></MapComponent>
+                    <MapComponent
+                        points={[
+                            {
+                                id: eventData.id,
+                                coordinates: {
+                                    latitude: eventData.startPoint.x,
+                                    longitude: eventData.startPoint.y,
+                                },
+                                title: eventData.title,
+                                description: eventData.description,
+                            },
+                        ]}
+                    ></MapComponent>
                     <View
                         style={[
                             {
@@ -435,6 +499,16 @@ const Participants = ({ colors }) => {
                     justifyContent: "space-between",
                 }}
             >
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
+                <Participant></Participant>
                 <Participant></Participant>
             </View>
         </View>

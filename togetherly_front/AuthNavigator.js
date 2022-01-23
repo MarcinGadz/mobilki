@@ -3,7 +3,6 @@ import { Button } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import FeedScreen from "./Screens/FeedScreen";
 import MapScreen from "./Screens/MapScreen";
 import EventListScreen from "./Screens/EventListScreen";
 import { createAppContainer } from "react-navigation";
@@ -13,9 +12,10 @@ import { UIContext } from "./UIContext";
 
 let colors;
 
-const Auth = () => {
+const Auth = ({ username }) => {
     const [menuVisible, setMenuVisibility] = React.useState(false);
     const [headerShadow, setHeaderShadow] = React.useState(true);
+    const [local_username, setUsername] = React.useState(username);
 
     const Tab = createBottomTabNavigator();
     const { signOut } = React.useContext(AuthContext);
@@ -38,6 +38,7 @@ const Auth = () => {
     colors = state.theme;
 
     const bgColor = colors.mainBackground;
+
     return (
         <>
             <Tab.Navigator
@@ -84,21 +85,6 @@ const Auth = () => {
                     }}
                 />
                 <Tab.Screen
-                    name="Feed"
-                    component={FeedScreen}
-                    options={{
-                        tabBarLabel: "Feed",
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons
-                                name="bell"
-                                color={color}
-                                size={size}
-                            />
-                        ),
-                        headerRight: menuButton,
-                    }}
-                />
-                <Tab.Screen
                     name="Events Map"
                     component={MapScreen}
                     options={{
@@ -128,8 +114,7 @@ const Auth = () => {
                         headerRight: menuButton,
                     }}
                     initialParams={{
-                        headerShadow: { headerShadow },
-                        setHeaderShadow: { setHeaderShadow },
+                        username: local_username,
                     }}
                 />
             </Tab.Navigator>

@@ -8,7 +8,6 @@ import ProfileScreen from "./Screens/ProfileScreen";
 import SignupScreen from "./Screens/SignupScreen";
 import StartScreen from "./Screens/StartScreen";
 import LoadingScreen from "./Screens/LoadingScreen";
-import FeedScreen from "./Screens/FeedScreen";
 import EventListScreen from "./Screens/EventListScreen";
 import MapScreen from "./Screens/MapScreen";
 
@@ -21,6 +20,5 @@ AppRegistry.registerComponent("ProfileScreen", () => ProfileScreen);
 AppRegistry.registerComponent("SignupScreen", () => SignupScreen);
 AppRegistry.registerComponent("StartScreen", () => StartScreen);
 AppRegistry.registerComponent("LoadingScreen", () => LoadingScreen);
-AppRegistry.registerComponent("FeedScreen", () => FeedScreen);
 AppRegistry.registerComponent("EventListScreen", () => EventListScreen);
 AppRegistry.registerComponent("MapScreen", () => MapScreen);

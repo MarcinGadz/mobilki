@@ -166,7 +166,7 @@ const Event = ({ eventData }) => {
                         >
                             <Gravatar
                                 size={40}
-                                email={"filiptheg@gmail.com"}
+                                email={eventData.ownerShortInfo.gravatarEmail}
                             ></Gravatar>
                             <Text
                                 style={{
@@ -176,7 +176,7 @@ const Event = ({ eventData }) => {
                                     color: colors.infoName,
                                 }}
                             >
-                                {eventData.owner}
+                                {eventData.ownerShortInfo.username}
                             </Text>
                         </View>
                         <View
@@ -210,10 +210,19 @@ const Event = ({ eventData }) => {
                             overflow: "hidden",
                         }}
                     >
-                        {/* <Text style={{ textAlign: "center" }}>
-                            Tu będzie mapa jak Pietrucha zrobi
-                        </Text> */}
-                        <MapComponent />
+                        <MapComponent
+                            points={[
+                                {
+                                    id: eventData.id,
+                                    coordinates: {
+                                        latitude: eventData.startPoint.x,
+                                        longitude: eventData.startPoint.y,
+                                    },
+                                    title: eventData.title,
+                                    description: eventData.description,
+                                },
+                            ]}
+                        />
                         <View
                             style={{
                                 position: "absolute",

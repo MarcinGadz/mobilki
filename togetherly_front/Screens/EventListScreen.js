@@ -19,6 +19,8 @@ import FloatingButton from "../components/FloatingButton";
 import { FlipInEasyY } from "react-native-reanimated";
 import { UIContext } from "../UIContext";
 import Search from "../components/Search";
+import CreateNewEventPopup from "../components/CreateNewEventPopup";
+import * as Location from "expo-location";
 
 let colors;
 
@@ -31,31 +33,53 @@ const EventListScreen = () => {
     const { token, setToken } = useToken();
     const [localToken, setLocalToken] = useState();
     const axios = require("axios").default;
-    const [isLoading, setLoading] = useState();
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
 
-    const [refreshing, setRefreshing] = React.useState(false);
+    const [isLoading, setLoading] = useState(false);
+    const [location, setLocation] = useState(null);
+    const [refreshing, setRefreshing] = React.useState(true);
+    const [selectedRadius, setSelectedRadius] = React.useState(500);
+    const [dateFrom, setDateFrom] = React.useState(null);
+    const [dateTo, setDateTo] = React.useState(null);
+    // const wrapperSetParentRadius = React.useCallback(
+    //     (val) => {
+    //         setSelectedRadius(val);
+    //     },
+    //     [setSelectedRadius]
+    // );
+
+    const [createEventPopupVisible, setCreateEventPopupVisible] =
+        React.useState(false);
+    const toggleCreateEventPopupVisible = () => {
+        setCreateEventPopupVisible(!createEventPopupVisible);
+    };
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
     }, []);
 
-    // const onRefresh = () => {
-    //     setRefreshing(true);
-    //     fetchData().then(() => setRefreshing(false));
-    // };
-
-    // const onRefresh = () => {
-    //     setRefreshing(true);
-    //     setValue({});
-    //     setRefreshing(false);
-    // };
-
     React.useEffect(() => {
-        setLoading(true);
-        const bootstrapAsync = async () => {
+        (async () => {
+            let { status } = await Location.requestForegroundPermissionsAsync();
+            if (status !== "granted") {
+                setLocation({
+                    latitude: 0.0,
+                    longitude: 0.0,
+                    latitudeDelta: 100,
+                    longitudeDelta: 100,
+                });
+            } else {
+                let location = await Location.getCurrentPositionAsync({});
+                setLocation({
+                    latitude: location.coords.latitude,
+                    longitude: location.coords.longitude,
+                    latitudeDelta: 0.03,
+                    longitudeDelta: 0.03,
+                });
+            }
+
             let userToken;
             try {
                 userToken = await token;
@@ -65,46 +89,63 @@ const EventListScreen = () => {
                 // try to login user again
             }
             setLocalToken(userToken);
-        };
-
-        bootstrapAsync();
+        })();
     }, []);
 
     React.useEffect(() => {
-        if (localToken) {
+        if (refreshing === false) {
+            return;
+        }
+        if (location) {
+            // GET /event/get-near?longitude=x.xxx&latitude=y.yyy
+            console.log("location " + location);
             let authString = "Bearer " + localToken;
             axios
-                .get("/event/get-near", {
-                    headers: {
-                        Authorization: authString,
-                        params: {
-                            latitude: 1,
-                            longitude: 1,
-                            radius: 1000,
-                            before: null,
-                            after: null,
+                .get(
+                    "/event/get-near",
+                    // "/event/get-near" +
+                    //     "?latitude=" +
+                    //     location.latitude +
+                    //     "&longitude=" +
+                    //     location.longitude +
+                    //     "&radius=" +
+                    //     selectedRadius,
+                    {
+                        headers: {
+                            Authorization: authString,
                         },
-                    },
-                })
+                        params: {
+                            latitude: location.latitude,
+                            longitude: location.longitude,
+                            radius: selectedRadius,
+                            after: dateFrom
+                                ? dateFrom.toISOString().split("T")[0]
+                                : null,
+                            before: dateTo
+                                ? dateTo.toISOString().split("T")[0]
+                                : null,
+                        },
+                    }
+                )
                 .then((res) => {
                     setData(res.data);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-            console.log(localToken);
-            console.log(data);
-            setLoading(false);
+            console.log("Data2:" + data);
         }
-    }, [localToken]);
+        setRefreshing(false);
+    }, [refreshing, location, localToken]);
 
     const renderTable = () => {
         return data.map((e) => {
+            console.log(e);
             return <Event eventData={e} key={e.id} />;
         });
     };
 
-    if (isLoading) {
+    if (refreshing) {
         return <LoadingScreen />;
     } else {
         return (
@@ -115,8 +156,16 @@ const EventListScreen = () => {
                     backgroundColor: colors.mainSecondaryBackground,
                 }}
             >
-                {/* {renderTable()} */}
-                <Search />
+                <Search
+                    // setParentRadius={wrapperSetParentRadius}
+                    dateFrom={dateFrom}
+                    dateTo={dateTo}
+                    setDateFrom={setDateFrom}
+                    setDateTo={setDateTo}
+                    onRefresh={onRefresh}
+                    selectedRadius={selectedRadius}
+                    setSelectedRadius={setSelectedRadius}
+                />
 
                 <ScrollView
                     contentContainerStyle={{
@@ -129,83 +178,16 @@ const EventListScreen = () => {
                         />
                     }
                 >
-                    {/* <View
-                        style={{ height: 1000, backgroundColor: "teal" }}
-                    ></View> */}
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 1234567,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis rutrum leo mi. Pellentesque non erat non turpis porttitor vulputate. Nunc pulvinar velit ut iaculis tincidunt. Quisque eget dapibus sem, eget sodales ex. Cras interdum dolor eget tortor dapibus condimentum. Phasellus ligula massa, mollis ac eleifend sit amet, rhoncus at ligula. Sed efficitur sem vitae dolor vehicula venenatis. Integer vitae ex.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 2137,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 69420,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 69420,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 69420,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 69420,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
-                    <Event
-                        eventData={{
-                            title: "Flany",
-                            id: 69420,
-                            description:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec finibus varius ligula, sed tempus nisl condimentum vel. Ut vel sem.",
-                            owner: "filiptheg",
-                            date: "12.12.2022",
-                        }}
-                    ></Event>
+                    {renderTable()}
                 </ScrollView>
+                <CreateNewEventPopup
+                    visible={createEventPopupVisible}
+                    setVisible={toggleCreateEventPopupVisible}
+                    currentLocation={location}
+                ></CreateNewEventPopup>
                 <FloatingButton
                     onPress={() => {
-                        Alert.alert("Not yet implemented");
+                        setCreateEventPopupVisible(true);
                     }}
                 />
             </View>
