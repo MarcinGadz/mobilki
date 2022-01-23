@@ -9,7 +9,7 @@ import {
     SafeAreaView,
     ImageBackground,
 } from "react-native";
-import bg from "../assets/bg.png";
+import bg from "../assets/bg.jpg";
 import Button from "../components/Button";
 import { UIContext } from "../UIContext";
 

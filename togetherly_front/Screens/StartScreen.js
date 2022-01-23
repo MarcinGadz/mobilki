@@ -10,7 +10,7 @@ import {
     Image,
 } from "react-native";
 
-import bg from "../assets/bg.png";
+import bg from "../assets/bg.jpg";
 import logo from "../assets/logo.png";
 import Button from "../components/Button";
 import { UIContext } from "../UIContext";

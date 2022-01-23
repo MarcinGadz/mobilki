@@ -6,6 +6,8 @@ import { StyleSheet, View } from "react-native";
 import { UIContext } from "../UIContext";
 import useToken from "../useToken";
 import LoadingScreen from "../Screens/LoadingScreen";
+import EventPopup from "../components/EventPopup";
+import FloatingButton from "../components/FloatingButton";
 
 const MapScreen = ({ navigation }) => {
     const { token, setToken } = useToken();
@@ -16,6 +18,10 @@ const MapScreen = ({ navigation }) => {
     const [isLoading, setLoading] = useState(true);
     const [points, setPoints] = React.useState([]);
     const [data, setData] = React.useState([]);
+
+    const [selectedEventTitle, setSelectedEventTitle] = React.useState();
+    const [popupVisible, setPopupVisible] = React.useState(false);
+    const [eventData, setEventData] = React.useState();
 
     React.useEffect(() => {
         (async () => {
@@ -55,12 +61,11 @@ const MapScreen = ({ navigation }) => {
         if (isLoading === true && localToken) {
             if (localToken) {
                 fetchData();
-                navigation.addListener('focus', () => {
+                navigation.addListener("focus", () => {
                     setLoading(true);
-                  });
+                });
             }
         }
-        
     }, [localToken, isLoading]);
 
     const mapPoints = (data) => {
@@ -74,12 +79,67 @@ const MapScreen = ({ navigation }) => {
         });
     };
 
+    // React.useEffect(() => {
+    //     if (selectedEventTitle) {
+    //         if (localToken) {
+    //             fetchData();
+    //             navigation.addListener("focus", () => {
+    //                 setLoading(true);
+    //             });
+    //         }
+    //     }
+    // }, [selectedEventTitle]);
+
+    const getEventPopup = () => {
+        if (selectedEventTitle){
+            let authString = "Bearer " + localToken;
+        axios
+            .get("/event/find", {
+                headers: {
+                    Authorization: authString,
+                },
+                params: {
+                    title: selectedEventTitle,
+                }
+            })
+            .then((res) => {
+                setEventData(res.data);
+                setPopupVisible(true);
+            })
+            .catch((error) => {
+                console.log("SUPA ERRA");
+                console.log(error);
+            });
+        }
+        
+    };
+
     if (isLoading) {
         return <LoadingScreen />;
     } else {
         return (
             <View style={styles.container}>
-                <MapComponent region={null} points={points} autoZoom={true} />
+                <MapComponent
+                    region={null}
+                    points={points}
+                    autoZoom={true}
+                    setEventTitle={setSelectedEventTitle}
+                />
+                <EventPopup
+                    visible={popupVisible}
+                    setVisible={setPopupVisible}
+                    eventData={eventData}
+                    checkedMap={null}
+                    setCheckedMap={null}
+                    background={false}
+                />
+                {selectedEventTitle ? (
+                    <FloatingButton
+                        onPress={() => {
+                            getEventPopup();
+                        }}
+                    />
+                ) : null}
                 <StatusBar style="light" />
             </View>
         );
