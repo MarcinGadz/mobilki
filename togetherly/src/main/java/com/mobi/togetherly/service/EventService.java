@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedList;
 import java.util.List;
@@ -138,27 +138,27 @@ public class EventService {
     }
 
     public List<EventDTO> getNearSpecifiedPoint(Point p, Double radius, String afterStr, String beforeStr) {
-        LocalDate after;
-        LocalDate before;
+        LocalDateTime after;
+        LocalDateTime before;
         boolean wasBeforeDatePassed = false;
         logger.info("Passed before string: " + beforeStr);
         logger.info("Passed after string: " + afterStr);
 
         try {
-            after = LocalDate.parse(afterStr);
+            after = LocalDateTime.parse(afterStr);
         } catch (DateTimeParseException | NullPointerException ex) {
             logger.info("Cannot parse after date " + ex.getMessage());
-            after = LocalDate.now();
+            after = LocalDateTime.now();
         }
         try {
-            before = LocalDate.parse(beforeStr);
+            before = LocalDateTime.parse(beforeStr);
             wasBeforeDatePassed = true;
         } catch (DateTimeParseException | NullPointerException ex) {
             logger.info("Cannot parse before date " + ex.getMessage());
-            before = LocalDate.now();
+            before = LocalDateTime.now();
         }
-        LocalDate finalAfter = after;
-        LocalDate finalBefore = before;
+        LocalDateTime finalAfter = after;
+        LocalDateTime finalBefore = before;
         logger.info("After date: " + after);
         logger.info("Before date: " + before);
         // if none date was passed - return all from now

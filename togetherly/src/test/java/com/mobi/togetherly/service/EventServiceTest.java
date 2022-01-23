@@ -17,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.geo.Point;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -113,11 +114,11 @@ public class EventServiceTest {
         Event futureEventNear = new Event();
         futureEventNear.setStartPoint(new Point(testPointGood.getX() - 0.01, testPointGood.getY() - 0.015));
         futureEventNear.setTitle("Test event");
-        futureEventNear.setDate(LocalDate.of(2025, 1, 1));
+        futureEventNear.setDate(LocalDateTime.of(2025, 1, 1, 0, 0));
         Event pastEventNear = new Event();
         pastEventNear.setStartPoint(new Point(testPointGood.getX() + 0.01, testPointGood.getY() + 0.015));
         pastEventNear.setTitle("Test event");
-        pastEventNear.setDate(LocalDate.of(2020, 1, 1));
+        pastEventNear.setDate(LocalDateTime.of(2020, 1, 1, 0, 0));
         pastEventNear.setId(1L);
         futureEventNear.setId(2L);
         List<Event> testEvents = List.of(pastEventNear, futureEventNear);
@@ -153,9 +154,9 @@ public class EventServiceTest {
         earliestEvent.setId(1L);
         futureEvent.setId(2L);
         futureEventLater.setId(3L);
-        earliestEvent.setDate(LocalDate.of(2023, 2, 15));
-        futureEvent.setDate(LocalDate.of(2024, 2, 15));
-        futureEventLater.setDate(LocalDate.of(2024, 5, 15));
+        earliestEvent.setDate(LocalDateTime.of(2023, 2, 15, 0, 0));
+        futureEvent.setDate(LocalDateTime.of(2024, 2, 15, 0, 0));
+        futureEventLater.setDate(LocalDateTime.of(2024, 5, 15, 0, 0));
         EventDTO earliestDTO = new EventDTO(earliestEvent);
         EventDTO futureDTO = new EventDTO(futureEvent);
         EventDTO futureLaterDTO = new EventDTO(futureEventLater);
@@ -165,9 +166,9 @@ public class EventServiceTest {
         Mockito.when(dao.findAll()).thenReturn(allEvents);
         // Test
         assertEquals(List.of(earliestDTO, futureDTO, futureLaterDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, null, null));
-        assertEquals(List.of(earliestDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, null, "2023-03-01"));
-        assertEquals(List.of(futureDTO, futureLaterDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, "2023-03-01", null));
-        assertEquals(List.of(futureDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, "2023-03-01", "2024-04-01"));
+        assertEquals(List.of(earliestDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, null, "2023-03-01T00:00"));
+        assertEquals(List.of(futureDTO, futureLaterDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, "2023-03-01T00:00", null));
+        assertEquals(List.of(futureDTO), eventService.getNearSpecifiedPoint(testPoint, testRadius, "2023-03-01T00:00", "2024-04-01T00:00"));
     }
 
     @Test
