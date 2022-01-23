@@ -178,16 +178,12 @@ public class EventService {
                 collect(Collectors.toList());
     }
 
-    public List<Object> getStartPoints() {
-        return dao.findStartPoints();
+    public List<Object> getShortInfo() {
+        return dao.findShortInfo();
     }
 
     public List<Event> getByStartPoint(Point p) {
         return dao.getEventsByStartPoint(p);
-    }
-
-    public List<Object> getTitles() {
-        return dao.findTitles();
     }
 
     public Event findByTitle(String title) {

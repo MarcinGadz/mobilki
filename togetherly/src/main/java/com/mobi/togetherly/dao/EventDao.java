@@ -12,8 +12,8 @@ import java.util.List;
 public interface EventDao extends JpaRepository<Event, Long> {
     List<Event> findByOwner(User owner);
     List<Event> findByStartPointBetween(Point p1, Point p2);
-    @Query(value = "SELECT startPoint FROM Event ")
-    List<Object> findStartPoints();
+    @Query(value = "SELECT id, title, startPoint FROM Event")
+    List<Object> findShortInfo();
     @Query(value = "SELECT title FROM Event ")
     List<Object> findTitles();
     Event findEventByTitle(String title);

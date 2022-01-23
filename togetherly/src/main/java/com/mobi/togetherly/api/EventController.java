@@ -63,7 +63,7 @@ public class EventController {
 
     @GetMapping("/start-points")
     public List<Object> getStartPoints() {
-        return service.getStartPoints();
+        return service.getShortInfo();
     }
 
     @GetMapping("/point")
@@ -72,11 +72,5 @@ public class EventController {
         List<Event> e = service.getByStartPoint(p);
         if (e == null || e.isEmpty()) return null;
         return e.stream().map(EventDTO::new).collect(Collectors.toList());
-    }
-
-
-    @GetMapping("/titles")
-    public List<Object> getTitles() {
-        return service.getTitles();
     }
 }
