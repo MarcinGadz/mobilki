@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Dimensions, Alert } from "react-native";
-import MapView, { Marker } from "react-native-maps";
+import { StyleSheet, View, Dimensions, Alert, Text } from "react-native";
+import MapView, { Marker, Callout } from "react-native-maps";
 import LoadingScreen from "../Screens/LoadingScreen";
 import * as Location from "expo-location";
 
@@ -11,6 +11,7 @@ const MapComponent = ({
     style,
     points,
     autoZoom = true,
+    setEventTitle = null,
 }) => {
     const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);
@@ -84,7 +85,13 @@ const MapComponent = ({
     if (isLoading) {
         return <LoadingScreen />;
     }
-    // const markers =
+
+    function onCalloutPress(title) {
+        if (setEventTitle) {
+            console.log("Value passed up " + title);
+            setEventTitle(title);
+        }
+    }
 
     return (
         <View
@@ -111,9 +118,16 @@ const MapComponent = ({
                             <Marker
                                 key={point.id}
                                 coordinate={point.coordinates}
-                                title={point.title}
-                                description={point.description}
-                            ></Marker>
+                                onCalloutPress={(e) =>
+                                    onCalloutPress(point.title)
+                                }
+                            >
+                                <Callout>
+                                    <View>
+                                        <Text>{point.title}</Text>
+                                    </View>
+                                </Callout>
+                            </Marker>
                         );
                     })}
             </MapView>
