@@ -159,7 +159,10 @@ const EventPopup = ({
                                 ></Map>
                             </View>
 
-                            <Participants colors={colors}></Participants>
+                            <Participants
+                                colors={colors}
+                                enrolledUsers={eventData.enrolledUsers}
+                            />
                         </View>
                         {/* </View> */}
                         {/* </View> */}
@@ -171,7 +174,7 @@ const EventPopup = ({
     );
 };
 
-const Participant = ({}) => {
+const Participant = ({ username, gravatarEmail }) => {
     return (
         <View
             style={{
@@ -185,7 +188,7 @@ const Participant = ({}) => {
                 // marginHorizontal: 3,
             }}
         >
-            <Gravatar size={40} email={"filiptheg@gmail.com"}></Gravatar>
+            <Gravatar size={40} email={gravatarEmail}></Gravatar>
             <Text
                 style={{
                     flex: 1,
@@ -196,7 +199,7 @@ const Participant = ({}) => {
                 }}
                 numberOfLines={1}
             >
-                filiptheg
+                {username}
             </Text>
         </View>
     );
@@ -479,7 +482,7 @@ const Map = ({
     );
 };
 
-const Participants = ({ colors }) => {
+const Participants = ({ colors, enrolledUsers }) => {
     const s = StyleSheet.create({
         infoTitle: {
             fontWeight: "bold",
@@ -493,6 +496,19 @@ const Participants = ({ colors }) => {
             marginTop: 7,
         },
     });
+
+    const renderParticipants = () => {
+        return enrolledUsers.map((u) => {
+            console.log(u);
+            return (
+                <Participant
+                    key={u.id}
+                    username={u.username}
+                    gravatarEmail={u.gravatarEmail}
+                />
+            );
+        });
+    };
 
     return (
         <View
@@ -510,17 +526,7 @@ const Participants = ({ colors }) => {
                     justifyContent: "space-between",
                 }}
             >
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
-                <Participant></Participant>
+                {renderParticipants(enrolledUsers)}
             </View>
         </View>
     );
