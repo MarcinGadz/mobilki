@@ -1,7 +1,6 @@
 import * as React from "react";
 import LoginScreen from "./Screens/LoginScreen";
 import SignupScreen from "./Screens/SignupScreen";
-import StartScreen from "./Screens/StartScreen";
 import {
     createStackNavigator,
     TransitionPresets,
@@ -21,11 +20,6 @@ const NoAuth = () => {
                 }
             }
         >
-            <Stack.Screen
-                name="Start"
-                component={StartScreen}
-                options={options}
-            />
             <Stack.Screen
                 name="Login"
                 component={LoginScreen}

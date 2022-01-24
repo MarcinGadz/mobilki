@@ -1,12 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
-import {
-    StyleSheet,
-    View,
-    TextInput,
-    ImageBackground,
-} from "react-native";
+import { StyleSheet, View, TextInput, ImageBackground, Image } from "react-native";
 import bg from "../assets/bg.jpg";
+import logo from "../assets/logo.png";
 import Button from "../components/Button";
 import { UIContext } from "../UIContext";
 
@@ -63,6 +59,12 @@ const LoginScreen = ({ navigation }) => {
             justifyContent: "center",
             position: "absolute",
         },
+        logo: {
+            width: "70%",
+            height: "40%",
+            marginBottom: "10%",
+            tintColor: "#313F59",
+        },
         wrapper: {
             alignContent: "center",
             backgroundColor: "#ffffff30",
@@ -86,6 +88,11 @@ const LoginScreen = ({ navigation }) => {
             <StatusBar style="auto" />
             <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
             <View style={styles.wrapper}>
+                <Image
+                    source={logo}
+                    resizeMode="contain"
+                    style={styles.logo}
+                ></Image>
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
@@ -116,6 +123,14 @@ const LoginScreen = ({ navigation }) => {
                     }
                     variant="blue"
                     width="80%"
+                ></Button>
+
+                <Button
+                    text="SIGN UP"
+                    onPress={() => navigation.navigate("Signup")}
+                    variant="blue"
+                    width="80%"
+                    marginVertical={10}
                 ></Button>
             </View>
         </View>

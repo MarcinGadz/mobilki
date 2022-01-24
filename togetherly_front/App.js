@@ -49,7 +49,7 @@ const App = () => {
                         })
                         .catch((error) => {
                             // logowanie niepoprawne popup
-                            Alert.alert("Couldn't log in, bad request" + error);
+                            Alert.alert("Could not log in, wrong username or password");
                             console.log(error);
                             setLoading(false);
                         });
@@ -82,7 +82,7 @@ const App = () => {
                     )
                     .catch((error) => {
                         // logowanie niepoprawne popup
-                        Alert.alert("Couldn't sign up" + error);
+                        Alert.alert("Couldn't sign up");
                         console.log(error);
                         setLoading(false);
                         return error;
