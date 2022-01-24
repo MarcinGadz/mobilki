@@ -39,6 +39,7 @@ const EnrolledEventsScreen = () => {
     const [refreshing, setRefreshing] = React.useState(true);
     const [dateFrom, setDateFrom] = React.useState(null);
     const [dateTo, setDateTo] = React.useState(null);
+    const [searchQuery, setSearchQuery] = React.useState(null);
 
     const [createEventPopupVisible, setCreateEventPopupVisible] =
         React.useState(false);
@@ -80,6 +81,7 @@ const EnrolledEventsScreen = () => {
                         before: dateTo
                             ? dateTo.toISOString().split("T")[0]
                             : null,
+                        title: searchQuery,
                     },
                 })
                 .then((res) => {
@@ -119,6 +121,8 @@ const EnrolledEventsScreen = () => {
                     onRefresh={onRefresh}
                     selectedRadius={null}
                     setSelectedRadius={null}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
                 />
 
                 <ScrollView

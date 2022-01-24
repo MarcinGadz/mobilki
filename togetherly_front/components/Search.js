@@ -101,6 +101,7 @@ const Search = ({
                                     setSearchQuery(e);
                                 }
                             }}
+                            value={searchQuery}
                         ></TextInput>
                         <View
                             style={{
