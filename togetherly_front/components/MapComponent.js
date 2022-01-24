@@ -12,7 +12,7 @@ const MapComponent = ({
     style,
     points,
     autoZoom = true,
-    getEventPopup = null,
+    getEventPopup = (() => void 0),
 }) => {
     const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);

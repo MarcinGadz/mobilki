@@ -40,7 +40,9 @@ const EventPopup = ({
 
     var mapPosition = 228;
     var heightCheck = false;
-    console.log(eventData);
+    // if (typeof eventData.enrolledUsers === undefined) {
+    //     eventData.enrolledUsers = null;
+    // }
 
     return (
         <>
@@ -158,10 +160,9 @@ const EventPopup = ({
                                     colors={colors}
                                 ></Map>
                             </View>
-
                             <Participants
                                 colors={colors}
-                                enrolledUsers={eventData.enrolledUsers}
+                                eventData={eventData}
                             />
                         </View>
                         {/* </View> */}
@@ -494,7 +495,7 @@ const Map = ({
     );
 };
 
-const Participants = ({ colors, enrolledUsers }) => {
+const Participants = ({ colors, eventData }) => {
     const s = StyleSheet.create({
         infoTitle: {
             fontWeight: "bold",
@@ -510,16 +511,19 @@ const Participants = ({ colors, enrolledUsers }) => {
     });
 
     const renderParticipants = () => {
-        return enrolledUsers.map((u) => {
-            console.log(u);
-            return (
-                <Participant
-                    key={u.id}
-                    username={u.username}
-                    gravatarEmail={u.gravatarEmail}
-                />
-            );
-        });
+        if (typeof eventData.enrolledUsers !== undefined) {
+            return eventData.enrolledUsers.map((u) => {
+                return (
+                    <Participant
+                        key={u.id}
+                        username={u.username}
+                        gravatarEmail={u.gravatarEmail}
+                    />
+                );
+            });
+        } else {
+            return null;
+        }
     };
 
     return (
@@ -538,7 +542,7 @@ const Participants = ({ colors, enrolledUsers }) => {
                     justifyContent: "space-between",
                 }}
             >
-                {renderParticipants(enrolledUsers)}
+                {renderParticipants()}
             </View>
         </View>
     );

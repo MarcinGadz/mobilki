@@ -49,8 +49,6 @@ const MapScreen = ({ navigation }) => {
                 setLoading(false);
             })
             .catch((error) => {
-                console.log(localToken);
-                console.log("SUPA ERROR");
                 console.log(error);
             });
     }
@@ -68,7 +66,6 @@ const MapScreen = ({ navigation }) => {
 
     const mapPoints = (data) => {
         return data.map((e) => {
-            console.log(e);
             return {
                 id: e[0],
                 title: e[1],
@@ -89,27 +86,25 @@ const MapScreen = ({ navigation }) => {
     // }, [selectedEventTitle]);
 
     const getEventPopup = (title) => {
-        if (title){
+        if (title) {
             let authString = "Bearer " + localToken;
-        axios
-            .get("/event/find", {
-                headers: {
-                    Authorization: authString,
-                },
-                params: {
-                    title: title,
-                }
-            })
-            .then((res) => {
-                setEventData(res.data);
-                setPopupVisible(true);
-            })
-            .catch((error) => {
-                console.log("SUPA ERRA");
-                console.log(error);
-            });
+            axios
+                .get("/event/find", {
+                    headers: {
+                        Authorization: authString,
+                    },
+                    params: {
+                        title: title,
+                    },
+                })
+                .then((res) => {
+                    setEventData(res.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            setPopupVisible(true);
         }
-        
     };
 
     if (isLoading) {
@@ -123,14 +118,17 @@ const MapScreen = ({ navigation }) => {
                     autoZoom={true}
                     getEventPopup={getEventPopup}
                 />
-                <EventPopup
-                    visible={popupVisible}
-                    setVisible={setPopupVisible}
-                    eventData={eventData}
-                    checkedMap={null}
-                    setCheckedMap={null}
-                    background={false}
-                />
+                {eventData ? (
+                    <EventPopup
+                        visible={popupVisible}
+                        setVisible={setPopupVisible}
+                        eventData={eventData}
+                        checkedMap={null}
+                        setCheckedMap={null}
+                        background={false}
+                    />
+                ) : null}
+
                 <StatusBar style="light" />
             </View>
         );
