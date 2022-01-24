@@ -19,8 +19,6 @@ const ProfileInfoElement = ({ style, name, content }) => {
             style={[
                 {
                     width: "100%",
-                    // height: Dimensions.get("screen").height / 13,
-                    // height: 50,
                     borderRadius: values.popupBorderRadius,
                     paddingHorizontal: 10,
                     paddingVertical: 5,
@@ -33,10 +31,8 @@ const ProfileInfoElement = ({ style, name, content }) => {
         >
             <Text
                 style={{
-                    // flex: 1,
                     fontWeight: "bold",
                     fontSize: 18,
-                    // height: 20,/
                     color: colors.infoName,
                 }}
             >
@@ -44,7 +40,6 @@ const ProfileInfoElement = ({ style, name, content }) => {
             </Text>
             <View
                 style={{
-                    // flex: 2,
                     alignItems: "center",
                     flexDirection: "row",
                     marginVertical: 3,

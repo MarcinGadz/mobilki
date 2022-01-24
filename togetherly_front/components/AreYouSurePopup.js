@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Modal, View, Text, StyleSheet } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
 
 import Button from "../components/Button";
 import PopupBackground from "./PopupBackground";

@@ -1,22 +1,10 @@
-import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useState } from "react";
-import {
-    StyleSheet,
-    View,
-    Alert,
-    Text,
-    ScrollView,
-    Touchable,
-    Pressable,
-    RefreshControl,
-} from "react-native";
+import { View, Alert, ScrollView, RefreshControl } from "react-native";
 import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
-import axios from "axios";
 import Event from "../components/Event";
 import FloatingButton from "../components/FloatingButton";
-import { FlipInEasyY } from "react-native-reanimated";
 import { UIContext } from "../UIContext";
 import Search from "../components/Search";
 import CreateNewEventPopup from "../components/CreateNewEventPopup";
@@ -35,22 +23,12 @@ const EventListScreen = () => {
     const axios = require("axios").default;
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
-
-    const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);
     const [refreshing, setRefreshing] = React.useState(true);
     const [selectedRadius, setSelectedRadius] = React.useState(500);
     const [dateFrom, setDateFrom] = React.useState(null);
     const [dateTo, setDateTo] = React.useState(null);
     const [searchQuery, setSearchQuery] = React.useState(null);
-
-    const [participateEventId, setParticipateEventId] = React.useState(null);
-    // const wrapperSetParticipateEventId = React.useCallback(
-    //     (val) => {
-    //         setParticipateEventId(val);
-    //     },
-    //     [setParticipateEventId]
-    // );
 
     const [createEventPopupVisible, setCreateEventPopupVisible] =
         React.useState(false);
@@ -88,8 +66,6 @@ const EventListScreen = () => {
                 userToken = await token;
             } catch (e) {
                 console.log(e);
-                // Restoring token failed
-                // try to login user again
             }
             setLocalToken(userToken);
         })();
@@ -100,37 +76,26 @@ const EventListScreen = () => {
             return;
         }
         if (location) {
-            // GET /event/get-near?longitude=x.xxx&latitude=y.yyy
             console.log("location " + location);
             let authString = "Bearer " + localToken;
             axios
-                .get(
-                    "/event/get-near",
-                    // "/event/get-near" +
-                    //     "?latitude=" +
-                    //     location.latitude +
-                    //     "&longitude=" +
-                    //     location.longitude +
-                    //     "&radius=" +
-                    //     selectedRadius,
-                    {
-                        headers: {
-                            Authorization: authString,
-                        },
-                        params: {
-                            latitude: location.latitude,
-                            longitude: location.longitude,
-                            radius: selectedRadius,
-                            after: dateFrom
-                                ? dateFrom.toISOString().split("T")[0]
-                                : null,
-                            before: dateTo
-                                ? dateTo.toISOString().split("T")[0]
-                                : null,
-                            title: searchQuery,
-                        },
-                    }
-                )
+                .get("/event/get-near", {
+                    headers: {
+                        Authorization: authString,
+                    },
+                    params: {
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        radius: selectedRadius,
+                        after: dateFrom
+                            ? dateFrom.toISOString().split("T")[0]
+                            : null,
+                        before: dateTo
+                            ? dateTo.toISOString().split("T")[0]
+                            : null,
+                        title: searchQuery,
+                    },
+                })
                 .then((res) => {
                     setData(res.data);
                 })

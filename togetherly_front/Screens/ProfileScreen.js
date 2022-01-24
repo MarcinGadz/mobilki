@@ -1,14 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useState } from "react";
-import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
+import { View, ScrollView } from "react-native";
 import useToken from "../useToken";
 import { UIContext } from "../UIContext";
 import * as gravatar from "gravatar-api";
 import Gravatar from "../components/Gravatar";
 import ProfileInfoElement from "../components/ProfileInfoElement";
 import LoadingScreen from "./LoadingScreen";
-import axios from "axios";
 
 const handleScroll = (e) => {
     console.log(e.nativeEvent.contentOffset.y);
@@ -19,19 +18,11 @@ let colors;
 const ProfileScreen = ({ navigation, route }) => {
     const [isLoading, setLoading] = useState(true);
     const { token, setToken } = useToken();
+    const axios = require("axios").default;
     const [localToken, setLocalToken] = useState();
     const [userData, setUserData] = useState();
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
-    // private String username;
-    // private String password;
-    // private Long id;
-    // private Set<Achievement> achievements;
-    // private List<Event> events;
-    // private List<Event> ownedEvents;
-    // private String email;
-    // private String gravatarEmail;
-    // private LocalDate birthDate;
 
     React.useEffect(() => {
         (async () => {
@@ -96,9 +87,6 @@ const ProfileScreen = ({ navigation, route }) => {
                         dispatch({ type: "SET_HEADER_SHADOW", payload: true });
                     }
                 }}
-                // onScrollBeginDrag={
-
-                // }
             >
                 <StatusBar style="light" />
                 <View
@@ -177,7 +165,6 @@ const ProfileScreen = ({ navigation, route }) => {
 
                 <View
                     style={{
-                        // backgroundColor: "red",
                         width: "100%",
                         height: "auto",
                         alignItems: "center",
@@ -209,7 +196,6 @@ const ProfileScreen = ({ navigation, route }) => {
                         content={userData.birthDate}
                     ></ProfileInfoElement>
                 </View>
-                {/* <View style={{ height: 1000 }}></View> */}
             </ScrollView>
         );
     }

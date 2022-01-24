@@ -88,13 +88,6 @@ const MapComponent = ({
     if (isLoading) {
         return <LoadingScreen />;
     }
-
-    // function onCalloutPress() {
-    //     if (setEventTitle) {
-    //         setEventTitle();
-    //     }
-    // }
-
     return (
         <View
             style={[
@@ -136,16 +129,6 @@ const MapComponent = ({
             </MapView>
         </View>
     );
-
-    // {markers !== undefined &&
-    //   markers.map((marker, index) => (
-    //    <Marker
-    //      key={index}
-    //      coordinate={marker.latlng}
-    //      title={marker.title}
-    //      description={marker.description}
-    //    />
-    //  ))}
 };
 
 const styles = StyleSheet.create({
@@ -154,14 +137,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         alignItems: "center",
         justifyContent: "center",
-        // width: width,
-        // height: height,
     },
     map: {
-        // width: Dimensions.get("window").width,
-        // height: Dimensions.get("window").height,
-        // width: width,
-        // height: height,
     },
 });
 

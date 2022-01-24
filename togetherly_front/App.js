@@ -17,13 +17,8 @@ const App = () => {
     const [localToken, setLocalToken] = useState();
     const [username, setUsername] = useState();
     const axios = require("axios");
-    // const [visible, settVisible] = React.useState(false);
     axios.defaults.baseURL = "https://togetherly-app.herokuapp.com/";
     axios.defaults.timeout = 2500;
-
-    // const toggleVisible = () => {
-    //     settVisible(!visible);
-    // };
 
     const authContext = useMemo(
         () => ({
@@ -37,8 +32,6 @@ const App = () => {
                         .post(
                             "/user/authenticate",
                             {
-                                // username: "M", for quick debug login
-                                // password: "t",
                                 username: data.username,
                                 password: data.password,
                             },
@@ -114,7 +107,6 @@ const App = () => {
         </AuthContext.Provider>
     );
 };
-// {/* <MenuPopup visible={visible} setVisible={toggleVisible}></MenuPopup> */}
 
 const styles = StyleSheet.create({
     container: {

@@ -20,6 +20,7 @@ import DatePicker from "react-native-neat-date-picker";
 import TextArea from "react-native-textarea";
 import MapView, { Marker } from "react-native-maps";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { setCustomScrollView } from "react-native-global-props";
 
 const CreateNewEventPopup = ({
     visible,
@@ -131,30 +132,15 @@ const CreateNewEventPopup = ({
             >
                 <View
                     style={{
-                        // paddingVertical: "10%",
-                        // backgroundColor: "red",
-                        // position: "absolute",
-                        // height: Dimensions.get.screenHeight,
-                        // paddingTop: "10%",
                         overflow: "visible",
                     }}
                 >
                     <ScrollView
-                        // scrollEnabled={!mapVisible}
                         contentContainerStyle={{
-                            // height: "100%",
-                            // width: "100%",
-                            // justifyContent: "center",
                             alignItems: "center",
-                            // marginVertical: 80,
-                            // backgroundColor: colors.mainSecondaryBackground,
-                            // width: "85%",
                             borderRadius: values.popupBorderRadius,
                             overflow: "hidden",
                             marginHorizontal: "10%",
-                            // borderTopWidth: 50,
-                            // borderBottomWidth: 50,
-                            // paddingTop: "10%",
                         }}
                     >
                         <View
@@ -177,9 +163,7 @@ const CreateNewEventPopup = ({
                                         borderRadius: 200,
                                         borderWidth: 2,
                                         paddingHorizontal: 7,
-                                        // paddingVertical: 1,
                                         flex: 4,
-                                        // width: "auto",
                                         fontSize: 14,
                                         marginBottom: 15,
                                         color: colors.textFieldB.text,
@@ -190,7 +174,6 @@ const CreateNewEventPopup = ({
                                     }
                                     onChangeText={(e) => {
                                         setName(e);
-                                        // console.log(e);
                                     }}
                                 ></TextInput>
                                 <View
@@ -211,14 +194,7 @@ const CreateNewEventPopup = ({
                                             setDate(d);
                                         }}
                                         colorOptions={colors.datePicker}
-                                        // minDate={() => {
-                                        //     date = new Date();
-                                        //     date.setDate(date.get() - 1);
-                                        //     return date;
-                                        // }}
-                                        // initialDate={null}
                                     />
-                                    {/* <Text>Date: </Text> */}
                                     <Pressable
                                         style={{
                                             backgroundColor:
@@ -230,7 +206,6 @@ const CreateNewEventPopup = ({
                                             paddingHorizontal: 5,
                                             paddingVertical: 4,
                                             flex: 4,
-                                            // width: "auto",
                                         }}
                                         onPress={() => {
                                             setShowDatePicker(true);
@@ -272,7 +247,6 @@ const CreateNewEventPopup = ({
                                         }}
                                         onChange={() => {}}
                                     ></DateTimePickerModal>
-                                    {/* <Text>Date: </Text> */}
                                     <Pressable
                                         style={{
                                             backgroundColor:
@@ -284,7 +258,6 @@ const CreateNewEventPopup = ({
                                             paddingHorizontal: 5,
                                             paddingVertical: 4,
                                             flex: 4,
-                                            // width: "auto",
                                         }}
                                         onPress={() => {
                                             setShowTimePicker(true);
@@ -315,7 +288,6 @@ const CreateNewEventPopup = ({
                                 <View
                                     style={{
                                         flex: 1,
-                                        // padding: 30,
                                         justifyContent: "center",
                                         alignItems: "center",
                                         marginBottom: 15,
@@ -347,7 +319,6 @@ const CreateNewEventPopup = ({
                                         }
                                         onChangeText={(e) => {
                                             setDescription(e);
-                                            // console.log(e);
                                         }}
                                     ></TextArea>
                                 </View>
@@ -374,12 +345,6 @@ const CreateNewEventPopup = ({
                                         <Button
                                             text="Confirm"
                                             onPress={() => {
-                                                // setVisible(false);
-                                                // setDate(null);
-                                                // setPosition(null);
-                                                // setDescription(null);
-                                                // setName(null);
-
                                                 if (!name) {
                                                     Alert.alert("Add name");
                                                 } else if (!date) {
@@ -418,7 +383,6 @@ const Header = ({ eventData, colors }) => {
                 alignItems: "center",
                 height: "auto",
                 paddingVertical: 7,
-                // borderRadiusTop: 50,
             }}
         >
             <Text
@@ -459,27 +423,5 @@ const Map = ({ position, setPosition, currentLocation }) => {
         </View>
     );
 };
-
-// const DatePickerComponent = (
-//     setShowDatePicker,
-//     showDatePicker,
-//     setDate,
-//     date
-// ) => {
-//     return (
-
-//     );
-// };
-
-// const TimePickerComponent = (
-//     setShowTimePicker,
-//     showTimePicker,
-//     setDate,
-//     date
-// ) => {
-//     return (
-
-//     );
-// };
 
 export default CreateNewEventPopup;

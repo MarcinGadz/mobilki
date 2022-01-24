@@ -1,27 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import { useState } from "react";
-import {
-    StyleSheet,
-    View,
-    Alert,
-    Text,
-    ScrollView,
-    Touchable,
-    Pressable,
-    RefreshControl,
-} from "react-native";
+import { View, ScrollView, RefreshControl } from "react-native";
 import LoadingScreen from "./LoadingScreen";
 import useToken from "../useToken";
-import axios from "axios";
 import Event from "../components/Event";
-import FloatingButton from "../components/FloatingButton";
-import { FlipInEasyY } from "react-native-reanimated";
 import { UIContext } from "../UIContext";
 import Search from "../components/Search";
-import CreateNewEventPopup from "../components/CreateNewEventPopup";
-import * as Location from "expo-location";
-
 let colors;
 
 const wait = (timeout) => {
@@ -41,12 +25,6 @@ const EnrolledEventsScreen = () => {
     const [dateTo, setDateTo] = React.useState(null);
     const [searchQuery, setSearchQuery] = React.useState(null);
 
-    const [createEventPopupVisible, setCreateEventPopupVisible] =
-        React.useState(false);
-    const toggleCreateEventPopupVisible = () => {
-        setCreateEventPopupVisible(!createEventPopupVisible);
-    };
-
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
@@ -59,8 +37,6 @@ const EnrolledEventsScreen = () => {
                 userToken = await token;
             } catch (e) {
                 console.log(e);
-                // Restoring token failed
-                // try to login user again
             }
             setLocalToken(userToken);
         })();
@@ -113,7 +89,6 @@ const EnrolledEventsScreen = () => {
                 }}
             >
                 <Search
-                    // setParentRadius={wrapperSetParentRadius}
                     dateFrom={dateFrom}
                     dateTo={dateTo}
                     setDateFrom={setDateFrom}

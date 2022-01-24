@@ -13,10 +13,8 @@ const MapScreen = ({ navigation }) => {
     const [localToken, setLocalToken] = useState();
     const axios = require("axios").default;
     const { state, dispatch } = React.useContext(UIContext);
-    let colors = state.theme;
     const [isLoading, setLoading] = useState(true);
     const [points, setPoints] = React.useState([]);
-    const [data, setData] = React.useState([]);
 
     const [popupVisible, setPopupVisible] = React.useState(false);
     const [eventData, setEventData] = React.useState();
@@ -29,8 +27,6 @@ const MapScreen = ({ navigation }) => {
                 userToken = await token;
             } catch (e) {
                 console.log(e);
-                // Restoring token failed
-                // try to login user again
             }
             setLocalToken(userToken);
         })();
@@ -73,17 +69,6 @@ const MapScreen = ({ navigation }) => {
             };
         });
     };
-
-    // React.useEffect(() => {
-    //     if (selectedEventTitle) {
-    //         if (localToken) {
-    //             fetchData();
-    //             navigation.addListener("focus", () => {
-    //                 setLoading(true);
-    //             });
-    //         }
-    //     }
-    // }, [selectedEventTitle]);
 
     const getEventPopup = (title) => {
         if (title) {

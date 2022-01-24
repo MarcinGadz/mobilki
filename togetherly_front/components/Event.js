@@ -57,7 +57,6 @@ const Event = ({ eventData, participateInEvent }) => {
                 onPress={() => {
                     setEventVisibility(true);
                     setCheckedMap(false);
-                    // console.log("eventVisible  ", eventVisible);
                 }}
             >
                 <View
@@ -70,7 +69,6 @@ const Event = ({ eventData, participateInEvent }) => {
                         height: "auto",
                         paddingVertical: 4,
                         overflow: "visible",
-                        // height: 20,
                     }}
                 >
                     <Text
@@ -93,16 +91,6 @@ const Event = ({ eventData, participateInEvent }) => {
                     >
                         #{eventData.id}
                     </Text>
-                    {/* <View
-                        style={{
-                            position: "absolute",
-                            width: values.popupBorderRadius,
-                            height: values.popupBorderRadius,
-                            backgroundColor: "red",
-                            bottom: -3,
-                            zIndex: 300,
-                        }}
-                    ></View> */}
                 </View>
                 <View
                     style={{
@@ -154,7 +142,6 @@ const Event = ({ eventData, participateInEvent }) => {
 
                     <View
                         style={{
-                            // backgroundColor: "aqua",
                             flex: 3,
                             width: "100%",
                             padding: 10,

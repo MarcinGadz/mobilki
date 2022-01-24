@@ -10,7 +10,6 @@ import {
     Text,
     StyleSheet,
 } from "react-native";
-// import Picker from "react-native-picker";
 import { Picker } from "@react-native-picker/picker";
 import { UIContext } from "../UIContext";
 import DatePicker from "react-native-neat-date-picker";
@@ -30,9 +29,7 @@ const Search = ({
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
     const [isOpen, setOpen] = React.useState(false);
-    // let searchBarHeight = 0;
     const [searchBarHeight, setSearchBarHeight] = React.useState(0);
-    // const [selectedRadius, setSelectedRadius] = React.useState(15000000);
 
     const heightAnimated = useRef(new Animated.Value(0)).current;
 
@@ -40,7 +37,6 @@ const Search = ({
         Animated.timing(heightAnimated, {
             toValue: 100,
             duration: 1000,
-            // easing: "easeOut",
         }).start();
     };
 
@@ -48,13 +44,8 @@ const Search = ({
         Animated.timing(heightAnimated, {
             toValue: 0,
             duration: 1000,
-            // easing: "easeIn",
         }).start();
     };
-
-    // React.useEffect(() => {
-    //     setParentRadius(selectedRadius);
-    // }, [setParentRadius, selectedRadius]);
 
     return (
         <>
@@ -69,7 +60,6 @@ const Search = ({
                 <View
                     onLayout={(e) => {
                         var { x, y, width, height } = e.nativeEvent.layout;
-                        // searchBarHeight = height;
                         setSearchBarHeight(height);
                         console.log("s:", searchBarHeight);
                     }}
@@ -79,7 +69,6 @@ const Search = ({
                             flexDirection: "row",
                             justifyContent: "space-around",
                             alignItems: "center",
-                            // backgroundColor: "yellow",
                         }}
                     >
                         <TextInput
@@ -108,18 +97,10 @@ const Search = ({
                                 flexDirection: "row",
                                 flex: 1,
                                 justifyContent: "space-around",
-                                // backgroundColor: "teal",
                             }}
                         >
                             <FontAwesome5
                                 name={"search"}
-                                style={
-                                    {
-                                        // flex: 1,
-                                        // marginLeft: 15,
-                                        // backgroundColor: "red",
-                                    }
-                                }
                                 size={33}
                                 color={colors.tabBarInactiveTintColor}
                                 onPress={onRefresh}
@@ -133,9 +114,6 @@ const Search = ({
                                 <FontAwesome5
                                     name={"chevron-down"}
                                     style={{
-                                        // flex: 1,
-                                        // marginLeft: 20,
-                                        // backgroundColor: "green",
                                         transform: [
                                             {
                                                 rotate: isOpen
@@ -188,7 +166,6 @@ const Dropdown = ({
         dateContainer: {
             flexDirection: "row",
             width: "48%",
-            // backgroundColor: "red",
         },
         text: {
             color: colors.tabBarInactiveTintColor,
@@ -200,7 +177,6 @@ const Dropdown = ({
             textAlign: "center",
         },
         pressable: {
-            // width: 100,
             flex: 1,
             marginLeft: 10,
         },
@@ -213,8 +189,6 @@ const Dropdown = ({
         <View
             style={[
                 {
-                    // top: searchBarHeight + 30,
-                    // position: "absolute",
                     height: isOpen ? "auto" : 0,
                     overflow: "hidden",
                     backgroundColor: colors.searchDropdown,
@@ -228,7 +202,6 @@ const Dropdown = ({
         >
             <View
                 style={{
-                    // backgroundColor: "red",
                     paddingHorizontal: 10,
                     paddingVertical: 10,
                 }}

@@ -18,7 +18,6 @@ const PopupBackground = ({ visible, setVisible }) => {
                     width: "100%",
                     height: "100%",
                     backgroundColor: colors.popupSecondaryBackground,
-                    // opacity: 0.5,
                 }}
                 onPress={() => {
                     setVisible(false);

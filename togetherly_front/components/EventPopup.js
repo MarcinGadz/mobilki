@@ -40,9 +40,6 @@ const EventPopup = ({
 
     var mapPosition = 228;
     var heightCheck = false;
-    // if (typeof eventData.enrolledUsers === undefined) {
-    //     eventData.enrolledUsers = null;
-    // }
 
     return (
         <>
@@ -63,18 +60,11 @@ const EventPopup = ({
             >
                 <View
                     style={{
-                        // paddingVertical: "10%",
-                        // backgroundColor: "red",
-                        // position: "absolute",
-                        // height: Dimensions.get.screenHeight,
-                        // paddingTop: "10%",
                         overflow: "visible",
                     }}
                 >
-                    {/* <View> */}
                     <ScrollView
                         ref={scroll}
-                        // scrollEnabled={!mapVisible}
                         onLayout={(e) => {
                             if (!heightCheck) {
                                 var { x, y, width, height } =
@@ -85,39 +75,12 @@ const EventPopup = ({
                             }
                         }}
                         contentContainerStyle={{
-                            // height: "100%",
-                            // width: "100%",
-                            // justifyContent: "center",
                             alignItems: "center",
-                            // marginVertical: 80,
-                            // backgroundColor: colors.mainSecondaryBackground,
-                            // width: "85%",
                             borderRadius: values.popupBorderRadius,
                             overflow: "hidden",
                             marginHorizontal: "5%",
-                            // borderTopWidth: 50,
-                            // borderBottomWidth: 50,
-                            // paddingTop: "10%",
                         }}
                     >
-                        {/* <View
-                        style={{
-                            height: "100%",
-                            width: "100%",
-                            // justifyContent: "center",
-                            alignItems: "center",
-                            marginVertical: 80,
-                        }}
-                    > */}
-                        {/* <View
-                        style={{
-                            width: "85%",
-                            // height: 1000,
-                            backgroundColor: colors.mainSecondaryBackground,
-                            borderRadius: values.popupBorderRadius,
-                            overflow: "hidden",
-                        }}
-                    > */}
                         <View
                             style={{
                                 width: "100%",
@@ -165,11 +128,8 @@ const EventPopup = ({
                                 eventData={eventData}
                             />
                         </View>
-                        {/* </View> */}
-                        {/* </View> */}
                     </ScrollView>
                 </View>
-                {/* </View> */}
             </Modal>
         </>
     );
@@ -182,11 +142,7 @@ const Participant = ({ username, gravatarEmail }) => {
                 flexDirection: "row",
                 alignItems: "center",
                 marginVertical: 5,
-                // zIndex: -1,
-                // flex: 1,
                 width: "50%",
-                // backgroundColor: "red",
-                // marginHorizontal: 3,
             }}
         >
             <Gravatar size={40} email={gravatarEmail}></Gravatar>
@@ -194,8 +150,6 @@ const Participant = ({ username, gravatarEmail }) => {
                 style={{
                     flex: 1,
                     marginLeft: 10,
-                    // marginRight: 10,
-                    // width: "80%",
                     fontSize: 16,
                 }}
                 numberOfLines={1}
@@ -217,7 +171,6 @@ const Header = ({ eventData, colors }) => {
                 alignItems: "center",
                 height: "auto",
                 paddingVertical: 7,
-                // borderRadiusTop: 50,
             }}
         >
             <Text
@@ -311,8 +264,6 @@ const EventInfo = ({ eventData, colors }) => {
     return (
         <View
             style={{
-                // backgroundColor: "aqua",
-                // flex: 3,
                 width: "100%",
                 padding: 10,
             }}
@@ -412,8 +363,6 @@ const Map = ({
             >
                 <Pressable
                     style={{ height: "100%", width: "100%" }}
-                    // onPress={() => setMapVisible(true)}
-                    // onLongPress={() => {}}
                     onPressIn={(e) => {
                         touchCords = [
                             e.nativeEvent.locationX,
@@ -473,7 +422,6 @@ const Map = ({
                     <Pressable
                         style={[
                             {
-                                // display: "none",
                                 position: "absolute",
                                 right: 10,
                                 top: 10,
@@ -536,7 +484,6 @@ const Participants = ({ colors, eventData }) => {
             <Text style={s.infoTitle}>Participants</Text>
             <View
                 style={{
-                    // marginTop: 10,
                     flexDirection: "row",
                     flexWrap: "wrap",
                     justifyContent: "space-between",

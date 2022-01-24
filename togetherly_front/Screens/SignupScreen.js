@@ -2,10 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import {
     StyleSheet,
-    Text,
     View,
     TextInput,
-    TouchableOpacity,
     Alert,
     ImageBackground,
 } from "react-native";
@@ -33,7 +31,6 @@ const SignupScreen = ({ navigation }) => {
         } else if (email === null) {
             Alert.alert("Email is empty");
         } else if (password === password2) {
-            //
             if (password.length > 7 && password.length < 21) {
                 return true;
             } else {
@@ -49,7 +46,12 @@ const SignupScreen = ({ navigation }) => {
 
     async function onSubmit() {
         if (validate()) {
-            let result = await signUp({ username, password, email, gravatarEmail });
+            let result = await signUp({
+                username,
+                password,
+                email,
+                gravatarEmail,
+            });
             console.log("Account created: " + result);
             if (result) {
                 Alert.alert("Account created successfully");
@@ -107,8 +109,6 @@ const SignupScreen = ({ navigation }) => {
             position: "absolute",
         },
         wrapper: {
-            // flex: 1,
-            // flexWrap: "wrap",
             alignContent: "center",
             backgroundColor: "#ffffff30",
             alignItems: "center",
@@ -136,7 +136,6 @@ const SignupScreen = ({ navigation }) => {
             <StatusBar style="auto" />
             <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
             <View style={styles.wrapper}>
-                {/* <Text style={styles.title}>SIGN UP</Text> */}
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
@@ -193,16 +192,8 @@ const SignupScreen = ({ navigation }) => {
                         onChangeText={onChangePassword2}
                     />
                 </View>
-
-                {/* <TouchableOpacity
-                    style={styles.signupBtn}
-                    onPress={() => onSubmit()}
-                >
-                    <Text style={styles.loginText}>SIGN UP</Text>
-                </TouchableOpacity> */}
                 <Button
                     text="SIGN UP"
-                    // onPress={() => signIn({ username, password })}
                     onPress={() => onSubmit()}
                     variant="blue"
                     width="80%"

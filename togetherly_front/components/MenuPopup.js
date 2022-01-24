@@ -28,7 +28,6 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
             alignItems: "center",
         },
         wrapper: {
-            // flex: 1,
             width: "60%",
             height: "auto",
             paddingVertical: 30,
@@ -57,7 +56,6 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                 transparent={true}
                 visible={visible}
                 onRequestClose={setVisible}
-                // style={styles.modal}
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>
@@ -85,7 +83,6 @@ const MenuPopup = ({ visible, setVisible, background = true }) => {
                             <Button
                                 text="Support us!"
                                 onPress={() => {
-                                    // Alert.alert("Not yet implemented");
                                     setSupportUsVisibility(true);
                                 }}
                                 icon={"dollar"}

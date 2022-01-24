@@ -2,10 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import {
     StyleSheet,
-    Text,
     View,
-    TouchableOpacity,
-    SafeAreaView,
     ImageBackground,
     Image,
 } from "react-native";
@@ -69,18 +66,14 @@ const StartScreen = ({ navigation }) => {
             width: "100%",
             justifyContent: "center",
             position: "absolute",
-            // opacity: .8
         },
         logo: {
             width: "70%",
             height: "40%",
-            // marginTop: -200,
             marginBottom: "10%",
             tintColor: "#313F59",
         },
         wrapper: {
-            // flex: 1,
-            // flexWrap: "wrap",
             alignContent: "center",
             backgroundColor: "#ffffff30",
             alignItems: "center",
@@ -101,22 +94,9 @@ const StartScreen = ({ navigation }) => {
                     resizeMode="contain"
                     style={styles.logo}
                 ></Image>
-                {/* <TouchableOpacity
-                    style={styles.loginBtn}
-                    onPress={() => navigation.navigate("Login")}
-                >
-                    <Text style={styles.loginText}> LOGIN </Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.loginBtn}
-                    onPress={() => navigation.navigate("Signup")}
-                >
-                    <Text style={styles.loginText}> SIGN UP </Text>
-                </TouchableOpacity> */}
 
                 <Button
                     text="LOGIN"
-                    // onPress={() => signIn({ username, password })}
                     onPress={() => navigation.navigate("Login")}
                     variant="blue"
                     width="80%"
@@ -124,7 +104,6 @@ const StartScreen = ({ navigation }) => {
                 ></Button>
                 <Button
                     text="SIGN UP"
-                    // onPress={() => signIn({ username, password })}
                     onPress={() => navigation.navigate("Signup")}
                     variant="blue"
                     width="80%"

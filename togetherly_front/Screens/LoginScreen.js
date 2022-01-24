@@ -2,11 +2,8 @@ import { StatusBar } from "expo-status-bar";
 import * as React from "react";
 import {
     StyleSheet,
-    Text,
     View,
     TextInput,
-    TouchableOpacity,
-    SafeAreaView,
     ImageBackground,
 } from "react-native";
 import bg from "../assets/bg.jpg";
@@ -24,7 +21,6 @@ const LoginScreen = ({ navigation }) => {
     const styles = StyleSheet.create({
         container: {
             flex: 1,
-            // backgroundColor: '#fffab4',
             alignItems: "center",
             justifyContent: "center",
         },
@@ -68,8 +64,6 @@ const LoginScreen = ({ navigation }) => {
             position: "absolute",
         },
         wrapper: {
-            // flex: 1,
-            // flexWrap: "wrap",
             alignContent: "center",
             backgroundColor: "#ffffff30",
             alignItems: "center",
@@ -87,13 +81,11 @@ const LoginScreen = ({ navigation }) => {
         });
     }, [navigation]);
 
-    // signIn({ email: 'M', password: 't'})
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
             <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
             <View style={styles.wrapper}>
-                {/* <Text style={styles.title}>SIGN IN</Text> */}
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
@@ -117,18 +109,10 @@ const LoginScreen = ({ navigation }) => {
                     />
                 </View>
 
-                {/* <TouchableOpacity
-                    style={styles.loginBtn}
-                    // onPress={() => signIn({ username, password })}
-                    onPress={() => signIn({ username: "M", password: "t" })}
-                    >
-                    <Text style={styles.loginText}>LOGIN</Text>
-                </TouchableOpacity> */}
                 <Button
                     text="LOGIN"
-                    // onPress={() => signIn({ username, password })}
                     onPress={() =>
-                        signIn({ username: "John", password: "test" })
+                        signIn({ username: username, password: password })
                     }
                     variant="blue"
                     width="80%"

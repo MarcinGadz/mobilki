@@ -21,8 +21,6 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 const SupportUsPopup = ({ visible, setVisible, background = true }) => {
     const { state, dispatch } = React.useContext(UIContext);
     let colors = state.theme;
-    // console.log("visible", visible);
-    // console.log("setVisible", setVisible);
     const { signOut } = React.useContext(AuthContext);
     const [areYouSureVisible, setAreYouSureVisibility] = React.useState(false);
     const [settingsVisible, setSettingsVisibility] = React.useState(false);
@@ -36,7 +34,6 @@ const SupportUsPopup = ({ visible, setVisible, background = true }) => {
             alignItems: "center",
         },
         wrapper: {
-            // flex: 1,
             width: "80%",
             height: "auto",
             paddingVertical: 30,
@@ -49,7 +46,6 @@ const SupportUsPopup = ({ visible, setVisible, background = true }) => {
             alignItems: "center",
         },
         button: {
-            // width: "28%",
             flex: 1,
             marginHorizontal: 3,
             padding: 3,
@@ -80,7 +76,6 @@ const SupportUsPopup = ({ visible, setVisible, background = true }) => {
                 transparent={true}
                 visible={visible}
                 onRequestClose={setVisible}
-                // style={styles.modal}
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>

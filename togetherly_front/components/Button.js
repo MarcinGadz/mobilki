@@ -64,7 +64,6 @@ const Button = ({
                 android_ripple={{
                     color: "#fff8",
                     borderless: false,
-                    // foreground: false,
                 }}
                 onPress={onPress}
             >

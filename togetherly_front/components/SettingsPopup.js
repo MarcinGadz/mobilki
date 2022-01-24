@@ -38,7 +38,6 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
             alignItems: "center",
         },
         wrapper: {
-            // flex: 1,
             width: "60%",
             height: "auto",
             paddingVertical: 30,
@@ -68,7 +67,6 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
                 transparent={true}
                 visible={visible}
                 onRequestClose={setVisible}
-                // style={styles.modal}
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>
