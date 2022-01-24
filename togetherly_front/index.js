@@ -10,6 +10,7 @@ import StartScreen from "./Screens/StartScreen";
 import LoadingScreen from "./Screens/LoadingScreen";
 import EventListScreen from "./Screens/EventListScreen";
 import MapScreen from "./Screens/MapScreen";
+import EnrolledEventsScreen from "./Screens/EnrolledEventScreens";
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
@@ -22,3 +23,4 @@ AppRegistry.registerComponent("StartScreen", () => StartScreen);
 AppRegistry.registerComponent("LoadingScreen", () => LoadingScreen);
 AppRegistry.registerComponent("EventListScreen", () => EventListScreen);
 AppRegistry.registerComponent("MapScreen", () => MapScreen);
+AppRegistry.registerComponent("EnrolledEventsScreen", () => EnrolledEventsScreen);

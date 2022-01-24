@@ -222,31 +222,34 @@ const Dropdown = ({
                     paddingVertical: 10,
                 }}
             >
-                <View
-                    style={{
-                        borderWidth: 2,
-                        borderRadius: 100,
-                        borderColor: colors.textField.border,
-                    }}
-                >
-                    <Picker
-                        mode={"dropdown"}
-                        prompt={"qwerty"}
-                        selectedValue={selectedRadius}
-                        onValueChange={(itemValue, itemIndex) =>
-                            setSelectedRadius(itemValue)
-                        }
-                        style={[s.text]}
-                        dropdownIconColor={colors.tabBarInactiveTintColor}
-                        dropdownIconRippleColor={"#fff4"}
+                {setSelectedRadius ? (
+                    <View
+                        style={{
+                            borderWidth: 2,
+                            borderRadius: 100,
+                            borderColor: colors.textField.border,
+                        }}
                     >
-                        <Picker.Item label="500m" value={500} />
-                        <Picker.Item label="1km" value={1000} />
-                        <Picker.Item label="5km" value={5000} />
-                        <Picker.Item label="10km" value={10000} />
-                        <Picker.Item label="15000km" value={15000000} />
-                    </Picker>
-                </View>
+                        <Picker
+                            mode={"dropdown"}
+                            prompt={"qwerty"}
+                            selectedValue={selectedRadius}
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelectedRadius(itemValue)
+                            }
+                            style={[s.text]}
+                            dropdownIconColor={colors.tabBarInactiveTintColor}
+                            dropdownIconRippleColor={"#fff4"}
+                        >
+                            <Picker.Item label="500m" value={500} />
+                            <Picker.Item label="1km" value={1000} />
+                            <Picker.Item label="5km" value={5000} />
+                            <Picker.Item label="10km" value={10000} />
+                            <Picker.Item label="15000km" value={15000000} />
+                        </Picker>
+                    </View>
+                ) : null}
+
                 <View
                     style={{
                         flexDirection: "row",

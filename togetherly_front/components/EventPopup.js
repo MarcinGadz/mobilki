@@ -269,14 +269,16 @@ const Owner = ({ eventData, colors, participateInEvent }) => {
                 </Text>
             </View>
             <View>
-                <Button
-                    text={"Participate"}
-                    variant="blue"
-                    width={150}
-                    onPress={() => {
-                        participateInEvent(eventData.id);
-                    }}
-                ></Button>
+                {participateInEvent ? (
+                    <Button
+                        text={"Participate"}
+                        variant="blue"
+                        width={150}
+                        onPress={() => {
+                            participateInEvent(eventData.id);
+                        }}
+                    ></Button>
+                ) : null}
             </View>
         </View>
     );

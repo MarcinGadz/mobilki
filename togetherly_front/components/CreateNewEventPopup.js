@@ -72,16 +72,19 @@ const CreateNewEventPopup = ({
 
         if (token) {
             let authString = "Bearer " + token;
-            console.log(token);
+            console.log("This is position " + position);
+            console.log(position);
 
-            //
             axios
                 .post(
                     "/user/register-event",
                     {
                         title: name,
                         description: description,
-                        startPoint: position,
+                        startPoint: {
+                            x: position.latitude,
+                            y: position.longitude
+                        },
                         date:
                             date.toISOString().split("T")[0] +
                             "T" +

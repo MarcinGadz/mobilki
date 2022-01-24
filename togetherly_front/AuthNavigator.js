@@ -9,6 +9,7 @@ import { createAppContainer } from "react-navigation";
 import MenuPopup from "./components/MenuPopup";
 import { View } from "react-native-web";
 import { UIContext } from "./UIContext";
+import EnrolledEventsScreen from "./Screens/EnrolledEventScreens";
 
 let colors;
 
@@ -92,6 +93,21 @@ const Auth = ({ username }) => {
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons
                                 name="map"
+                                color={color}
+                                size={size}
+                            />
+                        ),
+                        headerRight: menuButton,
+                    }}
+                />
+                <Tab.Screen
+                    name="Enrolled Events"
+                    component={EnrolledEventsScreen}
+                    options={{
+                        tabBarLabel: "Enrolled Events",
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons
+                                name="map-check"
                                 color={color}
                                 size={size}
                             />
