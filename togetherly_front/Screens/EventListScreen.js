@@ -42,11 +42,13 @@ const EventListScreen = () => {
     const [selectedRadius, setSelectedRadius] = React.useState(500);
     const [dateFrom, setDateFrom] = React.useState(null);
     const [dateTo, setDateTo] = React.useState(null);
-    // const wrapperSetParentRadius = React.useCallback(
+
+    const [participateEventId, setParticipateEventId] = React.useState(null);
+    // const wrapperSetParticipateEventId = React.useCallback(
     //     (val) => {
-    //         setSelectedRadius(val);
+    //         setParticipateEventId(val);
     //     },
-    //     [setSelectedRadius]
+    //     [setParticipateEventId]
     // );
 
     const [createEventPopupVisible, setCreateEventPopupVisible] =
@@ -138,10 +140,42 @@ const EventListScreen = () => {
         setRefreshing(false);
     }, [refreshing, location, localToken]);
 
+    const participateInEvent = (eventId) => {
+        console.log(eventId);
+        if (eventId !== null) {
+            let authString = "Bearer " + localToken;
+            console.log(authString);
+            axios
+                .post(
+                    "user/enroll?event=" + eventId,
+                    {},
+                    {
+                        headers: {
+                            Authorization: authString,
+                        },
+                    }
+                )
+                .then((res) => {
+                    console.log(res.data);
+                    Alert.alert("Enrolled");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    Alert.alert("Could not enroll");
+                });
+        }
+    };
+
     const renderTable = () => {
         return data.map((e) => {
             console.log(e);
-            return <Event eventData={e} key={e.id} />;
+            return (
+                <Event
+                    eventData={e}
+                    key={e.id}
+                    participateInEvent={participateInEvent}
+                />
+            );
         });
     };
 

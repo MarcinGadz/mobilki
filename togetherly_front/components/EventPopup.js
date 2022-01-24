@@ -28,6 +28,7 @@ const EventPopup = ({
     eventData,
     checkedMap,
     setCheckedMap,
+    participateInEvent,
     background = true,
 }) => {
     const { state, dispatch } = React.useContext(UIContext);
@@ -132,6 +133,7 @@ const EventPopup = ({
                                 <Owner
                                     eventData={eventData}
                                     colors={colors}
+                                    participateInEvent={participateInEvent}
                                 ></Owner>
                                 <EventInfo
                                     eventData={eventData}
@@ -235,7 +237,7 @@ const Header = ({ eventData, colors }) => {
     );
 };
 
-const Owner = ({ eventData, colors }) => {
+const Owner = ({ eventData, colors, participateInEvent }) => {
     return (
         <View
             style={{
@@ -272,7 +274,7 @@ const Owner = ({ eventData, colors }) => {
                     variant="blue"
                     width={150}
                     onPress={() => {
-                        Alert.alert("Not yet implemented");
+                        participateInEvent(eventData.id);
                     }}
                 ></Button>
             </View>

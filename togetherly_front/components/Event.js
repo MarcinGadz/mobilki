@@ -9,7 +9,7 @@ import MapComponent from "./MapComponent";
 import RoundedCorners from "./RoundedCorners";
 import { UIContext } from "../UIContext";
 
-const Event = ({ eventData }) => {
+const Event = ({ eventData, participateInEvent }) => {
     const [eventVisible, setEventVisibility] = React.useState(false);
     const { state, dispatch } = React.useContext(UIContext);
     let colors = state.theme;
@@ -36,6 +36,7 @@ const Event = ({ eventData }) => {
                 eventData={eventData}
                 checkedMap={checkedMap}
                 setCheckedMap={setCheckedMap}
+                participateInEvent={participateInEvent}
             ></EventPopup>
             <Pressable
                 style={{
