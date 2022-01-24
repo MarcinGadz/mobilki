@@ -20,7 +20,7 @@ const UIReducer = (state, action) => {
 const UIProvider = ({ children }) => {
     const [state, dispatch] = useReducer(UIReducer, {
         headerShadow: true,
-        theme: dark,
+        theme: light,
     });
     const value = { state, dispatch };
     return <UIContext.Provider value={value}>{children}</UIContext.Provider>;
