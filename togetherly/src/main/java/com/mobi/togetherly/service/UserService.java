@@ -70,9 +70,11 @@ public class UserService {
     public User addUser(User u) {
         if (checkUsername(u.getUsername()) &&
                 checkString(u.getPassword()) &&
-                checkEmail(u.getEmail()) &&
-                (u.getGravatarEmail() == null ||
-                        checkEmail(u.getGravatarEmail()))) {
+                checkEmail(u.getEmail())) {
+            if((u.getGravatarEmail() == null ||
+                    !checkEmail(u.getGravatarEmail()))) {
+                u.setGravatarEmail(u.getEmail());
+            }
             u.setPassword(encoder.encode(u.getPassword()));
             Collection<Role> userRoles = u.getAuthorities();
             if (userRoles == null) {
