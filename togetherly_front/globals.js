@@ -36,6 +36,17 @@ export const light = {
     },
     searchDropdown: "hsl(219, 29%, 45%)",
     map: [],
+    datePicker: {
+        backgroundColor: "#fff",
+        headerColor: "#2b364a",
+        headerTextColor: "#fff",
+        changeYearModalColor: "#2b364a",
+        weekDaysColor: "#2b364a",
+        dateTextColor: "#000000",
+        selectedDateColor: "#ffffff",
+        selectedDateBackgroundColor: "#717f98",
+        confirmButtonColor: "#2b364a",
+    },
 };
 
 export const dark = {
@@ -236,6 +247,17 @@ export const dark = {
             ],
         },
     ],
+    datePicker: {
+        backgroundColor: "#444444",
+        headerColor: "hsl(219, 5%, 10%)",
+        headerTextColor: "#444444",
+        changeYearModalColor: "#0f0f10",
+        weekDaysColor: "#0f0f10",
+        dateTextColor: "#ffffff",
+        selectedDateColor: "#444444",
+        selectedDateBackgroundColor: "#222325",
+        confirmButtonColor: "hsl(219, 5%, 10%)",
+    },
 };
 
 export const values = {

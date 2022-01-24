@@ -83,7 +83,7 @@ const CreateNewEventPopup = ({
                         description: description,
                         startPoint: {
                             x: position.latitude,
-                            y: position.longitude
+                            y: position.longitude,
                         },
                         date:
                             date.toISOString().split("T")[0] +
@@ -210,6 +210,7 @@ const CreateNewEventPopup = ({
                                             setShowDatePicker(false);
                                             setDate(d);
                                         }}
+                                        colorOptions={colors.datePicker}
                                         // minDate={() => {
                                         //     date = new Date();
                                         //     date.setDate(date.get() - 1);
@@ -451,6 +452,7 @@ const Map = ({ position, setPosition, currentLocation }) => {
                     setPosition(e.nativeEvent.coordinate);
                     console.log(position);
                 }}
+                customMapStyle={colors.map}
             >
                 {position && <Marker coordinate={position}></Marker>}
             </MapView>

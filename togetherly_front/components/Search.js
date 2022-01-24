@@ -284,6 +284,7 @@ const Dropdown = ({
                                 );
                                 setDateFrom(date);
                             }}
+                            colorOptions={colors.datePicker}
                         />
                         <Text style={s.text}>From:</Text>
                         <Pressable
@@ -312,6 +313,7 @@ const Dropdown = ({
                                 console.log(date.getDate());
                                 setDateTo(date);
                             }}
+                            colorOptions={colors.datePicker}
                         />
                         <Text style={s.text}>To:</Text>
                         <Pressable
