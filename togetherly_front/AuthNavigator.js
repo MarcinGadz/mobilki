@@ -1,13 +1,10 @@
 import * as React from "react";
-import { Button } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import MapScreen from "./Screens/MapScreen";
 import EventListScreen from "./Screens/EventListScreen";
-import { createAppContainer } from "react-navigation";
 import MenuPopup from "./components/MenuPopup";
-import { View } from "react-native-web";
 import { UIContext } from "./UIContext";
 import EnrolledEventsScreen from "./Screens/EnrolledEventScreens";
 
@@ -60,14 +57,6 @@ const Auth = ({ username }) => {
                     headerTitleStyle: {
                         color: colors.tabBarInactiveTintColor,
                     },
-                    // header: () => (
-                    //     <View style={{
-                    //         width: 200,
-                    //         height: 200,
-                    //         backgroundColor: 'green'
-                    //     }}></View>
-                    // )
-                    // tabBarLabel: navigation.isFocused() ? route.name : ''
                 }}
             >
                 <Tab.Screen
@@ -142,54 +131,4 @@ const Auth = ({ username }) => {
     );
 };
 
-// const TabNavigator = createBottomTabNavigator(
-//     {
-//         Journal: {
-//             screen: EventListScreen,
-//             navigationOptions: {
-//                 tabBarIcon: ({color, size}) => (
-//                     <MaterialCommunityIcons
-//                             name="home"
-//                             color={color}
-//                             size={25}
-//                         />
-//                 ),
-//             },
-//         },
-//         Feed: {
-//             screen: FeedScreen,
-//             navigationOptions: {
-//                 tabBarIcon: ({color, size}) => (
-//                     <MaterialCommunityIcons
-//                             name="bell"
-//                             color={color}
-//                             size={25}
-//                         />
-//                 ),
-//             },
-//         },
-//         Profile: {
-//             screen: ProfileScreen,
-//             navigationOptions: {
-//                 tabBarIcon: ({color, size}) => (
-//                     <MaterialCommunityIcons
-//                             name="account"
-//                             color={color}
-//                             size={25}
-//                         />
-//                 ),
-//             },
-//         },
-//     },
-//     {
-//         tabBarOptions: {
-//             showLabel: false,
-//             activeBackgroundColor: 'red',
-//             inactiveBackgroundColor: 'green',
-//             backgroundColor: 'green'
-//         }
-//     }
-// );
-
 export default Auth;
-// export default createAppContainer(TabNavigator);

@@ -8,20 +8,34 @@ import {
 } from "@react-navigation/stack";
 
 const options = {
-    ...TransitionPresets.RevealFromBottomAndroid
+    ...TransitionPresets.RevealFromBottomAndroid,
 };
 
 const NoAuth = () => {
     const Stack = createStackNavigator();
     return (
         <Stack.Navigator
-            screenOptions={{
-                // ...TransitionPresets.
-            }}
+            screenOptions={
+                {
+                    // ...TransitionPresets.
+                }
+            }
         >
-            <Stack.Screen name="Start" component={StartScreen} options={options}/>
-            <Stack.Screen name="Login" component={LoginScreen} options={options} />
-            <Stack.Screen name="Signup" component={SignupScreen} options={options} />
+            <Stack.Screen
+                name="Start"
+                component={StartScreen}
+                options={options}
+            />
+            <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={options}
+            />
+            <Stack.Screen
+                name="Signup"
+                component={SignupScreen}
+                options={options}
+            />
         </Stack.Navigator>
     );
 };
