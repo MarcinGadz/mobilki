@@ -182,8 +182,12 @@ const CreateNewEventPopup = ({
                                         // width: "auto",
                                         fontSize: 14,
                                         marginBottom: 15,
+                                        color: colors.textFieldB.text,
                                     }}
                                     placeholder={"Name"}
+                                    placeholderTextColor={
+                                        colors.textFieldB.placeholder
+                                    }
                                     onChangeText={(e) => {
                                         setName(e);
                                         // console.log(e);

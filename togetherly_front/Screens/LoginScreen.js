@@ -127,7 +127,9 @@ const LoginScreen = ({ navigation }) => {
                 <Button
                     text="LOGIN"
                     // onPress={() => signIn({ username, password })}
-                    onPress={() => signIn({ username: "M", password: "t" })}
+                    onPress={() =>
+                        signIn({ username: "John", password: "test" })
+                    }
                     variant="blue"
                     width="80%"
                 ></Button>

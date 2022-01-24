@@ -90,6 +90,7 @@ const Search = ({
                                 paddingVertical: 3,
                                 flex: 4,
                                 width: "auto",
+                                color: colors.textField.text,
                             }}
                         ></TextInput>
                         <View

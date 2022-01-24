@@ -48,6 +48,7 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
             borderRadius: values.popupBorderRadius,
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "row",
         },
         button: {
             width: "80%",
@@ -71,6 +72,9 @@ const SettingsPopup = ({ visible, setVisible, background = true }) => {
             >
                 <View style={styles.modal}>
                     <View style={styles.wrapper}>
+                        <Text style={{ color: colors.tabBarInactiveTintColor }}>
+                            Dark mode
+                        </Text>
                         <Switch
                             onValueChange={toggleSwitch}
                             value={isEnabled}

@@ -79,6 +79,7 @@ const Event = ({ eventData, participateInEvent }) => {
                             marginVertical: 3,
                             fontWeight: "bold",
                             marginLeft: 8,
+                            color: colors.eventHeaderText,
                         }}
                     >
                         {eventData.title}
@@ -87,6 +88,7 @@ const Event = ({ eventData, participateInEvent }) => {
                         style={{
                             fontSize: 13,
                             marginRight: 8,
+                            color: colors.eventHeaderText,
                         }}
                     >
                         #{eventData.id}
@@ -188,7 +190,7 @@ const Event = ({ eventData, participateInEvent }) => {
                             <View style={s.infoBlock}>
                                 <Text style={s.infoTitle}>Date</Text>
                                 <Text style={s.infoContent}>
-                                    {eventData.date}
+                                    {new Date(eventData.date).toDateString()}
                                 </Text>
                             </View>
                             <View style={s.infoBlock}>

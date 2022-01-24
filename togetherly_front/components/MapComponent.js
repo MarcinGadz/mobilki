@@ -4,6 +4,7 @@ import { StyleSheet, View, Dimensions, Alert, Text } from "react-native";
 import MapView, { Marker, Callout } from "react-native-maps";
 import LoadingScreen from "../Screens/LoadingScreen";
 import * as Location from "expo-location";
+import { UIContext } from "../UIContext";
 
 const MapComponent = ({
     width = "100%",
@@ -15,6 +16,8 @@ const MapComponent = ({
 }) => {
     const [isLoading, setLoading] = useState(false);
     const [location, setLocation] = useState(null);
+    const { state, dispatch } = React.useContext(UIContext);
+    let colors = state.theme;
 
     useEffect(() => {
         (async () => {
@@ -110,6 +113,7 @@ const MapComponent = ({
                 }}
                 initialRegion={location}
                 pitchEnabled={false}
+                customMapStyle={colors.map}
             >
                 {points &&
                     points.map((point) => {

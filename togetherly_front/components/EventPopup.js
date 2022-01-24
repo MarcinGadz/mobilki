@@ -40,6 +40,7 @@ const EventPopup = ({
 
     var mapPosition = 228;
     var heightCheck = false;
+    console.log(eventData);
 
     return (
         <>
@@ -91,7 +92,7 @@ const EventPopup = ({
                             // width: "85%",
                             borderRadius: values.popupBorderRadius,
                             overflow: "hidden",
-                            marginHorizontal: "10%",
+                            marginHorizontal: "5%",
                             // borderTopWidth: 50,
                             // borderBottomWidth: 50,
                             // paddingTop: "10%",
@@ -217,11 +218,12 @@ const Header = ({ eventData, colors }) => {
         >
             <Text
                 style={{
-                    fontSize: 30,
+                    fontSize: 23,
                     marginVertical: 3,
                     fontWeight: "bold",
                     marginLeft: 15,
                 }}
+                numberOfLines={1}
             >
                 {eventData.title}
             </Text>
@@ -256,7 +258,10 @@ const Owner = ({ eventData, colors, participateInEvent }) => {
                     marginBottom: 10,
                 }}
             >
-                <Gravatar size={60} email={"filiptheg@gmail.com"}></Gravatar>
+                <Gravatar
+                    size={60}
+                    email={eventData.ownerShortInfo.gravatarEmail}
+                ></Gravatar>
                 <Text
                     style={{
                         marginLeft: 10,
@@ -265,7 +270,7 @@ const Owner = ({ eventData, colors, participateInEvent }) => {
                         color: colors.infoName,
                     }}
                 >
-                    {eventData.owner}
+                    {eventData.ownerShortInfo.username}
                 </Text>
             </View>
             <View>
@@ -311,7 +316,9 @@ const EventInfo = ({ eventData, colors }) => {
             <View>
                 <View style={s.infoBlock}>
                     <Text style={s.infoTitle}>Date</Text>
-                    <Text style={s.infoContent}>{eventData.date}</Text>
+                    <Text style={s.infoContent}>
+                        {new Date(eventData.date).toDateString()}
+                    </Text>
                 </View>
                 <View style={s.infoBlock}>
                     <Text style={s.infoTitle}>Description</Text>
