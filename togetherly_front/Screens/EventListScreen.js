@@ -128,7 +128,7 @@ const EventListScreen = () => {
                 })
                 .catch((error) => {
                     console.log(error);
-                    Alert.alert("Could not enroll");
+                    Alert.alert("You are already participant");
                 });
         }
     };
