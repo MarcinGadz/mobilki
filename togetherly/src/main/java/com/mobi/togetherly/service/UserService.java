@@ -71,7 +71,7 @@ public class UserService {
         if (checkUsername(u.getUsername()) &&
                 checkString(u.getPassword()) &&
                 checkEmail(u.getEmail())) {
-            if((u.getGravatarEmail() == null ||
+            if ((u.getGravatarEmail() == null ||
                     !checkEmail(u.getGravatarEmail()))) {
                 u.setGravatarEmail(u.getEmail());
             }
@@ -114,6 +114,9 @@ public class UserService {
             throw new IllegalArgumentException("Cannot enroll to not existing event");
         }
         User u = getLoggedUser();
+        if (u.getEvents() != null && u.getEvents().contains(event)) {
+            throw new IllegalStateException("You are already enrolled to this event");
+        }
         u.addEvent(event);
         event.addUser(u);
         eventService.addEvent(event);
@@ -175,10 +178,10 @@ public class UserService {
         if (checkString(u.getPassword())) {
             user.setPassword(u.getPassword());
         }
-        if(u.getBirthDate() != null && u.getBirthDate() != LocalDate.EPOCH) {
+        if (u.getBirthDate() != null && u.getBirthDate() != LocalDate.EPOCH) {
             user.setBirthDate(u.getBirthDate());
         }
-        if(checkUsername(u.getUsername())) {
+        if (checkUsername(u.getUsername())) {
             user.setUsername(u.getUsername());
         }
         User newUser = userDao.save(user);
@@ -186,7 +189,7 @@ public class UserService {
     }
 
     private boolean checkUsername(String username) {
-        if(!checkString(username)){
+        if (!checkString(username)) {
             return false;
         }
         return userDao.findByUsername(username) == null;

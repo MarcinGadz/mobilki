@@ -97,7 +97,13 @@ class UserServiceTest {
         userService.setUserDao(userDao);
         userService.setEventService(eventService);
         EventDTO tmp = new EventDTO(e);
+        Long otherId = 8L;
+        Long anotherId = 9L;
+        EventDTO other = new EventDTO(new Event(otherId));
+        EventDTO another = new EventDTO(new Event(anotherId));
         when(eventService.getById(eventId)).thenReturn(tmp);
+        when(eventService.getById(otherId)).thenReturn(other);
+        when(eventService.getById(anotherId)).thenReturn(another);
 
         Authentication auth = Mockito.mock(Authentication.class);
         SecurityContext ctx = Mockito.mock(SecurityContext.class);
@@ -120,19 +126,19 @@ class UserServiceTest {
             Set<Achievement> testSet = new HashSet<>();
             testSet.add(Achievement.BEGINNER);
             u.setAchievements(testSet);
-            u.addEvent(new Event());
-            u.addEvent(new Event());
-            u.addEvent(new Event());
-            u.addEvent(new Event());
-            u.addEvent(new Event());
-            assertEquals(e, userService.enroll(eventId));
+            u.addEvent(new Event(2L));
+            u.addEvent(new Event(3L));
+            u.addEvent(new Event(4L));
+            u.addEvent(new Event(5L));
+            u.addEvent(new Event(6L));
+            assertEquals(other.fromDto(), userService.enroll(otherId));
             assertTrue(u.getAchievements().contains(Achievement.INTERMEDIATE));
             u.addEvent(new Event());
             u.addEvent(new Event());
             u.addEvent(new Event());
             u.addEvent(new Event());
             u.addEvent(new Event());
-            assertEquals(e, userService.enroll(eventId));
+            assertEquals(another.fromDto(), userService.enroll(anotherId));
             assertTrue(u.getAchievements().contains(Achievement.INSANE_SPORTSMAN));
         }
     }
@@ -163,7 +169,6 @@ class UserServiceTest {
             doReturn(u).when(userService).getLoggedUser();
             Event tmp = userService.registerEvent(e);
             assertEquals(e, tmp);
-            System.out.println(u);
             assertTrue(u.getAchievements().contains(Achievement.CREATOR));
             u.registerNewEvent(new Event());
             u.registerNewEvent(new Event());

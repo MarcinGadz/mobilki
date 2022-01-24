@@ -40,6 +40,10 @@ public class Event {
 
     }
 
+    public Event(Long id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }

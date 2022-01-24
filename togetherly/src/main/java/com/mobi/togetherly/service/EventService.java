@@ -123,9 +123,7 @@ public class EventService {
         logger.info("Calculated point p1: " + p1);
         logger.info("Calculated point p2: " + p2);
 
-        //TODO
-        // WARNING
-        // HORRIBLE SOLUTION BUT ONLY IT IS WORKING AS DESIRED
+        // fix to use query
 //        List<EventDTO> dtos = dao.findByStartPointBetween(p1, p2).stream().map(EventDTO::new).collect(Collectors.toList());
         List<EventDTO> dtos = dao.findAll().stream()
                 .filter(x -> x.getStartPoint().getX() < p2.getX() && x.getStartPoint().getX() > p1.getX()
@@ -166,7 +164,6 @@ public class EventService {
         // finalAfter will be specified date or now
         List<EventDTO> nearEvents = search(p, radius);
         if(title != null && !title.trim().equals("")) {
-            System.out.println("HERE");
             nearEvents = nearEvents.stream().filter(x -> x.getTitle().toLowerCase().contains(title.toLowerCase())).collect(Collectors.toList());
         }
         if (!wasBeforeDatePassed) {

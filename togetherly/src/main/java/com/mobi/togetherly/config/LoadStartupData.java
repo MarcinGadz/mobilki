@@ -104,7 +104,6 @@ public class LoadStartupData implements ApplicationRunner {
                 event.addUser(u);
                 event.addUser(u2);
                 ev.addUser(u);
-                System.out.println("aaaaa");
                 dao.save(u);
                 dao.save(u2);
                 eventService.addEvent(event);
