@@ -82,6 +82,8 @@ const App = () => {
                         {
                             username: data.username,
                             password: data.password,
+                            email: data.email,
+                            gravatarEmail: data.gravatarEmail,
                         },
                         { headers: {} }
                     )

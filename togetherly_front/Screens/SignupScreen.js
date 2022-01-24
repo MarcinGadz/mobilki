@@ -18,6 +18,8 @@ const SignupScreen = ({ navigation }) => {
     const [username, onChangeUsername] = React.useState(null);
     const [password, onChangePassword] = React.useState(null);
     const [password2, onChangePassword2] = React.useState(null);
+    const [email, onChangeEmail] = React.useState(null);
+    const [gravatarEmail, onChangeGravatarEmail] = React.useState(null);
     const { signUp } = React.useContext(AuthContext);
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
@@ -28,6 +30,8 @@ const SignupScreen = ({ navigation }) => {
             Alert.alert("Password is empty");
         } else if (username === null) {
             Alert.alert("Username is empty");
+        } else if (email === null) {
+            Alert.alert("Email is empty");
         } else if (password === password2) {
             //
             if (password.length > 7 && password.length < 21) {
@@ -45,7 +49,7 @@ const SignupScreen = ({ navigation }) => {
 
     async function onSubmit() {
         if (validate()) {
-            let result = await signUp({ username, password });
+            let result = await signUp({ username, password, email, gravatarEmail });
             console.log("Account created: " + result);
             if (result) {
                 Alert.alert("Account created successfully");
@@ -133,6 +137,28 @@ const SignupScreen = ({ navigation }) => {
             <ImageBackground source={bg} resizeMode="cover" style={styles.bg} />
             <View style={styles.wrapper}>
                 {/* <Text style={styles.title}>SIGN UP</Text> */}
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.TextInput}
+                        placeholder="Email"
+                        placeholderTextColor="#003f5c"
+                        value={email}
+                        autoComplete="email"
+                        onChangeText={onChangeEmail}
+                    />
+                </View>
+
+                <View style={styles.inputView}>
+                    <TextInput
+                        style={styles.TextInput}
+                        placeholder="GravatarEmail"
+                        placeholderTextColor="#003f5c"
+                        value={gravatarEmail}
+                        autoComplete="email"
+                        onChangeText={gravatarEmail}
+                    />
+                </View>
+
                 <View style={styles.inputView}>
                     <TextInput
                         style={styles.TextInput}
