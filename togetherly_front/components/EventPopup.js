@@ -324,6 +324,18 @@ const EventInfo = ({ eventData, colors }) => {
                     </Text>
                 </View>
                 <View style={s.infoBlock}>
+                    <Text style={s.infoTitle}>Time</Text>
+                    <Text style={s.infoContent}>
+                        {("00" + new Date(eventData.date).getHours()).slice(
+                            -2
+                        ) +
+                            ":" +
+                            (
+                                "00" + new Date(eventData.date).getMinutes()
+                            ).slice(-2)}
+                    </Text>
+                </View>
+                <View style={s.infoBlock}>
                     <Text style={s.infoTitle}>Description</Text>
                     <Text style={s.infoContent}>{eventData.description}</Text>
                 </View>

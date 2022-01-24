@@ -24,6 +24,8 @@ const Search = ({
     onRefresh,
     selectedRadius,
     setSelectedRadius,
+    searchQuery,
+    setSearchQuery,
 }) => {
     const { state, dispatch } = React.useContext(UIContext);
     colors = state.theme;
@@ -91,6 +93,13 @@ const Search = ({
                                 flex: 4,
                                 width: "auto",
                                 color: colors.textField.text,
+                            }}
+                            onChangeText={(e) => {
+                                if (e == "") {
+                                    setSearchQuery(null);
+                                } else {
+                                    setSearchQuery(e);
+                                }
                             }}
                         ></TextInput>
                         <View

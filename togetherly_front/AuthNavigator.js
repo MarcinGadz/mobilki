@@ -2,7 +2,7 @@ import * as React from "react";
 import { Button } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "./Screens/ProfileScreen";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import MapScreen from "./Screens/MapScreen";
 import EventListScreen from "./Screens/EventListScreen";
 import { createAppContainer } from "react-navigation";
@@ -106,8 +106,8 @@ const Auth = ({ username }) => {
                     options={{
                         tabBarLabel: "Enrolled Events",
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons
-                                name="map-check"
+                            <MaterialIcons
+                                name="event-available"
                                 color={color}
                                 size={size}
                             />

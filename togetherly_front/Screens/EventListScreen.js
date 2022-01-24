@@ -42,6 +42,7 @@ const EventListScreen = () => {
     const [selectedRadius, setSelectedRadius] = React.useState(500);
     const [dateFrom, setDateFrom] = React.useState(null);
     const [dateTo, setDateTo] = React.useState(null);
+    const [searchQuery, setSearchQuery] = React.useState(null);
 
     const [participateEventId, setParticipateEventId] = React.useState(null);
     // const wrapperSetParticipateEventId = React.useCallback(
@@ -126,6 +127,7 @@ const EventListScreen = () => {
                             before: dateTo
                                 ? dateTo.toISOString().split("T")[0]
                                 : null,
+                            title: searchQuery,
                         },
                     }
                 )
@@ -199,6 +201,8 @@ const EventListScreen = () => {
                     onRefresh={onRefresh}
                     selectedRadius={selectedRadius}
                     setSelectedRadius={setSelectedRadius}
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
                 />
 
                 <ScrollView

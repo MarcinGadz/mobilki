@@ -183,14 +183,32 @@ const Event = ({ eventData, participateInEvent }) => {
                             </Text>
                         </View>
                         <View
-                            style={{
-                                height: 102,
-                            }}
+                            style={
+                                {
+                                    // height: 102,
+                                }
+                            }
                         >
                             <View style={s.infoBlock}>
                                 <Text style={s.infoTitle}>Date</Text>
                                 <Text style={s.infoContent}>
                                     {new Date(eventData.date).toDateString()}
+                                </Text>
+                            </View>
+                            <View style={s.infoBlock}>
+                                <Text style={s.infoTitle}>Time</Text>
+                                <Text style={s.infoContent}>
+                                    {(
+                                        "00" +
+                                        new Date(eventData.date).getHours()
+                                    ).slice(-2) +
+                                        ":" +
+                                        (
+                                            "00" +
+                                            new Date(
+                                                eventData.date
+                                            ).getMinutes()
+                                        ).slice(-2)}
                                 </Text>
                             </View>
                             <View style={s.infoBlock}>
