@@ -1,5 +1,6 @@
 package com.mobi.togetherly.service;
 
+import com.mobi.togetherly.config.TokenProvider;
 import com.mobi.togetherly.dao.RoleDao;
 import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.*;
@@ -12,6 +13,10 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,7 +61,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUser() {
+    public void getUser() {
         userService.setUserDao(userDao);
         User u = new User();
         u.setId(12L);
@@ -65,16 +70,29 @@ class UserServiceTest {
         assertEquals(u, userService.getUser(12L).fromDTO());
     }
 
+    @Mock
+    private AuthenticationManager manager;
+    @Mock
+    private Authentication auth;
+    @Mock
+    private TokenProvider provider;
     @Test
-    void getAll() {
-    }
+    public void authenticate() {
+        String username = "test";
+        String password = "test";
+        User u = new User(username, password);
 
-    @Test
-    void loadUserByUsername() {
-    }
+        userService.setManager(manager);
+        userService.setTokenProvider(provider);
+        doReturn(auth).when(manager).authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        doReturn("Test").when(provider).createToken(auth);
+        assertEquals("Test", userService.authenticate(u));
 
-    @Test
-    void findByUsername() {
+        doThrow(new BadCredentialsException("")).when(manager).authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        assertThrows(RuntimeException.class, () -> userService.authenticate(u));
+
+        doThrow(new DisabledException("")).when(manager).authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        assertThrows(RuntimeException.class, () -> userService.authenticate(u));
     }
 
     @Test
@@ -188,7 +206,7 @@ class UserServiceTest {
 
         User user = new User();
         user.setGravatarEmail("abc@abc.com");
-        user.setBirthDate(LocalDate.of(1999,1,1));
+        user.setBirthDate(LocalDate.of(1999, 1, 1));
         user.setPassword("p@ssw0rd");
 
         doReturn(user).when(userService).getLoggedUser();
@@ -198,7 +216,7 @@ class UserServiceTest {
         String newPassword = "strongpassword";
         String newUsername = "nonexistinguser";
         doReturn(null).when(userDao).findByUsername(newUsername);
-        LocalDate date = LocalDate.of(2000,9,9);
+        LocalDate date = LocalDate.of(2000, 9, 9);
 
         updated.setGravatarEmail(newMail);
         userService.updateUser(updated);

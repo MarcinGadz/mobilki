@@ -115,13 +115,8 @@ public class LoadStartupData implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         if (service.getAll().isEmpty()) {
-            System.out.println("Adding...");
             addUsersToRepo();
             enrollUsersToTestEvents();
-        } else {
-            service.getAll().forEach(System.out::println);
-            System.out.println("\n");
-            eventService.getAll().forEach(System.out::println);
         }
     }
 }

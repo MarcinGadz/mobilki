@@ -1,9 +1,14 @@
 package com.mobi.togetherly.service;
 
+import com.mobi.togetherly.config.TokenProvider;
 import com.mobi.togetherly.dao.RoleDao;
 import com.mobi.togetherly.dao.UserDao;
 import com.mobi.togetherly.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +29,47 @@ public class UserService {
     private EventService eventService;
     private Role customerRole;
     private PasswordEncoder encoder;
+
+    private TokenProvider tokenProvider;
+    private AuthenticationManager manager;
+    private UserDetailsService detService;
+
+    private final Logger logger = Logger.getLogger(getClass().getName());
+
+    @Autowired
+    public void setDetService(UserDetailsService detService) {
+        this.detService = detService;
+    }
+
+    @Autowired
+    public void setManager(AuthenticationManager manager) {
+        this.manager = manager;
+    }
+
+    @Autowired
+    public void setTokenProvider(TokenProvider provider) {
+        this.tokenProvider = provider;
+    }
+
+
+    public String authenticate(User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        Authentication auth;
+        try {
+            auth = manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            logger.info("User logged in");
+        } catch (BadCredentialsException e) {
+            logger.info("Passed invalid credentials");
+            throw new RuntimeException("INVALID_CREDENTIALS", e);
+        } catch (DisabledException e) {
+            logger.info("User is disabled");
+            throw new RuntimeException("USER_DISABLED", e);
+        }
+//        UserDetails det = detService.loadUserByUsername(username);
+        final String token = tokenProvider.createToken(auth);
+        return token;
+    }
 
     public UserService() {
 

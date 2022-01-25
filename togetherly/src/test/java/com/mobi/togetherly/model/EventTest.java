@@ -45,9 +45,4 @@ class EventTest {
         e.setId(1111L);
         assertNotNull(e.toString());
     }
-
-    @Test
-    void getDistance() {
-        //TODO
-    }
 }

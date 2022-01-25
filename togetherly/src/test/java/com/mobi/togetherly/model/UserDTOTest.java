@@ -32,13 +32,4 @@ class UserDTOTest {
         assertEquals(dto.getId(), fromDto.getId());
     }
 
-
-    @Test
-    void getId() {
-    }
-
-    @Test
-    void setId() {
-    }
-
 }

@@ -22,10 +22,7 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private TokenProvider tokenProvider;
-    private AuthenticationManager manager;
     private UserService service;
-    private UserDetailsService detService;
     private Logger logger = Logger.getLogger(getClass().getName());
     /*
      * CONFIGS
@@ -34,25 +31,6 @@ public class UserController {
     @Autowired
     public void setService(UserService service) {
         this.service = service;
-    }
-
-    public UserDetailsService getDetService() {
-        return detService;
-    }
-
-    @Autowired
-    public void setDetService(UserDetailsService detService) {
-        this.detService = detService;
-    }
-
-    @Autowired
-    public void setManager(AuthenticationManager manager) {
-        this.manager = manager;
-    }
-
-    @Autowired
-    public void setTokenProvider(TokenProvider provider) {
-        this.tokenProvider = provider;
     }
 
     /*
@@ -68,22 +46,7 @@ public class UserController {
     @PostMapping("/authenticate")
     public String login(@RequestBody User user) {
         logger.info("User: " + user.getUsername() + " is trying to log in");
-        String username = user.getUsername();
-        String password = user.getPassword();
-        Authentication auth;
-        try {
-            auth = manager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            logger.info("User logged in");
-        } catch (BadCredentialsException e) {
-            logger.info("Passed invalid credentials");
-            throw new RuntimeException("INVALID_CREDENTIALS", e);
-        } catch (DisabledException e) {
-            logger.info("User is disabled");
-            throw new RuntimeException("USER_DISABLED", e);
-        }
-        UserDetails det = detService.loadUserByUsername(username);
-        final String token = tokenProvider.createToken(auth);
-        return token;
+        return service.authenticate(user);
     }
 
     @GetMapping
@@ -123,11 +86,11 @@ public class UserController {
     @GetMapping("/events")
     public List<EventDTO> eventList(@RequestParam(name = "past", required = false) Object past,
                                     @RequestParam(name = "future", required = false) Object future) {
-        if(past != null) {
+        if (past != null) {
             logger.info("Trying to get past events of user");
             return service.getPastEvents();
         }
-        if(future != null) {
+        if (future != null) {
             logger.info("Trying to get future events of user");
             return service.getFutureEvents();
         }

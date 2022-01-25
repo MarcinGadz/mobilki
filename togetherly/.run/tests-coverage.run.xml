@@ -16,7 +16,7 @@
         <option name="ENABLED" value="true" />
       </pattern>
       <pattern>
-        <option name="PATTERN" value="com.mobi.*" />
+        <option name="PATTERN" value="com.mobi.togetherly.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

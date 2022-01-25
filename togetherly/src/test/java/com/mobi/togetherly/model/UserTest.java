@@ -42,14 +42,6 @@ class UserTest {
     }
 
     @Test
-    void getAuthorities() {
-    }
-
-    @Test
-    void setAuthorities() {
-    }
-
-    @Test
     void getSetUsername() {
         User u = new User();
         u.setUsername("test");
@@ -72,10 +64,6 @@ class UserTest {
     void isCredentialsNonExpired() {
         User u = new User();
         assertTrue(u.isCredentialsNonExpired());
-    }
-
-    @Test
-    void isEnabled() {
     }
 
     @Test
